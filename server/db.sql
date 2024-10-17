@@ -182,9 +182,11 @@ ALTER TABLE ONLY public.yarn
 
 
 -- Insert Values into yarn table
-INSERT INTO public.yarn(project_id, yarn_brand, yarn_size, yarn_color, hook_size) 
+INSERT INTO public.yarn(project_id, yarn_brand, yarn_type, yarn_weight, recommended_hook_size, yarn_color, hook_size) 
  VALUES 
-    ()
+    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Sage', '4mm'),
+    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'White', '4mm'),
+    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Black', '4mm')
 
 --
 -- PATTERN -- ONE TO MANY -> PROJECTS
@@ -235,7 +237,7 @@ ALTER TABLE ONLY public.pattern
 -- Insert Values into pattern table
 INSERT INTO public.pattern(project_id, pattern_name, pattern_by, pattern_url) 
  VALUES 
-    ()
+    (1, 'bunny with hat', 'bondinbuds', '')
 
 --
 -- OTHER MATERIALS -- MANY-TO-ONE -> PROJECTS
@@ -286,7 +288,7 @@ ALTER TABLE ONLY public.other_materials
 -- Insert Values into other_materials table
 INSERT INTO public.other_materials(project_id, hook_size, safety_eyes, stuffing) 
  VALUES 
-    ()
+    (1, '4mm', '10mm', '50 grams')
 
 --
 -- IMAGES -- MANY-TO-ONE -> PROJECTS
