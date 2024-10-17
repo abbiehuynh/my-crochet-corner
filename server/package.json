@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "pg": "^8.13.0"
+  },
+  "name": "my-crochet-corner",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": " concurrently 'npm start' 'cd .. && cd client && npm run dev' ",
+    "start": "nodemon server.js",
+    "server": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
