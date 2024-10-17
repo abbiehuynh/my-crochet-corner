@@ -31,7 +31,7 @@ CREATE TABLE public.users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     pronouns VARCHAR(255),
     bio VARCHAR(255),
-    profile_picture VARCHAR(255),
+    profile_picture VARCHAR(255)
 );
 
 --
@@ -59,18 +59,11 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into users table
 INSERT INTO public.users(name, email, password, pronouns, bio, profile_picture) 
  VALUES 
     ('Abbie', 'abbiehuynhh@gmail.com', 'password', 'she/her', 'I love to crochet!', '' ),
-    ('Midnight', 'midnight@yahoo.com', 'coolbeans', 'he/him', 'String is cool.', '')
+    ('Midnight', 'midnight@yahoo.com', 'coolbeans', 'he/him', 'String is cool.', '');
 
 
 --
@@ -90,7 +83,7 @@ CREATE TABLE public.projects (
     project_type VARCHAR(255),
     is_favorite BOOLEAN,
     notes TEXT,
-    sentiment_score FLOAT
+    sentiment_score FLOAT,
     FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE
 );
 
@@ -119,19 +112,12 @@ ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
 
 --
--- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.projects
-    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into projects table
-INSERT INTO public.projects(project_name, time_to_complete, project_status, project_type, is_favorite, notes) 
+INSERT INTO public.projects(user_id, project_name, time_to_complete, project_status, project_type, is_favorite, notes) 
  VALUES 
-    ('bunny with headphones', '2 hours', 'completed', 'amigurimi', true, 'requires a good bit of sewing, but I really love how it turned out!'),
-    ('star blanket', '', 'in progress', 'blanket', true, 'really like how it is turning out, just can not get myself to complete it. I keep making it larger'),
-    ('black cat', '3 days', 'completed', 'tapestry', false, 'first time trying tunisian crochet to make a tapestry. I liked how this looks better than sc with a regular crochet hook, but it hurts my hands ALOT.')
+    (1, 'bunny with headphones', '2 hours', 'completed', 'amigurimi', true, 'requires a good bit of sewing, but I really love how it turned out!'),
+    (1, 'star blanket', '8 months', 'in progress', 'blanket', true, 'really like how it is turning out, just can not get myself to complete it. I keep making it larger'),
+    (1, 'black cat', '3 days', 'completed', 'tapestry', false, 'first time trying tunisian crochet to make a tapestry. I liked how this looks better than sc with a regular crochet hook, but it hurts my hands ALOT.');
 
 
 --
@@ -143,7 +129,9 @@ CREATE TABLE public.yarn (
     id SERIAL PRIMARY KEY,
     project_id INT NOT NULL,
     yarn_brand VARCHAR(255),
-    yarn_size VARCHAR(100),
+    yarn_type VARCHAR(255),
+    yarn_weight VARCHAR(50),
+    recommended_hook_size VARCHAR(50),
     yarn_color VARCHAR(255),
     hook_size VARCHAR(50),
     FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE
@@ -174,19 +162,12 @@ ALTER SEQUENCE public.yarn_id_seq OWNED BY public.yarn.id;
 ALTER TABLE ONLY public.yarn ALTER COLUMN id SET DEFAULT nextval('public.yarn_id_seq'::regclass);
 
 --
--- Name: yarn yarn_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.yarn
-    ADD CONSTRAINT yarn_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into yarn table
 INSERT INTO public.yarn(project_id, yarn_brand, yarn_type, yarn_weight, recommended_hook_size, yarn_color, hook_size) 
  VALUES 
-    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Sage', '4mm'),
-    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'White', '4mm'),
-    (1, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Black', '4mm')
+    (2, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Sage', '4mm'),
+    (2, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'White', '4mm'),
+    (2, 'Loops and Threads Soft Classic', 'Acrylic', 'Medium (4)', '5.5mm', 'Black', '4mm');
 
 --
 -- PATTERN -- ONE TO MANY -> PROJECTS
@@ -199,7 +180,7 @@ CREATE TABLE public.pattern (
     pattern_name VARCHAR(255), 
     pattern_by VARCHAR(255),
     pattern_url VARCHAR(255),
-    FOREIGN KEY (project_id) REFERENCES public.project(id) ON DELETE CASCADE
+    FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE
 );
 
 --
@@ -227,17 +208,10 @@ ALTER SEQUENCE public.pattern_id_seq OWNED BY public.pattern.id;
 ALTER TABLE ONLY public.pattern ALTER COLUMN id SET DEFAULT nextval('public.pattern_id_seq'::regclass);
 
 --
--- Name: pattern pattern_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pattern
-    ADD CONSTRAINT pattern_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into pattern table
 INSERT INTO public.pattern(project_id, pattern_name, pattern_by, pattern_url) 
  VALUES 
-    (1, 'bunny with hat', 'bondinbuds', '')
+    (2, 'bunny with hat', 'bondinbuds', 'to be added');
 
 --
 -- OTHER MATERIALS -- MANY-TO-ONE -> PROJECTS
@@ -278,17 +252,10 @@ ALTER SEQUENCE public.other_materials_id_seq OWNED BY public.other_materials.id;
 ALTER TABLE ONLY public.other_materials ALTER COLUMN id SET DEFAULT nextval('public.other_materials_id_seq'::regclass);
 
 --
--- Name: other_materials other_materials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.other_materials
-    ADD CONSTRAINT other_materials_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into other_materials table
 INSERT INTO public.other_materials(project_id, hook_size, safety_eyes, stuffing) 
  VALUES 
-    (1, '4mm', '10mm', '50 grams')
+    (2, '4mm', '10mm', '50 grams');
 
 --
 -- IMAGES -- MANY-TO-ONE -> PROJECTS
@@ -329,13 +296,6 @@ ALTER SEQUENCE public.images_id_seq OWNED BY public.images.id;
 ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.images_id_seq'::regclass);
 
 --
--- Name: images images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.images
-    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
-
-
 -- Insert Values into images table
 INSERT INTO public.images(project_id, image_url, image_name, image_description) 
  VALUES 
