@@ -20,6 +20,14 @@ app.get('/', (req, res) => {
     res.json({ message: 'Hello from ExpressJS with React-Vite' });
 });
 
+// test get request to tables in database
+const testTableRoutes = require('./routes/testTableRoutes.js');
+app.use('/testTable', testTableRoutes);
+
+// creates an endpoint for the route "/projects"
+// retrieves a list of all projects from the database
+
+
 // start server
 app.listen(PORT, () => {
     console.log(` My Crochet Corner Server listening on ${PORT}`);
