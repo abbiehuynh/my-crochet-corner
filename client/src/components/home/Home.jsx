@@ -10,18 +10,18 @@ const Home = () => {
   return (
     <div>Home
 
-    <SearchBar />
-    <SortProjectStatus />
+        <SearchBar />
+        <SortProjectStatus />
 
-    <ListProjects />
+        <ListProjects />
 
-    <Link to={`/ai-chat`}>
-        <Button>Open AI</Button>
-    </Link>
+        <Link to={`/ai-chat`}>
+            <Button>Open AI</Button>
+        </Link>
 
-    <Link to={`/add-project`}>
-        <Button>Add New Project</Button>
-    </Link>
+        <Link to={`/add-project`}>
+            <Button>Add New Project</Button>
+        </Link>
     </div>
   )
 }
