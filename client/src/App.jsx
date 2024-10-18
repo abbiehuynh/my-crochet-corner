@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './components/home/Home';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import Logout from './components/auth/Logout';
 import Favorites from './components/favorites-page/Favorites';
 import Profile from './components/profile-page/Profile';
 import Project from './components/home/Project';
@@ -33,10 +36,16 @@ const App = () => {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
+
           <Route path="/favorites" element={<Favorites />} />
           {/* should be updated to profile/{$userId} */}
           <Route path="/profile" element={<Profile />} /> 
           {/* should be updated to /user/${userId}/project/${projectId} */}
+          
           <Route path="/user/project" element={<Project />} />
           <Route path="/ai-chat" element={<AIChatBot />} />
           <Route path="/add-project" element={<AddProjectNameForm />} />
