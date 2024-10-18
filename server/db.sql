@@ -62,6 +62,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Insert Values into users table
 INSERT INTO public.users(name, email, password, pronouns, bio, profile_picture) 
  VALUES 
+ -- passwords are temporary for hardcoded data test, remove password later
     ('Abbie', 'abbiehuynhh@gmail.com', 'password', 'she/her', 'I love to crochet!', '' ),
     ('Midnight', 'midnight@yahoo.com', 'coolbeans', 'he/him', 'String is cool.', '');
 
@@ -297,6 +298,7 @@ ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.image
 
 --
 -- Insert Values into images table
+-- update other tables to have an imageID array to reference images
 INSERT INTO public.images(project_id, image_url, image_name, image_description) 
  VALUES 
     ()
