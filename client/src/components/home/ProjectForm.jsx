@@ -1,8 +1,14 @@
-import React from 'react';
+import React from 'react'
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 const ProjectForm = () => {
   return (
-    <div>ProjectForm</div>
+    <div>ProjectForm
+
+        <Button>Edit</Button>
+        <Button>Delete</Button>
+    </div>
   )
 }
 

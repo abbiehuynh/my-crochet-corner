@@ -1,8 +1,12 @@
 import React from 'react';
+import AIForm from './AIForm';
 
 const AIChatBot = () => {
   return (
-    <div>AIChatBot</div>
+    <div>AIChatBot
+
+        <AIForm />
+    </div>
   )
 }
 

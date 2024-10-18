@@ -1,8 +1,11 @@
 import React from 'react';
+import ProjectForm from './ProjectForm';
 
 const Project = () => {
   return (
-    <div>Project</div>
+    <div>Project
+        <ProjectForm />
+    </div>
   )
 }
 
