@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+// TODO: remove test later
 // test - creates an endpoint for the route  "/"
 app.get('/', (req, res) => {
     res.json({ message: 'Hello from ExpressJS with React-Vite' });
