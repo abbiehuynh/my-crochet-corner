@@ -6,7 +6,6 @@ const ListProjects = () => {
   return (
     <div>ListProjects
         <ProjectCard />
-        <AddProjectNameForm />
     </div>
   )
 }
