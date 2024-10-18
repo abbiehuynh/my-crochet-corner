@@ -117,7 +117,7 @@ app.get('/projectsByUser/:user_id/projects/:project_id', async (req, res) => {
     }
 });
 
-// start server
+// starts server and logs the port the server is listening to
 app.listen(PORT, () => {
     console.log(` My Crochet Corner Server listening on ${PORT}`);
 });
