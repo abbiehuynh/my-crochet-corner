@@ -4,6 +4,9 @@ import NavBar from './components/NavBar';
 import Home from './components/home/Home';
 import Favorites from './components/favorites-page/Favorites';
 import Profile from './components/profile-page/Profile';
+import Project from './components/home/Project';
+import AIChatBot from './components/ai/AIChatBot';
+import AddProjectNameForm from './components/home/AddProjectNameForm';
 import './App.css'
 
 const App = () => {
@@ -31,8 +34,12 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/profile" element={<Profile />} />
-
+          {/* should be updated to profile/{$userId} */}
+          <Route path="/profile" element={<Profile />} /> 
+          {/* should be updated to /user/${userId}/project/${projectId} */}
+          <Route path="/user/project" element={<Project />} />
+          <Route path="/ai-chat" element={<AIChatBot />} />
+          <Route path="/add-project" element={<AddProjectNameForm />} />
         </Routes>
       </Router>
 
