@@ -2,11 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import SearchBar from './SearchBar';
+import SortProjectStatus from './SortProjectStatus';
 import ListProjects from './ListProjects';
 
 const Home = () => {
   return (
     <div>Home
+
+    <SearchBar />
+    <SortProjectStatus />
 
     <ListProjects />
 
