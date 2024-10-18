@@ -298,6 +298,7 @@ ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.image
 
 --
 -- Insert Values into images table
+-- update other tables to have an imageID array to reference images
 INSERT INTO public.images(project_id, image_url, image_name, image_description) 
  VALUES 
     ()
