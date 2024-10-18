@@ -27,6 +27,9 @@ const App = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  // to remove later - for test 
+  // milestone - Console.log specific data from relevant components
+  console.log("Message Prop:", message);
 
   return (
     <div>App
