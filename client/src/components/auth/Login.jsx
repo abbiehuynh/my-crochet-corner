@@ -10,6 +10,8 @@ const Login = () => {
         <Link to={`/`}>
             <Button>Log In</Button>
         </Link>
+        
+        {/* will allow users to create an account, redirects them to register */}
         <Link to={`/register`}>
             <Button>Create Account</Button>
         </Link>
