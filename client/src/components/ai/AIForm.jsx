@@ -2,7 +2,9 @@ import React from 'react';
 
 const AIForm = () => {
   return (
-    <div>AIForm</div>
+    <div>
+        {/* will contain the chat box input form */}
+        AIForm</div>
   )
 }
 
