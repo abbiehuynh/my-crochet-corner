@@ -37,19 +37,24 @@ const App = () => {
       <p>{message}</p>
 
       <Router>
+        {/* allows access to navbar throughout entire app */}
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
 
+          {/* routes to auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
 
+          {/* routes to pages */}
           <Route path="/favorites" element={<Favorites />} />
+
           {/* should be updated to profile/{$userId} */}
           <Route path="/profile" element={<Profile />} /> 
-          {/* should be updated to /user/${userId}/project/${projectId} */}
 
+          {/* routes to features */}
+          {/* should be updated to /user/${userId}/project/${projectId} */}
           <Route path="/user/project" element={<Project />} />
           <Route path="/ai-chat" element={<AIChatBot />} />
           <Route path="/add-project" element={<AddProjectNameForm />} />
