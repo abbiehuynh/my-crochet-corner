@@ -5,20 +5,22 @@ Tired of going through multiple links to find project inspiration on Pinterest, 
 
 ---
 
-**Table of Contents**
+## Table of Contents
+<details>
+<summary>Click to Expand</summary>
 
-[Introduction](#introduction)
-[Installation](#installation)
-[Project Proposal](#project-proposal)
-[Demonstation](#demonstration)
-[Features](#features)
-[Technologies Used](#technologies-used)
-[Acknowledgments](#acknowledgments)
-[Contact](#contact)
----
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Project Proposal](#project-proposal)
+- [Demonstation](#demonstration)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
+</details>
 
 ## Introduction: 
-**Project: Full-Stack PERN Project**
+**Full-Stack PERN Project**
 Final Project for the Techtonica Software Engineer in Training Program.
 
 ## Installation: 
