@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Login from './Login';
 
 const Logout = () => {
   return (
@@ -9,11 +10,8 @@ const Logout = () => {
         {/* will show users confirmation that they have been logged out */}
         Logout
 
-        {/* will give users the option to log back in */}
-        <Link to={`/login`}>
-            <Button>Log In</Button>
-        </Link>
-
+        {/* include Login Form here */}
+        <Login />
         
 
 
