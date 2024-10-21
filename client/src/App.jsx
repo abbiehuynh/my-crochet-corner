@@ -56,7 +56,6 @@ const App = () => {
           {/* routes to features */}
           {/* should be updated to /user/${userId}/project/${projectId} */}
           <Route path="/user/project" element={<Project />} />
-          <Route path="/ai-chat" element={<AIChatBot />} />
           <Route path="/add-project" element={<AddProjectNameForm />} />
           <Route path="/project-saved" element={<ProjectSaved />} />
         </Routes>

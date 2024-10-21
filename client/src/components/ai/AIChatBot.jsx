@@ -1,13 +1,19 @@
 import React from 'react';
 import AIForm from './AIForm';
 
-const AIChatBot = () => {
-  return (
-    <div>
-        {/* will show the user the AI Chat Box */}
-        AIChatBot
+const AIChatBot = ({ isOpen, onClose }) => {
+    if (!isOpen) return null;
 
-        <AIForm />
+  return (
+    <div className="modal">
+        <div className="modal-content">
+            <button onClick={onClose}>Close</button>
+            {/* will show the user the AI Chat Box */}
+            AIChatBot
+            <div className="chatbox"> 
+                <AIForm />
+            </div>
+        </div>
     </div>
   )
 }
