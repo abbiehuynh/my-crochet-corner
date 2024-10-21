@@ -11,6 +11,7 @@ const SortProjectType = () => {
 
         <Button >All Projects</Button>
 
+        {/* update to be read from the database */}
         <Button>Amigurimi</Button>
         <Button>Blanket</Button>
         <Button>Clothing</Button>
