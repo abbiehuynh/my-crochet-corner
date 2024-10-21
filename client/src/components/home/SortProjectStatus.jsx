@@ -10,6 +10,7 @@ const SortProjectStatus = () => {
 
         <Button >All Projects</Button>
 
+        {/* update to be read from the database */}
         <Button >In Progress</Button>
         <Button >To Do</Button>
         <Button >Completed</Button>
