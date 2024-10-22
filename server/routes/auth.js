@@ -43,12 +43,14 @@ app.post('/login', async (req, res) => {
         const match = await bcrypt.compare(password.trim(), user.password);
         // debugging - passwords do not match with comparing
         console.log(`Comparing passwords: Input: ${password.trim()}, Stored: ${user.password}, Match: ${match}`);
-
+ 
         if (!match) {
             console.log('Password does not match');
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
+        // debugging - "secretOrPrivateKey must have a value"
+        // console.log('JWT Secret:', process.env.JWT_SECRET);
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token, username: user.username });
     } catch (error) {
