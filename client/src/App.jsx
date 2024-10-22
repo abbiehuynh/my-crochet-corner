@@ -10,7 +10,7 @@ import Favorites from './components/favorites-page/Favorites';
 import Profile from './components/profile-page/Profile';
 import Project from './components/home/Project';
 import AIChatBot from './components/ai/AIChatBot';
-import AddProjectNameForm from './components/home/AddProjectNameForm';
+import AddProjectNameForm from './components/home/AddProjectModal';
 import ProjectSaved from './components/home/ProjectSaved';
 import './App.css'
 

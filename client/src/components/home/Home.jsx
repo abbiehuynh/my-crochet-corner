@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 import SortProjectStatus from './SortProjectStatus';
 import ListProjects from './ListProjects';
 import AIChatBot from '../ai/AIChatBot';
+import AddProjectModal from './AddProjectModal';
 
 const Home = () => {
     // creates state for AI chatbox modal
@@ -34,9 +35,7 @@ const Home = () => {
         <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
         {/* will allow users to add a new project and open a new form */}
-        <Link to={`/add-project`}>
-            <Button>Add New Project</Button>
-        </Link>
+        <AddProjectModal />
     </div>
   )
 }
