@@ -5,9 +5,9 @@ import { useAuth } from '../auth/AuthProvider';
 
 const AddProjectModal = () => {
   // creates initial states for modals
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [showConfirmModal, setShowConfirmModal] = useState(false);
+  
   // creates initial state for project name
   const [projectName, setProjectName] = useState('');
   const [confirmedProjectName, setShowConfirmedProjectName] = useState('');
@@ -47,8 +47,6 @@ const AddProjectModal = () => {
       }
   };
 
-  const navigate = useNavigate();
-
   const handleRedirect = (path) => {
     // updates project list before redirecting to home page
     if (path === '/home') {
@@ -60,15 +58,10 @@ const AddProjectModal = () => {
     setShowConfirmModal(false);
   };
 
-  return (
+	return (
     <div>
-       <Button onClick={() => setShowAddModal(true)}>Add Project</Button>
-      
-      {/* Add Project Modal */}
-      <Modal show={showAddModal} onHide={() => {
-          setShowAddModal(false);
-          setProjectName('');
-      }}>
+			{/* Add Project Modal */}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
