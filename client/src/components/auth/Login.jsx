@@ -15,6 +15,18 @@ const Login = () => {
         // resets error state
         setError('');
 
+        // checks if username is provided
+        if (!username) {
+            setError('Username is required');
+            return;
+        }
+
+        // checks if password is provided
+        if (!password) {
+            setError('Password is required');
+            return;
+        }
+
         try {
 
            const response = await fetch('http://localhost:3001/login', {

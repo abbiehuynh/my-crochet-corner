@@ -28,11 +28,9 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<ProtectedRoute element={<Logout />} />} />
 
-
           {/* routes to pages */}
           <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
           <Route path="/favorites" element={<ProtectedRoute element={<Favorites />} />} />
-
           {/* should be updated to profile/{$userId} */}
           <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} /> 
 
