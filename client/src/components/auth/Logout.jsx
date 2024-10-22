@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Login from './Login';
 
 const Logout = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // clears the JWT token from local storage
+        localStorage.removeItem('token');
+        navigate('login');
+    };
+
   return (
-    <div>
-        {/* will show users confirmation that they have been logged out */}
-        Logout
+    <Button onClick={handleLogout}>Logout</Button>
 
-        {/* include Login Form here */}
-        <Login />
-        
-
-
-    </div>
-  )
-}
+  );
+};
 
 export default Logout;
