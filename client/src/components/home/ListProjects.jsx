@@ -39,7 +39,7 @@ const ListProjects = () => {
 
         const confirmDelete = window.confirm(`Are you sure you want to delete the project "${projectName}"?`);
         if (!confirmDelete) return;
-
+        
         try {
             const response = await axiosInstance.delete(`/user/${userId}/delete-project/${projectId}`);
             
