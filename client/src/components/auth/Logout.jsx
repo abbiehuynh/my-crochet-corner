@@ -9,7 +9,7 @@ const Logout = () => {
     const handleLogout = () => {
         // clears the JWT token from local storage
         localStorage.removeItem('token');
-        navigate('login');
+        navigate('/login');
     };
 
   return (

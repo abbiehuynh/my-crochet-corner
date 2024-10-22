@@ -43,7 +43,7 @@ const Login = () => {
             setToken(data.token);
             // stores token
             localStorage.setItem('token', data.token);
-            console.log('Logged in, token:', data.token);
+            console.log({username}, 'Logged in');
 
             // navigates to the home page after successful login
             navigate('/home')
@@ -89,7 +89,7 @@ const Login = () => {
             </Button>
         </Form>
         {error && <div className="text-danger mt-3">{error}</div>}
-        {token && <div>Logged in! Token: {token}</div>}
+        {token && <div>Logged in! </div>}
     </Container>
   );
 };
