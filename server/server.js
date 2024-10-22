@@ -25,10 +25,14 @@ app.get('/', (req, res) => {
 const testTableRoutes = require('./routes/testTableRoutes.js');
 app.use('/testTable', testTableRoutes);
 
+// imports routes for auth/login and register
+const authRoutes = require('./routes/auth.js');
+app.use('/', authRoutes);
+
 // creates an endpoint for the route "/projectsByUserId/userId"
 // retrieves a list of all projects by userId from the database for the home page
 // JOIN table includes the following tables: users and projects
-app.get('/projectsByUserId/:user_id', async (req, res) => {
+app.get('/user/:user_id/projects', async (req, res) => {
     const userId = req.params.user_id;
     try {
         const { rows: projectsByUserId } = await db.query(
