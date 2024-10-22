@@ -49,8 +49,6 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // debugging - "secretOrPrivateKey must have a value"
-        // console.log('JWT Secret:', process.env.JWT_SECRET);
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token, username: user.username });
     } catch (error) {
