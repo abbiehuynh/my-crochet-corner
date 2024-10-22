@@ -15,6 +15,7 @@ const ListProjects = () => {
             .then((response) => response.json())
             .then((projects) => {
                 setProjects(projects);
+                // console.log(projects);
             });
     }
 
@@ -31,7 +32,8 @@ const ListProjects = () => {
             <h2>List of Projects</h2>
 
             {/* creates a list of projects by mapping projectCard */}
-            <ul>
+                {/* removes bullet points to create cards */}
+            <ul style={{ listStyleType: "none" }}>
                 {projects.map((project) => {
                     return <li key={project.id}> <ProjectCard project={project} /></li>
                 })}
