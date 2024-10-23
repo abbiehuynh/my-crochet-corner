@@ -53,8 +53,8 @@ const Login = () => {
             navigate('/home')
         
            } else {
-            setError(data.message || 'Login Failed');
-            console.error('Login error:', data.message);
+            setError(data.message || 'Invalid username and/or password');
+            console.error('Invalid username and/or password', data.message);
            }
         } catch (error) {
             setError('An error occurred. Please try again.');
