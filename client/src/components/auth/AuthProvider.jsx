@@ -8,20 +8,24 @@ const TOKEN_KEY = 'MCC_Token';
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
+    const [userId, setUserId] = useState(null);
 
-    const login = (newToken) => {
-        setToken({ newToken });
+    const login = (data) => {
+        const { newToken, id } = data;
+        setToken(newToken);
+        setUserId(id);
         localStorage.setItem(TOKEN_KEY, newToken);
     }
 
     const logout = () => {
-        // clears token from local stroage
+        // clears token and userId from local stroage
         setToken(null);
+        setUserId(null);
         localStorage.removeItem(TOKEN_KEY);
     };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, userId, login, logout }}>
         {children}
     </AuthContext.Provider>
     )
