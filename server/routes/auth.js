@@ -10,12 +10,29 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try { 
+        // checks if username already exists
+        const userExists = await db.query(`SELECT * FROM users WHERE username = $1;`, 
+            [username]);
+        if (userExists.rows.length > 0) {
+            return res.status(400).json({ message: 'Username already exists'});
+        }
+
+        // checks if email aleady exists
+        const emailExists = await db.query(`SELECT * FROM users WHERE email = $1;`, 
+            [email]);
+        if (emailExists.rows.length > 0) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        // inserts new user
         const result = await db.query(
             `INSERT INTO users(name, username, email, password) VALUES($1, $2, $3, $4) RETURNING *;`,
             [name, username, email, hashedPassword]
         );
+
         res.status(201).json(result.rows[0]);
     } catch (error) {
+        console.error('Error creating user:', error);
         res.status(500).json({ message: 'Error creating user', error });
     }
 });

@@ -9,18 +9,39 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+
+    // creates error states for each user input
+    const [nameError, setNameError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     // allows to use useNavigate to redirect to link
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        // resets error messages
+        setNameError('');
+        setUsernameError('');
+        setEmailError('');
+        setPasswordError('');
+
+        // validates password length
+        if (password.length < 8) {
+            setPasswordError('Password must be at least 8 characters long.');
+            // prevents form submission
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:3001/register', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, username, email, password }), // Include email in the request
+                body: JSON.stringify({ name, username, email, password }),
             });
 
             const data = await response.json();
@@ -34,6 +55,13 @@ const Register = () => {
                 }, 2000);
 
             } else {
+                // set specific error messages based on response
+                if (data.message.includes('Username already exists')) {
+                    setUsernameError('This username is already taken.');
+                }
+                if (data.message.includes('Email already exists')) {
+                    setEmailError('This email is already registered.');
+                }
                 setMessage(data.message || 'Registration failed. Please try again.')
                 console.error('Registration error:', data.error);
             }
@@ -58,6 +86,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
             />
+            {nameError && <div className="text-danger">{nameError}</div>}
         </Form.Group>
 
         <Form.Group controlId="formUsername">
@@ -69,6 +98,7 @@ const Register = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+          {usernameError && <div className="text-danger">{usernameError}</div>}
         </Form.Group>
 
         <Form.Group controlId="formEmail">
@@ -80,6 +110,7 @@ const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          {emailError && <div className="text-danger">{emailError}</div>}
         </Form.Group>
 
         <Form.Group controlId="formPassword">
@@ -91,6 +122,7 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {passwordError && <div className="text-danger">{passwordError}</div>}
         </Form.Group>
 
         <Button variant="primary" type="submit">Register</Button>
