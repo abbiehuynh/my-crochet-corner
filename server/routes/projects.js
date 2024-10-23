@@ -4,7 +4,7 @@ const db = require('../db/db-connection.js');
 
 // for projects
 
-// creates an endpoint for the route "/projectsByUserId/userId"
+// creates an endpoint for the route "/user/:userId/projects"
 // retrieves a list of all projects by userId from the database for the home page
 // JOIN table includes the following tables: users and projects
 app.get('/:user_id/projects', async (req, res) => {
@@ -34,14 +34,37 @@ app.get('/:user_id/projects', async (req, res) => {
     }
 });
 
-// creates an endpoint for the route "/projectsByUser/userId/projects/projectId"
+// creates an endpoint for the route "/user/:userId/add-project"
+// adds a new project by saving the project name
+app.post('/:user_id/add-project', async (req, res) => {
+    const userId = req.params.user_id;
+    const { project_name } = req.body;
+
+    if (!project_name) {
+        return res.status(400).json({ message: 'Project name is required' });
+    }
+
+    try {
+        const result = await db.query(
+            `INSERT INTO projects(user_id, project_name) VALUES($1, $2) RETURNING *;`,
+            [userId, project_name]
+        );
+
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error adding project:', error);
+        res.status(500).json({ message: 'Error adding project', error });
+    }
+});
+
+// creates an endpoint for the route "/user/:userId/project/:projectId"
 // retrieves individual project details by user Id and project Id - for individual project page 
 // JOIN table includes the following tables: users, projects, yarn, other materials, pattern, and images
 app.get('/:user_id/project/:project_id', async (req, res) => {
     const userId = req.params.user_id;
     const projectId = req.params.project_id;
     try {
-        const { rows: projectsByUserId } = await db.query(
+        const { rows: project } = await db.query(
             `SELECT 
                 u.id AS user_id,
                 u.name AS user_name,
@@ -89,7 +112,7 @@ app.get('/:user_id/project/:project_id', async (req, res) => {
             WHERE 
                 u.id = $1 AND p.id = $2;`, [userId, projectId]
         );
-        res.send(projectsByUserId);
+        res.send(project);
     } catch (error) {
         console.error(`Error fetching data for project with Id: ${projectId}`, error );
         return res.status(400).json({ error });
