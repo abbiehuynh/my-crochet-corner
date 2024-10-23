@@ -13,6 +13,7 @@ const Login = () => {
     // namespaced key for localStorage 
     const namespacedTokenKey = `MCC_Token`;
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
         // resets error state
@@ -32,7 +33,7 @@ const Login = () => {
 
         try {
 
-           const response = await fetch('http://localhost:3001/login', {
+           const response = await fetch(`${import.meta.env.VITE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

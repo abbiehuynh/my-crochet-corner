@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.env
 .vite/
 .vite/deps_temp7c811d89/
 package-lock.json
