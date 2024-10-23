@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import UserForm from './UserForm';
+import Logout from '../auth/Logout';
 
 const Profile = () => {
   return (
@@ -14,9 +15,7 @@ const Profile = () => {
         <UserForm />
 
         {/* when the user logs out, the user will be sent to the login page */}
-        <Link to={`/logout`}>
-            <Button>Log Out</Button>
-        </Link>
+        <Logout />
     </div>
   )
 }

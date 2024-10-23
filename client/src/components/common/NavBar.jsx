@@ -6,7 +6,7 @@ const NavBar = () => {
     <nav>
       {/* creates links to the main pages */}
         <h1>NavBar</h1>
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="/favorites">Favorites</Link>
         <Link to="/profile">Profile</Link>
     </nav>

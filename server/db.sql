@@ -26,6 +26,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL, 
+    username VARCHAR(255), 
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -59,12 +60,11 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 --
--- Insert Values into users table
+-- Insert Values into users table; these are example values, please make your own!
 INSERT INTO public.users(name, email, password, pronouns, bio, profile_picture) 
  VALUES 
- -- passwords are temporary for hardcoded data test, remove password later
-    ('Abbie', 'abbiehuynhh@gmail.com', 'password', 'she/her', 'I love to crochet!', '' ),
-    ('Midnight', 'midnight@yahoo.com', 'coolbeans', 'he/him', 'String is cool.', '');
+    ('Abbie', 'ahuynh', 'abbiehuynhh@gmail.com', '*enter your password*', 'she/her', 'I love to crochet!', '' ),
+    ('Midnight', 'coolcat', 'midnight@yahoo.com', '*enter your password*', 'he/him', 'String is cool.', '');
 
 
 --

@@ -1,19 +1,133 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 
 const Register = () => {
+    // creates initial states
+    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+
+    // creates error states for each user input
+    const [nameError, setNameError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    // allows to use useNavigate to redirect to link
+    const navigate = useNavigate();
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+
+        // resets error messages
+        setNameError('');
+        setUsernameError('');
+        setEmailError('');
+        setPasswordError('');
+
+        // validates password length
+        if (password.length < 8) {
+            setPasswordError('Password must be at least 8 characters long.');
+            // prevents form submission
+            return;
+        }
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_URL}/register`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, username, email, password }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setMessage('Your account has been created! Redirecting to login...')
+                console.log('User registered:', data);
+                setTimeout(() => {
+                    navigate('/login');
+                // NOTE: store this in an enviorment variable of project config variable so that it is easier to change in the future.
+                }, 2000);
+
+            } else {
+                // set specific error messages based on response
+                if (data.message.includes('Username already exists')) {
+                    setUsernameError('This username is already taken.');
+                }
+                if (data.message.includes('Email already exists')) {
+                    setEmailError('This email is already registered.');
+                }
+                setMessage(data.message || 'Registration failed. Please try again.')
+                console.error('Registration error:', data.error);
+            }
+
+        } catch (error) {
+            setMessage("An error occured. Please try again later.")
+            console.error('Error:', error);
+        }
+    };
+
   return (
-    <div>Register
-        {/* after registering, user will be redirected to the login screen to login */}
-        <Link to={`/login`}>
-            <Button>Create Account</Button>
-        </Link>
+    <Container>
+        <h2>Register</h2>
+        {message && <Alert variant="success">{message}</Alert>}
+        <Form onSubmit={handleRegister}>
+            <Form.Group controlId="formName"> {/* New name input */}
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+                {nameError && <div className="text-danger">{nameError}</div>}
+            </Form.Group>
 
+            <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                {usernameError && <div className="text-danger">{usernameError}</div>}
+            </Form.Group>
 
-    </div>
-  )
+            <Form.Group controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                {emailError && <div className="text-danger">{emailError}</div>}
+            </Form.Group>
+
+            <Form.Group controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                {passwordError && <div className="text-danger">{passwordError}</div>}
+            </Form.Group>
+
+            <Button variant="primary" type="submit">Register</Button>
+        </Form>
+    </Container>
+    )
 }
 
 export default Register;
