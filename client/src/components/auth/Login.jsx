@@ -10,6 +10,9 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    // namespaced key for localStorage 
+    const namespacedTokenKey = `MCC_Token`;
+
     const handleLogin = async (e) => {
         e.preventDefault();
         // resets error state
@@ -40,9 +43,10 @@ const Login = () => {
            const data = await response.json();
 
            if (response.ok) {
+            // sets token in local state
             setToken(data.token);
-            // stores token
-            localStorage.setItem('token', data.token);
+            // stores token with namespaced key
+            localStorage.setItem(namespacedTokenKey, data.token);
             console.log({username}, 'Logged in');
 
             // navigates to the home page after successful login
