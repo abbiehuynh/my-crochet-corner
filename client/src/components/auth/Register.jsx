@@ -30,6 +30,7 @@ const Register = () => {
                 setTimeout(() => {
                     navigate('/login');
                 // wait for 2 seconds before executing
+                // NOTE: how to store this in an enviorment variable of project config variable so that it is easier to change in the future.
                 }, 2000);
 
             } else {
