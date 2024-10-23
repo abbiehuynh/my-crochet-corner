@@ -50,8 +50,7 @@ const Register = () => {
                 console.log('User registered:', data);
                 setTimeout(() => {
                     navigate('/login');
-                // wait for 2 seconds before executing
-                // NOTE: how to store this in an enviorment variable of project config variable so that it is easier to change in the future.
+                // NOTE: store this in an enviorment variable of project config variable so that it is easier to change in the future.
                 }, 2000);
 
             } else {
@@ -74,61 +73,61 @@ const Register = () => {
 
   return (
     <Container>
-      <h2>Register</h2>
-      {message && <Alert variant="success">{message}</Alert>}
-      <Form onSubmit={handleRegister}>
-        <Form.Group controlId="formName"> {/* New name input */}
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-            />
-            {nameError && <div className="text-danger">{nameError}</div>}
-        </Form.Group>
+        <h2>Register</h2>
+        {message && <Alert variant="success">{message}</Alert>}
+        <Form onSubmit={handleRegister}>
+            <Form.Group controlId="formName"> {/* New name input */}
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+                {nameError && <div className="text-danger">{nameError}</div>}
+            </Form.Group>
 
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          {usernameError && <div className="text-danger">{usernameError}</div>}
-        </Form.Group>
+            <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                {usernameError && <div className="text-danger">{usernameError}</div>}
+            </Form.Group>
 
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          {emailError && <div className="text-danger">{emailError}</div>}
-        </Form.Group>
+            <Form.Group controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                {emailError && <div className="text-danger">{emailError}</div>}
+            </Form.Group>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {passwordError && <div className="text-danger">{passwordError}</div>}
-        </Form.Group>
+            <Form.Group controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                {passwordError && <div className="text-danger">{passwordError}</div>}
+            </Form.Group>
 
-        <Button variant="primary" type="submit">Register</Button>
-      </Form>
+            <Button variant="primary" type="submit">Register</Button>
+        </Form>
     </Container>
-  )
+    )
 }
 
 export default Register;

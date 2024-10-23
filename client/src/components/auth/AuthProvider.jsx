@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{ token, login, logout }}>
         {children}
     </AuthContext.Provider>
-  )
+    )
 };
 
 // hook for using auth context
