@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './components/auth/AuthProvider';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import NavBar from './components/common/NavBar';
 import Home from './components/home/Home';
@@ -17,7 +18,7 @@ import './App.css'
 const App = () => {
 
   return (
-    <div>
+    <AuthProvider>
       <Router>
         {/* allows access to navbar throughout entire app */}
         <NavBar />
@@ -41,10 +42,8 @@ const App = () => {
           <Route path="/project-saved" element={<ProtectedRoute element={<ProjectSaved />} />} />
         </Routes>
       </Router>
-
-
-    </div>
-  )
+    </AuthProvider>
+  );
 }
 
 export default App;

@@ -1,15 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
+import { useAuth } from './AuthProvider';
 import Button from 'react-bootstrap/Button';
 
 const Logout = () => {
     const navigate = useNavigate();
-    const namespacedTokenKey = 'MCC_Token';
+    // accesses the logout function from use context
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        // clears the JWT token from local storage using the namespaced key
-        localStorage.removeItem(namespacedTokenKey);
+        logout();
         navigate('/login');
     };
 

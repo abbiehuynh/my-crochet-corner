@@ -1,38 +1,30 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container } from 'react-bootstrap';
+import { useAuth } from './AuthProvider';
 
 const Login = () => {
+    // access the login function from useContext
+    const { login, token } = useAuth();
+
     // creates initials states
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
-    // namespaced key for localStorage 
-    const namespacedTokenKey = `MCC_Token`;
-
 
     const handleLogin = async (e) => {
         e.preventDefault();
         // resets error state
         setError('');
 
-        // checks if username is provided
-        if (!username) {
-            setError('Username is required');
-            return;
-        }
-
-        // checks if password is provided
-        if (!password) {
-            setError('Password is required');
+        // checks if username and password are provided
+        if (!username || !password ) {
+            setError('Username and password are required');
             return;
         }
 
         try {
-
            const response = await fetch(`${import.meta.env.VITE_URL}/login`, {
             method: 'POST',
             headers: {
@@ -44,18 +36,14 @@ const Login = () => {
            const data = await response.json();
 
            if (response.ok) {
-            // sets token in local state
-            setToken(data.token);
-            // stores token with namespaced key
-            localStorage.setItem(namespacedTokenKey, data.token);
-            console.log({username}, 'Logged in');
-
-            // navigates to the home page after successful login
-            navigate('/home')
-        
+                // call login from context
+                login(data.token);
+                // navigates to the home page after successful login
+                navigate('/home')
+                console.log({username}, 'Logged in');
            } else {
-            setError(data.message || 'Invalid username and/or password');
-            console.error('Invalid username and/or password', data.message);
+                setError(data.message || 'Invalid username and/or password');
+                console.error('Invalid username and/or password', data.message);
            }
         } catch (error) {
             setError('An error occurred. Please try again.');
