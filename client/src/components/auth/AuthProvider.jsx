@@ -10,6 +10,10 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
     const [userId, setUserId] = useState(null);
 
+    // creates states for updating list of projects when new project is added
+    const [projectsUpdated, setProjectsUpdated] = useState(false);
+
+    // login function
     const login = (data) => {
         const { newToken, id } = data;
         setToken(newToken);
@@ -17,6 +21,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem(TOKEN_KEY, newToken);
     }
 
+    // logout function
     const logout = () => {
         // clears token and userId from local stroage
         setToken(null);
@@ -24,8 +29,14 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem(TOKEN_KEY);
     };
 
+    // updating project list function
+    const updateProjects = () => {
+        setProjectsUpdated((prev) => !prev);
+    }
+
+
   return (
-    <AuthContext.Provider value={{ token, userId, login, logout }}>
+    <AuthContext.Provider value={{ token, userId, login, logout, updateProjects }}>
         {children}
     </AuthContext.Provider>
     )

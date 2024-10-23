@@ -1,4 +1,5 @@
 import React, {useState, useEffect } from 'react';
+import { useAuth } from '../auth/AuthProvider';
 import ProjectCard from './ProjectCard';
 
 // update to pass userId as prop
@@ -7,21 +8,37 @@ const ListProjects = () => {
     // creates initial state of list of projects
     const [projects, setProjects] = useState([]);
 
-    const loadProjects = () => {
-        // fetches the list of projects
-        // update to fetch by userId
-        // fetch(`http://localhost:3001/user/${userId}/projects`)
-            fetch(`http://localhost:3001/testTable/projects`)
-            .then((response) => response.json())
-            .then((projects) => {
-                setProjects(projects);
-                // console.log(projects);
-            });
-    }
+    // access from AuthContext
+    const { token, userId, projectsUpdated } = useAuth();
 
+    const loadProjects = async () => {
+        if (!userId) {
+            console.error('User ID is not available');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/projects`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to fetch projects');
+            }
+
+            const projectsData = await response.json();
+            setProjects(projectsData);
+        } catch (error) {
+            console.error('Error loading projects:', error);
+        }
+    };
+
+    // runs when userId or projectsUpdated changes
     useEffect(() => {
         loadProjects();
-    }, [projects]);
+    }, [userId, projectsUpdated]);
 
 
 
@@ -32,7 +49,6 @@ const ListProjects = () => {
             <h2>List of Projects</h2>
 
             {/* creates a list of projects by mapping projectCard */}
-                {/* removes bullet points to create cards */}
             <ul style={{ listStyleType: "none" }}>
                 {projects.map((project) => {
                     return <li key={project.id}> <ProjectCard project={project} /></li>
