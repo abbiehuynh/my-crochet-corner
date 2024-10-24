@@ -61,10 +61,10 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 --
 -- Insert Values into users table; these are example values, please make your own!
-INSERT INTO public.users(name, email, password, pronouns, bio, profile_picture) 
+INSERT INTO public.users(name, username, email, password, pronouns, bio) 
  VALUES 
-    ('Abbie', 'ahuynh', 'abbiehuynhh@gmail.com', '*enter your password*', 'she/her', 'I love to crochet!', '' ),
-    ('Midnight', 'coolcat', 'midnight@yahoo.com', '*enter your password*', 'he/him', 'String is cool.', '');
+    ('Abbie', 'ahuynh', 'abbiehuynhh@gmail.com', '$2b$10$r2R/l2rGoec3J59ZGLzot.EKYhBL/Q1NnJYFl70RTYrXWQWWU9ClC', 'she/her', 'I love to crochet!'),
+    ('Midnight', 'coolcat', 'midnight@yahoo.com', '$2b$10$F8NRxiGjYJarMHAza2vMX.vk.1Cu4H2wW5us7f4o5tQFfOaBjtpA2', 'he/him', 'String is cool.');
 
 
 --
