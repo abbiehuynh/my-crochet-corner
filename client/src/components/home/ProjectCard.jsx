@@ -11,13 +11,11 @@ const ProjectCard = ({ project, onDelete }) => {
         }
     }
     
-
   return (
     <Card>
         <Card.Body>
             <Card.Title>Project Name: {project.project_name}</Card.Title>
             {/* TO DO: add favorite button / icon to represent is_favorite */}
-            {/* just testing to see if data will render */}
             <Card.Text>Favorite Project: {String(project.is_favorite)}</Card.Text> 
             <Card.Text>Project Status: {project.project_status}</Card.Text> 
             <Card.Text>Project Type: {project.project_type}</Card.Text>
@@ -25,11 +23,9 @@ const ProjectCard = ({ project, onDelete }) => {
             {/* the user can click the button to view all of the project details */}
             {/* should be updated to /user/${userId}/project/${projectId} */}
             <Button>
-                {/* change color to make text visible */}
                 <Link to={`/user/project`} style={{ color: "white", textDecoration: "none" }}>Open Project</Link>
             </Button> 
             <Button variant="danger" onClick={handleDelete}>Delete Project</Button>
-
         </Card.Body>
     </Card>    
   )

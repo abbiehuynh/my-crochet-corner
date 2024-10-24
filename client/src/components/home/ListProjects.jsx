@@ -40,7 +40,7 @@ const ListProjects = () => {
     const handleDeleteProject = async (projectId) => {
         // debugging - logging the project and user id
         console.log('Deleting project:', projectId, 'for user:', userId);
-        
+
         try {
             const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/delete-project/${projectId}`, {
                 method: 'DELETE',
@@ -68,22 +68,17 @@ const ListProjects = () => {
         loadProjects();
     }, [userId, projectsUpdated]);
 
-
-
   return (
     <div className="container">
         <div className="box list-projects">
             {/* TO DO: set to value in database so it can update with sorting button - All Projects */}
             <h2>List of Projects</h2>
-
             {/* creates a list of projects by mapping projectCard */}
             <ul style={{ listStyleType: "none" }}>
                 {projects.map((project) => {
                     return <li key={project.id}> <ProjectCard project={project} onDelete={handleDeleteProject} /></li>
                 })}
             </ul>
-
-
         </div>
     </div>
   )

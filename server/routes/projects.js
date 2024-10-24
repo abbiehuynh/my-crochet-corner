@@ -78,7 +78,6 @@ app.delete('/:user_id/delete-project/:project_id', async (req, res) => {
     }
 });
 
-
 // creates an endpoint for the route "/user/:userId/project/:projectId"
 // retrieves individual project details by user Id and project Id - for individual project page 
 // JOIN table includes the following tables: users, projects, yarn, other materials, pattern, and images
