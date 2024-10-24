@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { useAuth } from '../auth/AuthProvider';
+import axios from 'axios';
 
 const Register = () => {
     // creates initial states
@@ -19,6 +21,9 @@ const Register = () => {
     // allows to use useNavigate to redirect to link
     const navigate = useNavigate();
 
+    // access axioInstance
+    const { axiosInstance } = useAuth();
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
@@ -36,25 +41,22 @@ const Register = () => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_URL}/register`, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, username, email, password }),
+            const response = await axiosInstance.post(`/register`, {
+                name, username, email, password,
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            if (response.status === 201) {
                 setMessage('Your account has been created! Redirecting to login...')
-                console.log('User registered:', data);
+                console.log('User registered:', response.data);
                 setTimeout(() => {
                     navigate('/login');
                 // NOTE: store this in an enviorment variable of project config variable so that it is easier to change in the future.
                 }, 2000);
-
-            } else {
-                // set specific error messages based on response
+            }
+        } catch (error) {
+            // set specific error messages based on response
+            if (error.response) {
+                const data = error.response.data;
                 if (data.message.includes('Username already exists')) {
                     setUsernameError('This username is already taken.');
                 }
@@ -63,11 +65,10 @@ const Register = () => {
                 }
                 setMessage(data.message || 'Registration failed. Please try again.')
                 console.error('Registration error:', data.error);
+            } else {
+                setMessage("An error occured. Please try again later.")
+                console.error('Error:', error);
             }
-
-        } catch (error) {
-            setMessage("An error occured. Please try again later.")
-            console.error('Error:', error);
         }
     };
 

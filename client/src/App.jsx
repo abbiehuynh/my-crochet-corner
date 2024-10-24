@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from './components/auth/AuthProvider';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import NavBar from './components/common/NavBar';
@@ -11,8 +12,7 @@ import Favorites from './components/favorites-page/Favorites';
 import Profile from './components/profile-page/Profile';
 import Project from './components/home/Project';
 import AIChatBot from './components/ai/AIChatBot';
-import AddProjectNameForm from './components/home/AddProjectNameForm';
-import ProjectSaved from './components/home/ProjectSaved';
+import AddProjectNameForm from './components/home/AddProjectModal';
 import './App.css'
 
 const App = () => {
@@ -39,7 +39,6 @@ const App = () => {
           {/* should be updated to /user/${userId}/project/${projectId} */}
           <Route path="/user/project" element={<ProtectedRoute element={<Project />} />} />
           <Route path="/add-project" element={<ProtectedRoute element={<AddProjectNameForm />} />} />
-          <Route path="/project-saved" element={<ProtectedRoute element={<ProjectSaved />} />} />
         </Routes>
       </Router>
     </AuthProvider>
