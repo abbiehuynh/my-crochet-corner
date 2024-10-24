@@ -37,6 +37,8 @@ const ListProjects = () => {
 
     // runs when userId or projectsUpdated changes
     useEffect(() => {
+        // checks if projects are being updated
+        console.log('Loading projects for userId:', userId);
         loadProjects();
     }, [userId, projectsUpdated]);
 

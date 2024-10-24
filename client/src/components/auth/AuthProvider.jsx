@@ -31,12 +31,15 @@ export const AuthProvider = ({ children }) => {
 
     // updating project list function
     const updateProjects = () => {
-        setProjectsUpdated((prev) => !prev);
-    }
-
+        setProjectsUpdated((prev) => {
+            // checks if projects are being updated
+            console.log('Toggling projectsUpdated:', !prev);
+            return !prev;
+    });
+}
 
   return (
-    <AuthContext.Provider value={{ token, userId, login, logout, updateProjects }}>
+    <AuthContext.Provider value={{ token, userId, login, logout, updateProjects, projectsUpdated }}>
         {children}
     </AuthContext.Provider>
     )

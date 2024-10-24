@@ -12,7 +12,7 @@ const AddProjectModal = () => {
 		const [projectName, setProjectName] = useState('');
 
 		// access from useContext
-		const { token, userId } = useAuth();
+		const { token, userId, updateProjects } = useAuth();
 
 		// creates function to handle adding new project
 		const handleAddProject = async (e) => {
@@ -50,7 +50,11 @@ const AddProjectModal = () => {
 		const navigate = useNavigate();
 
 		const handleRedirect = (path) => {
-				// redirects based on the button clicked
+				// updates project list before redirecting to home page
+				if (path === '/home') {
+					updateProjects();
+				}
+				// else redirects path 
 				navigate(path);
 				// closes the confirmation modal
 				setShowConfirmModal(false);
