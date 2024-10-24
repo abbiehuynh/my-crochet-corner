@@ -37,9 +37,12 @@ const ListProjects = () => {
     };
 
     // DELETE projects
-    const handleDeleteProject = async (projectId) => {
+    const handleDeleteProject = async (projectId, projectName) => {
         // debugging - logging the project and user id
         console.log('Deleting project:', projectId, 'for user:', userId);
+
+        const confirmDelete = window.confirm(`Are you sure you want to delete the project "${projectName}"?`);
+        if (!confirmDelete) return;
 
         try {
             const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/delete-project/${projectId}`, {
@@ -76,7 +79,7 @@ const ListProjects = () => {
             {/* creates a list of projects by mapping projectCard */}
             <ul style={{ listStyleType: "none" }}>
                 {projects.map((project) => {
-                    return <li key={project.id}> <ProjectCard project={project} onDelete={handleDeleteProject} /></li>
+                    return <li key={project.id}> <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} /></li>
                 })}
             </ul>
         </div>
