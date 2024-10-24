@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: my-crochet-corner
+    env: node
+    plan: free
+    repo: https://github.com/abbiehuynh/my-crochet-corner
+    buildCommand: cd client && npm install && npm run build && cd ../server && npm install
+    startCommand: cd server && nodemon server.js
+    envVars:
+      - key: DATABASE_URI
+        fromDatabase:
+          name: db
+          property: connectionString
+
+databases:
+  - name: db
+    plan: free
+    ipAllowList: []
