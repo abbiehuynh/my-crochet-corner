@@ -57,6 +57,35 @@ app.post('/:user_id/add-project', async (req, res) => {
     }
 });
 
+// creates an endpoint for the route "/user/:userId/delete-project/:projectId"
+// deletes a project by projectId
+app.delete('/:user_id/delete-project/:project_id', async (req, res) => {
+    const userId = req.params.user_id;
+    const projectId = req.params.project_id;
+
+    try {
+        // checks if the project belongs to the user
+        const result = await db.query(`SELECT FROM projects WHERE user_id = $1 AND id = $2;`, 
+            [userId, projectId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Project not found or does not belong to user'});
+        } 
+
+        // if the project exists, delete project
+        await db.query(`DELETE FROM projects WHERE user_id = $1 AND id = $2;`,
+            [userId, projectId]
+        );
+        res.status(200).send(`Project with id ${projectId} from user with id ${userId} has been deleted`);
+        console.log('From the delete request-url', projectId);
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        return res.status(400).json({ error: 'An error has occured while processing your delete request'});
+    }
+});
+
+
 // creates an endpoint for the route "/user/:userId/project/:projectId"
 // retrieves individual project details by user Id and project Id - for individual project page 
 // JOIN table includes the following tables: users, projects, yarn, other materials, pattern, and images

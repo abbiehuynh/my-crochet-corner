@@ -3,7 +3,13 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom';
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, onDelete }) => {
+    // delete function
+    const handleDelete = () => {
+        if (window.confirm(`Are you sure you want to delete the project "${project.project_name}"?`)) {
+            onDelete(project.id);
+        }
+    }
 
 
   return (
@@ -22,6 +28,7 @@ const ProjectCard = ({ project }) => {
                 {/* change color to make text visible */}
                 <Link to={`/user/project`} style={{ color: "white", textDecoration: "none" }}>Open Project</Link>
             </Button> 
+            <Button variant="danger" onClick={handleDelete}>Delete Project</Button>
 
         </Card.Body>
     </Card>    
