@@ -39,6 +39,10 @@ const AddProjectModal = () => {
 
       // closes the add project modal
       setShowAddModal(false);
+
+      // resets the input field
+      setProjectName('');
+
       // opens the confirmation modal
       setShowConfirmModal(true);
     } catch (error) {
@@ -65,7 +69,10 @@ const AddProjectModal = () => {
        <Button onClick={() => setShowAddModal(true)}>Add Project</Button>
       
       {/* Add Project Modal */}
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+      <Modal show={showAddModal} onHide={() => {
+          setShowAddModal(false);
+          setProjectName('');
+      }}>
         <Modal.Header closeButton>
           <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
