@@ -10,7 +10,7 @@ const ProjectCard = ({ project, onDelete }) => {
             onDelete(project.id);
         }
     }
-
+    
 
   return (
     <Card>
