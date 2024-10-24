@@ -12,15 +12,8 @@ app.get('/:user_id/projects', async (req, res) => {
     try {
         const { rows: projectsByUserId } = await db.query(
             `SELECT 
-                u.id AS user_id,
-                u.name AS user_name,
-                p.id,
-                p.project_name,
-                p.created_at,
-                p.project_status,
-                p.project_type,
-                p.is_favorite,
-                p.sentiment_score
+                u.id AS user_id, u.name AS user_name,
+                p.id, p.project_name, p.created_at, p.project_status, p.project_type, p.is_favorite, p.sentiment_score
             FROM users u
             LEFT JOIN
                 projects p ON u.id = p.user_id
@@ -95,38 +88,14 @@ app.get('/:user_id/project/:project_id', async (req, res) => {
     try {
         const { rows: project } = await db.query(
             `SELECT 
-                u.id AS user_id,
-                u.name AS user_name,
-                p.id AS project_id,
-                p.project_name,
-                p.created_at,
-                p.updated_at,
-                p.end_at,
-                p.time_to_complete,
-                p.project_status,
-                p.project_type,
-                p.is_favorite,
-                p.notes,
-                p.sentiment_score,
-                y.id AS yarn_id,
-                y.yarn_brand, 
-                y.yarn_type,
-                y.yarn_weight,
-                y.recommended_hook_size AS yarn_recommended_hook_size,
-                y.yarn_color,
-                y.hook_size AS yarn_hook_size_used,
-                o.id AS other_materials_id,
-                o.hook_size AS project_hook_size,
-                o.safety_eyes,
-                o.stuffing,
-                pa.id AS pattern_id,
-                pa.pattern_name,
-                pa.pattern_by,
-                pa.pattern_url,
-                i.id AS image_id,
-                i.image_url,
-                i.image_name,
-                i.image_description
+                u.id AS user_id, u.name AS user_name,
+                p.id AS project_id, p.project_name, p.created_at, p.updated_at, p.end_at, p.time_to_complete,
+                p.project_status, p.project_type, p.is_favorite, p.notes, p.sentiment_score,
+                y.id AS yarn_id, y.yarn_brand, y.yarn_type, y.yarn_weight, y.recommended_hook_size AS yarn_recommended_hook_size,
+                y.yarn_color, y.hook_size AS yarn_hook_size_used,
+                o.id AS other_materials_id, o.hook_size AS project_hook_size, o.safety_eyes, o.stuffing,
+                pa.id AS pattern_id, pa.pattern_name, pa.pattern_by, pa.pattern_url,
+                i.id AS image_id, i.image_url, i.image_name, i.image_description
             FROM users u
             LEFT JOIN
                 projects p ON u.id = p.user_id
