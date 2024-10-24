@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { useAuth } from '../auth/AuthProvider';
 import ProjectCard from './ProjectCard';
+import axios from 'axios';
 
 // update to pass userId as prop
 const ListProjects = () => {
@@ -9,7 +10,7 @@ const ListProjects = () => {
     const [projects, setProjects] = useState([]);
 
     // access from AuthContext
-    const { token, userId, projectsUpdated, updateProjects } = useAuth();
+    const { token, userId, projectsUpdated, updateProjects, axiosInstance } = useAuth();
 
     // GET - fetches projects
     const loadProjects = async () => {
@@ -19,18 +20,13 @@ const ListProjects = () => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/projects`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await axiosInstance.get(`/user/${userId}/projects`);
 
-            if(!response.ok) {
+            if(response.status !== 200) {
                 throw new Error('Failed to fetch projects');
             }
 
-            const projectsData = await response.json();
-            setProjects(projectsData);
+            setProjects(response.data);
         } catch (error) {
             console.error('Error loading projects:', error);
         }
@@ -45,16 +41,14 @@ const ListProjects = () => {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/delete-project/${projectId}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axiosInstance.delete(`/user/${userId}/delete-project/${projectId}`);
+            
+            // DELETE LATER: logging the response to check status and data
+            console.log('Delete response:', response);
 
-            if (!response.ok) {
-                const errorMessage = await response.json();
-                throw new Error(errorMessage.error || 'Failed to delete project');
+            if (response.status !== 204) {
+                const errorMessage = response.data || 'Failed to delete project';
+                throw new Error(errorMessage);
             }
 
             updateProjects();

@@ -58,7 +58,7 @@ app.delete('/:user_id/delete-project/:project_id', async (req, res) => {
 
     try {
         // checks if the project belongs to the user
-        const result = await db.query(`SELECT FROM projects WHERE user_id = $1 AND id = $2;`, 
+        const result = await db.query(`SELECT * FROM projects WHERE user_id = $1 AND id = $2;`, 
             [userId, projectId]
         );
 
@@ -70,8 +70,8 @@ app.delete('/:user_id/delete-project/:project_id', async (req, res) => {
         await db.query(`DELETE FROM projects WHERE user_id = $1 AND id = $2;`,
             [userId, projectId]
         );
-        res.status(200).send(`Project with id ${projectId} from user with id ${userId} has been deleted`);
-        console.log('From the delete request-url', projectId);
+        res.status(204).send();
+        console.log('Project Id:', projectId, 'with User Id:', userId, 'has been deleted');
     } catch (error) {
         console.error('Error deleting project:', error);
         return res.status(400).json({ error: 'An error has occured while processing your delete request'});

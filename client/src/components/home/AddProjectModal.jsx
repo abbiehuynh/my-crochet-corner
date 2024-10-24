@@ -10,9 +10,10 @@ const AddProjectModal = () => {
 
   // creates initial state for project name
   const [projectName, setProjectName] = useState('');
+  const [confirmedProjectName, setShowConfirmedProjectName] = useState('');
 
   // access from useContext
-  const { token, userId, updateProjects } = useAuth();
+  const { token, userId, updateProjects, axiosInstance } = useAuth();
 
   // creates function to handle adding new project
   const handleAddProject = async (e) => {
@@ -21,25 +22,20 @@ const AddProjectModal = () => {
 
      // adding new project
      try {
-      const response = await fetch(`${import.meta.env.VITE_URL}/user/${userId}/add-project`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ project_name: projectName })
+      const response = await axiosInstance.post(`/user/${userId}/add-project`, {
+        project_name: projectName
       });
           
-      if (!response.ok) {
+      if (response.status !== 201) {
         throw new Error('Failed to add project');
       }
 
-      const newProject = await response.json();
+      const newProject = response.data;
       console.log('New project added:', newProject);
 
       // closes the add project modal
       setShowAddModal(false);
-
+      setShowConfirmedProjectName(projectName);
       // resets the input field
       setProjectName('');
 
@@ -102,7 +98,7 @@ const AddProjectModal = () => {
         </Modal.Header>
               
         <Modal.Body>
-          <p>Project "{projectName}" has been added successfully!</p>
+          <p>Project "{confirmedProjectName}" has been added successfully!</p>
         </Modal.Body>
 
         <Modal.Footer>

@@ -5,7 +5,7 @@ import { useAuth } from './AuthProvider';
 
 const Login = () => {
     // access the login function from useContext
-    const { login, token } = useAuth();
+    const { login, token, axiosInstance } = useAuth();
 
     // creates initials states
     const [username, setUsername] = useState('');
@@ -25,18 +25,12 @@ const Login = () => {
         }
 
         try {
-           const response = await fetch(`${import.meta.env.VITE_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-           });
-
-           const data = await response.json();
+           const response = await axiosInstance.post('/login', { username, password });
+           // response.data is used to get parsed JSON
+           const data = response.data;
            console.log('API Response:', data);
 
-           if (response.ok) {
+           if (response.status === 200) {
                 // passes both token and userId to login function
                 login({ newToken: data.token, id: data.userId });
                 // navigates to the home page after successful login
@@ -47,6 +41,10 @@ const Login = () => {
                 console.error('Invalid username and/or password', data.message);
            }
         } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message || 'An error occured. Please try again.');
+                console.error('Error response:', error.response.data)
+            }
             setError('An error occurred. Please try again.');
             console.error('Error:', error);
         }
