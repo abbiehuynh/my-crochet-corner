@@ -65,9 +65,6 @@ const ListProjects = () => {
         loadProjects();
     }, [userId, projectsUpdated]);
 
-    // DELETE LATER: debugging "e is not defined" 
-    console.log('Value of e:', e);
-
   return (
     <div className="container">
         <div className="box list-projects">
