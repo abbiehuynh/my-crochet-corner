@@ -12,7 +12,6 @@ lerna-debug.log*
 .vite/deps_temp7c811d89/
 package-lock.json
 node_modules
-dist
 dist-ssr
 *.local
 
