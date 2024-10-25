@@ -27,8 +27,17 @@ const ListProjects = () => {
             if(response.status !== 200) {
                 throw new Error('Failed to fetch projects');
             }
+            // checks response given for projects
+            console.log('Fetched projects:', response.data)
 
-            setProjects(response.data);
+            // ensures response data is an array before setting state
+            if (Array.isArray(response.data)) {
+                setProjects(response.data);
+            } else {
+                console.error('Expected an array, got:', response.data);
+                setProjects([]);
+            }
+           
         } catch (error) {
             console.error('Error loading projects:', error);
         } finally {
@@ -79,15 +88,15 @@ const ListProjects = () => {
                 { loading ? (
                     <p>Loading projects...</p>
                 ) : (
-                    projects.length === 0 ? (
-                    <p>No projects available. Create a new project to add to your list!</p>
-                ) : (
-                    projects.map((project) => (
-                        <li key={project.id}> 
-                            <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} />
-                        </li>
-                    ))
-                )
+                    Array.isArray(projects) && projects.length === 0 ? (
+                        <p>No projects available. Create a new project to add to your list!</p>
+                    ) : (
+                        Array.isArray(projects) && projects.map((project) => (
+                            <li key={project.id}> 
+                                <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} />
+                            </li>
+                        ))
+                    )
                 )}
             </ul>
         </div>
