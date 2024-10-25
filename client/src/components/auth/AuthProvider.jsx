@@ -7,6 +7,8 @@ const AuthContext = createContext();
 // creates token key
 const TOKEN_KEY = 'MCC_Token';
 
+const baseURL = import.meta.env.VITE_URL;
+
 // creates an Axios instance
 export const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_URL,

@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { fileURLToPath } = require('url');
 const path = require('path');
 require('dotenv').config();
 
@@ -15,10 +14,6 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
-// getting directory name
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 // serve static files from react app
 app.use(express.static(path.join(__dirname, '../client/dist' )));

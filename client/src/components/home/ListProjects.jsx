@@ -8,6 +8,7 @@ const ListProjects = () => {
 
     // creates initial state of list of projects
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // access from AuthContext
     const { token, userId, projectsUpdated, updateProjects, axiosInstance } = useAuth();
@@ -16,6 +17,7 @@ const ListProjects = () => {
     const loadProjects = async () => {
         if (!userId) {
             console.error('User ID is not available');
+            setLoading(false);
             return;
         }
 
@@ -29,6 +31,8 @@ const ListProjects = () => {
             setProjects(response.data);
         } catch (error) {
             console.error('Error loading projects:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -72,13 +76,22 @@ const ListProjects = () => {
             <h2>List of Projects</h2>
             {/* creates a list of projects by mapping projectCard */}
             <ul style={{ listStyleType: "none" }}>
-                {projects.map((project) => {
-                    return <li key={project.id}> <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} /></li>
-                })}
+                { loading ? (
+                    <p>Loading projects...</p>
+                ) : (
+                    projects.length === 0 ? (
+                    <p>No projects available. Create a new project to add to your list!</p>
+                ) : (
+                    projects.map((project) => (
+                        <li key={project.id}> 
+                            <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} />
+                        </li>
+                    ))
+                )
+                )}
             </ul>
         </div>
     </div>
   )
 }
-
 export default ListProjects;
