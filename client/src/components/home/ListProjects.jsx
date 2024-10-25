@@ -20,13 +20,9 @@ const ListProjects = () => {
             setLoading(false);
             return;
         }
-
+        const url = `/user/${userId}/projects`
         try {
-            const response = await axiosInstance.get(`/user/${userId}/projects`);
-
-            if(response.status !== 200) {
-                throw new Error('Failed to fetch projects');
-            }
+            const response = await axiosInstance.get(url);
             // checks response given for projects
             console.log('Fetched projects:', response.data)
 
@@ -40,6 +36,7 @@ const ListProjects = () => {
            
         } catch (error) {
             console.error('Error loading projects:', error);
+            console.lerror('Error details:', error.response?.data);
         } finally {
             setLoading(false);
         }
