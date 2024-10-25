@@ -40,11 +40,35 @@ $ git clone https://github.com/abbiehuynh/my-crochet-corner.git <NameNewDirector
 - [Final Project Pitch](https://docs.google.com/document/d/1da4MuZVVd_XVBiUc7g6SWZfKaXB6XajMwxWjhwzCWew/edit?tab=t.0)
 - [Project Timeline](https://trello.com/b/5ZEtare8/my-crochet-corner)
 - [Week 1 Milestones](https://docs.google.com/document/d/1R9_PBwoZ8hR1AP_WpNhK9LDNNFsoF1GBVOFzNCcDBOY/edit?usp=sharing)
+- [Week 2 Milestones](https://docs.google.com/document/d/1aXRHkdY4hRuLUDRzt_Vmhn7NT3pMHiMKV9Fkz0mWilI/edit?usp=sharing)
 
 ## Demonstration:
-to be updated
+to be updated when mvp is completed
 
+Link to deployed app coming soon!
 
+## Features:
+**mvp features:**
+
+- [x] creating a new user account/ login & logout existing user account
+- [x] view list of projects 
+- [x] add project using project name form
+- [x] delete project from list of projects
+- [ ] view details of individual projects
+- [ ] update and delete project from project details page
+- [ ] favorite/unfavorite projects
+- [ ] view list of favorite projects
+- [ ] search projects by project name
+- [ ] sort/filter projects by project status, project type, date, and alphabetical order
+- [ ] chat with AI Bot for project inspiration and ideas
+
+**nice-to-have features:**
+- [x] user authentication
+- [ ] add, view, update, and delete project ideas on ideas page
+- [ ] save inspiration from AI Bot in ideas page
+- [ ] create new proejct through AI inspiration/ autofill form inputs
+- [ ] duplicate existing project to create a new project
+- [ ] search for project ideas based on colors
 
 ## Technologies: 
 ![Javascript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=000000)
