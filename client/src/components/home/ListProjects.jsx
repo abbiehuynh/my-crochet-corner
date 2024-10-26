@@ -9,61 +9,8 @@ const ListProjects = () => {
     if (loading) 
         return <div>Loading projects...</div>;
 
-    // access from AuthContext
-    const { token, userId, projectsUpdated, updateProjects, axiosInstance } = useAuth();
-
-    // GET - fetches projects
-    const loadProjects = async () => {
-        if (!userId) {
-            console.error('User ID is not available');
-            return;
-        }
-
-        try {
-            const response = await axiosInstance.get(`/user/${userId}/projects`);
-
-            if(response.status !== 200) {
-                throw new Error('Failed to fetch projects');
-            }
-
-            setProjects(response.data);
-        } catch (error) {
-            console.error('Error loading projects:', error);
-        }
-    };
-
-    // DELETE projects
-    const handleDeleteProject = async (projectId, projectName) => {
-        // debugging - logging the project and user id
-        console.log('Deleting project:', projectId, 'for user:', userId);
-
-        const confirmDelete = window.confirm(`Are you sure you want to delete the project "${projectName}"?`);
-        if (!confirmDelete) return;
-        
-        try {
-            const response = await axiosInstance.delete(`/user/${userId}/delete-project/${projectId}`);
-            
-            // DELETE LATER: logging the response to check status and data
-            console.log('Delete response:', response);
-
-            if (response.status !== 204) {
-                const errorMessage = response.data || 'Failed to delete project';
-                throw new Error(errorMessage);
-            }
-
-            updateProjects();
-        } catch (error) {
-            console.error('Error deleting project:', error);
-            alert(error.message);
-        }
-    };
-
-    // runs when userId or projectsUpdated changes
-    useEffect(() => {
-        // checks if projects are being updated
-        console.log('Loading projects for userId:', userId);
-        loadProjects();
-    }, [userId, projectsUpdated]);
+    if (error)
+        return <div>Error loading projects: {error.message}</div>;
 
   return (
     <div className="container">

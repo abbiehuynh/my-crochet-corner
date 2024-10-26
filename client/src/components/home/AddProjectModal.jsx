@@ -44,6 +44,8 @@ const AddProjectModal = () => {
       }
   };
 
+  const navigate = useNavigate();
+
   const handleRedirect = (path) => {
     // updates project list before redirecting to home page
     if (path === '/home') {
@@ -55,8 +57,13 @@ const AddProjectModal = () => {
 
 	return (
     <div>
+      <Button onClick={() => setShowAddModal(true)}>Add Project</Button>
+
 			{/* Add Project Modal */}
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+      <Modal show={showAddModal} onHide={() => {
+        setShowAddModal(false);
+        setProjectName('');
+      }}>
         <Modal.Header closeButton>
           <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
