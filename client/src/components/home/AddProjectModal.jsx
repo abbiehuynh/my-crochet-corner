@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuth } from '../auth/AuthProvider';
+import { useProjects } from './ProjectProvider';
 
 const AddProjectModal = () => {
   // creates initial states for modals
@@ -10,14 +11,14 @@ const AddProjectModal = () => {
   
   // creates initial state for project name
   const [projectName, setProjectName] = useState('');
-  const [confirmedProjectName, setShowConfirmedProjectName] = useState('');
+  const [confirmedProjectName, setConfirmedProjectName] = useState('');
 
-  // access from useContext
-  const { token, userId, updateProjects, axiosInstance } = useAuth();
+  // access from auth context and project context
+  const { userId, axiosInstance } = useAuth();
+  const { updateProjects } = useProjects();
 
   // creates function to handle adding new project
   const handleAddProject = async (e) => {
-    // prevents user from submitting before checking conditions
     e.preventDefault();
 
      // adding new project
@@ -33,14 +34,10 @@ const AddProjectModal = () => {
       const newProject = response.data;
       console.log('New project added:', newProject);
 
-      // closes the add project modal
-      setShowAddModal(false);
-      setShowConfirmedProjectName(projectName);
-      // resets the input field
-      setProjectName('');
-
-      // opens the confirmation modal
-      setShowConfirmModal(true);
+      setShowAddModal(false); // closes the add project modal
+      setConfirmedProjectName(projectName);
+      setProjectName(''); // resets the input field
+      setShowConfirmModal(true); // opens the confirmation modal
     } catch (error) {
         console.error('Error adding project:', error);
         alert(error.message);
@@ -52,10 +49,8 @@ const AddProjectModal = () => {
     if (path === '/home') {
       updateProjects();
     }
-    // else redirects path 
-    navigate(path);
-    // closes the confirmation modal
-    setShowConfirmModal(false);
+    navigate(path);  // else redirects path 
+    setShowConfirmModal(false); // closes the confirmation modal
   };
 
 	return (

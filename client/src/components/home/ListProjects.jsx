@@ -1,13 +1,13 @@
-import React, {useState, useEffect } from 'react';
-import { useAuth } from '../auth/AuthProvider';
+import React, { useState, useEffect } from 'react';
+import { useProjects } from './ProjectProvider';
 import ProjectCard from './ProjectCard';
-import axios from 'axios';
 
-// update to pass userId as prop
 const ListProjects = () => {
+    // access from Project Context
+    const { projects, loading, error, deleteProject } = useProjects();
 
-    // creates initial state of list of projects
-    const [projects, setProjects] = useState([]);
+    if (loading) 
+        return <div>Loading projects...</div>;
 
     // access from AuthContext
     const { token, userId, projectsUpdated, updateProjects, axiosInstance } = useAuth();
@@ -72,13 +72,15 @@ const ListProjects = () => {
             <h2>List of Projects</h2>
             {/* creates a list of projects by mapping projectCard */}
             <ul style={{ listStyleType: "none" }}>
-                {projects.map((project) => {
-                    return <li key={project.id}> <ProjectCard project={project} onDelete={() => handleDeleteProject(project.id, project.project_name)} /></li>
-                })}
+                {projects.map((project) => (
+                    <li key={project.id}> 
+                        <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
+                    </li>
+                ))}
             </ul>
         </div>
     </div>
-  )
-}
+  );
+};
 
 export default ListProjects;
