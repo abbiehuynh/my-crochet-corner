@@ -38,8 +38,7 @@ const App = () => {
             <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} /> 
 
             {/* routes to features */}
-            {/* should be updated to /user/${userId}/project/${projectId} */}
-            <Route path="/user/project" element={<ProtectedRoute element={<Project />} />} />
+            <Route path="/user/:userId/project/:projectId" element={<ProtectedRoute element={<Project />} />} />
             <Route path="/add-project" element={<ProtectedRoute element={<AddProjectNameForm />} />} />
           </Routes>
         </Router>

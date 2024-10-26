@@ -2,8 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthProvider';
 
-const ProjectCard = ({ project, userId, onDelete }) => {
+const ProjectCard = ({ project, onDelete }) => {
+
+    const { userId } = useAuth();
 
   return (
     <Card>

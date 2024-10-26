@@ -109,10 +109,14 @@ app.get('/:user_id/project/:project_id', async (req, res) => {
             WHERE 
                 u.id = $1 AND p.id = $2;`, [userId, projectId]
         );
-        res.send(project);
+        if (project.length > 0) {
+            return res.json(project[0]);
+        } else {
+            return res.status(404).json({ error: 'Project not found' });
+        }
     } catch (error) {
         console.error(`Error fetching data for project with Id: ${projectId}`, error );
-        return res.status(400).json({ error });
+        return res.status(500).json({ error: 'Internal server error' });
     }
 });
 
