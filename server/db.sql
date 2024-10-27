@@ -129,12 +129,12 @@ INSERT INTO public.projects(user_id, project_name, time_to_complete, project_sta
 CREATE TABLE public.yarn (
     id SERIAL PRIMARY KEY,
     project_id INT NOT NULL,
-    yarn_brand VARCHAR(255),
-    yarn_type VARCHAR(255),
-    yarn_weight VARCHAR(50),
-    recommended_hook_size VARCHAR(50),
-    yarn_color VARCHAR(255),
-    hook_size VARCHAR(50),
+    yarn_brand TEXT[],
+    yarn_type TEXT[],
+    yarn_weight TEXT[],
+    recommended_hook_size TEXT[],
+    yarn_color TEXT[],
+    hook_size TEXT[],
     FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE
 );
 

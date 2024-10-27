@@ -89,28 +89,86 @@ app.get('/:user_id/project/:project_id', async (req, res) => {
             `SELECT 
                 u.id AS user_id, u.name AS user_name,
                 p.id AS project_id, p.project_name, p.created_at, p.updated_at, p.end_at, p.time_to_complete,
-                p.project_status, p.project_type, p.is_favorite, p.notes, p.sentiment_score,
-                y.id AS yarn_id, y.yarn_brand, y.yarn_type, y.yarn_weight, y.recommended_hook_size AS yarn_recommended_hook_size,
-                y.yarn_color, y.hook_size AS yarn_hook_size_used,
-                o.id AS other_materials_id, o.hook_size AS project_hook_size, o.safety_eyes, o.stuffing,
-                pa.id AS pattern_id, pa.pattern_name, pa.pattern_by, pa.pattern_url,
-                i.id AS image_id, i.image_url, i.image_name, i.image_description
+                p.project_status, p.project_type, p.is_favorite, p.notes, p.sentiment_score
             FROM users u
             LEFT JOIN
                 projects p ON u.id = p.user_id
-            LEFT JOIN
-                yarn y ON p.id = y.project_id
-            LEFT JOIN
-                other_materials o ON p.id = o.project_id
-            LEFT JOIN 
-                pattern pa ON p.id = pa.project_id
-            LEFT JOIN
-                images i ON p.id = i.project_id
             WHERE 
                 u.id = $1 AND p.id = $2;`, [userId, projectId]
         );
         if (project.length > 0) {
-            return res.json(project[0]);
+            
+             // fetch pattern data
+             const patternQuery = await db.query(
+                `SELECT 
+                    pa.id AS pattern_id, pa.pattern_name, pa.pattern_by, pa.pattern_url
+                FROM pattern pa
+                WHERE pa.project_id = $1`,
+                [projectId]
+            );
+
+            const patterns = patternQuery.rows.map(row => ({
+                pattern_id: row.pattern_id,
+                pattern_name: row.pattern_name,
+                pattern_by: row.pattern_by,
+                pattern_url: row.pattern_url
+            }));
+
+            // fetches other material data
+            const otherMaterialsQuery = await db.query(
+                `SELECT 
+                    o.id AS other_materials_id, o.hook_size AS project_hook_size, o.safety_eyes, o.stuffing
+                FROM other_materials o
+                WHERE o.project_id = $1;`,
+                [projectId]
+            );
+
+            const otherMaterials = otherMaterialsQuery.rows.map(row => ({
+                other_materials_id: row.other_materials_id,
+                project_hook_size: row.project_hook_size,
+                safety_eyes: row.safety_eyes,
+                stuffing: row.stuffing
+            }));
+            
+            // fetches yarn data 
+            const yarnQuery = await db.query(
+                `SELECT 
+                    yarn_brand, yarn_color, yarn_weight, yarn_type
+                FROM yarn
+                WHERE project_id = $1;`, 
+                [projectId]
+            );
+
+            const yarns = yarnQuery.rows.map(row => ({
+                yarn_brand: row.yarn_brand,
+                yarn_color: row.yarn_color,
+                yarn_weight: row.yarn_weight,
+                yarn_type: row.yarn_type
+            }));
+
+            // fetches image data
+            const imageQuery = await db.query(
+                `SELECT 
+                    i.id AS image_id, i.image_url, i.image_name, i.image_description
+                FROM images i
+                WHERE i.project_id = $1;`,
+                [projectId]
+            );
+
+            const images = imageQuery.rows.map(row => ({
+                image_id: row.image_id,
+                image_url: row.image_url,
+                image_name: row.image_name,
+                image_description: row.image_description
+            }));
+
+            return res.json({
+                ...project[0],
+                patterns,
+                otherMaterials,
+                yarns,
+                images
+            });
         } else {
             return res.status(404).json({ error: 'Project not found' });
         }
