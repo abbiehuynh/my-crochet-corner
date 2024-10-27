@@ -44,6 +44,45 @@ app.get('/yarn', async (req, res) => {
     }
 });
 
+// tests connection to returning yarn table as an array of differnet columns
+app.get('/yarnArrays/:project_id', async (req, res) => {
+    const projectId = req.params.project_id;
+    try { 
+        const projectQuery = await db.query(`SELECT * FROM projects WHERE id = $1`, [projectId]);
+        
+        const project = projectQuery.rows[0];
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+        
+        const yarnQuery = await db.query(
+            `SELECT
+                    yarn_brand, 
+                    yarn_color, 
+                    yarn_weight, 
+                    yarn_type
+            FROM yarn
+            WHERE project_id = $1;`,
+            [projectId]
+        );
+        
+        const yarns = yarnQuery.rows.map(row => ({
+            yarn_brand: row.yarn_brand,
+            yarn_color: row.yarn_color,
+            yarn_weight: row.yarn_weight,
+            yarn_type: row.yarn_type
+        }));
+
+        res.json({
+            ...project,
+            yarns
+        });
+    } catch (error) {
+        console.error('Error fetching project:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // tests connection to other_materials table
 app.get('/other_materials', async (req, res) => {
     try {
