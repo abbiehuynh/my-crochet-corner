@@ -178,4 +178,105 @@ app.get('/:user_id/project/:project_id', async (req, res) => {
     }
 });
 
+// creates an endpoint for the route "/user/:userId/project/:projectId"
+// updates project details of an individual project by user Id and project Id - project details page
+app.put('/:user_id/project/:project_id', async (req, res) => {
+    const userId = req.params.user_id;
+    const projectId = req.params.project_id;
+
+    // DELETE LATER - debugging - checking for params
+    console.log(`Received PUT request for user: ${userId}, project: ${projectId}`);
+
+    const { project_name, is_favorite, project_status, project_type, notes, 
+        patterns, otherMaterials, yarns, images
+    } = req.body;
+
+    try {
+        // checks if project exists
+        const projectCheck = await db.query(
+            `SELECT id FROM projects WHERE id = $1 AND user_id = $2;`,
+            [projectId, userId]
+        );
+
+        if (projectCheck.rowCount === 0) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
+
+        // updates project table
+        const { rowCount } = await db.query(
+            `UPDATE projects
+            SET project_name = $1, is_favorite = $2, project_status = $3, project_type = $4, notes = $5, updated_at = NOW() 
+            WHERE id = $6 AND user_id = $7;`,
+            [project_name, is_favorite, project_status, project_type, notes, projectId, userId]
+        );
+        
+        // clears tables if they exist; pattern, other materials, yarn to prevent duplicates entries
+        if (patterns) {
+            await db.query(`DELETE FROM pattern WHERE project_id = $1;`, [projectId]);
+        }
+        if (otherMaterials) {
+            await db.query(`DELETE FROM other_materials WHERE project_id = $1;`, [projectId]);
+        }
+        if (yarns) {
+            await db.query(`DELETE FROM yarn WHERE project_id = $1;`, [projectId]);
+        }
+
+        // updates pattern table with new information
+        if (Array.isArray(patterns) && patterns.length > 0) {
+            await Promise.all(patterns.map(pattern => {
+                return db.query(
+                    `INSERT INTO pattern(project_id, pattern_name, pattern_by, pattern_url)
+                    VALUES ($1, $2, $3, $4);`,
+                    [projectId, pattern.pattern_name, pattern.pattern_by, pattern.pattern_url]
+                );
+            }));
+        }
+        
+        // updates other_materials table
+        if (Array.isArray(otherMaterials) && otherMaterials.length > 0) {
+            await Promise.all(otherMaterials.map(material => {
+                return db.query(
+                    `INSERT INTO other_materials(project_id, hook_size, safety_eyes, stuffing)
+                    VALUES ($1, $2, $3, $4);`,
+                    [projectId, material.project_hook_size, material.safety_eyes, material.stuffing]
+                );
+            }));
+        }
+
+        // updates yarn table
+        if (Array.isArray(yarns) && yarns.length > 0) {
+            await Promise.all(yarns.map(yarn => {
+                return db.query(
+                    `INSERT INTO yarn(project_id, yarn_brand, yarn_color, yarn_weight, yarn_type)
+                    VALUES ($1, $2, $3, $4, $5);`,
+                    [projectId, yarn.yarn_brand, yarn.yarn_color, yarn.yarn_weight, yarn.yarn_type]
+                );
+            }));
+        }
+
+        // updates images table
+        if (Array.isArray(images) && images.length > 0) {
+            await Promise.all(images.map(image => {
+                return db.query(
+                    `INSERT INTO images (project_id, image_url, image_name, image_description)
+                    VALUES ($1, $2, $3, $4)
+                    ON CONFLICT (project_id, image_name) DO UPDATE
+                    SET image_url = EXCLUDED.image_url,
+                        image_description = EXCLUDED.image_description;`,
+                    [projectId, image.image_url, image.image_name, image.image_description]
+                );
+            }));
+        }
+
+        if (rowCount > 0) {
+            res.status(200).json({ message: 'Project updated successfully.' });
+        } else {
+            res.status(400).json({ error: 'No changes made to the project'});
+        }
+    } catch (error) {
+        console.error(`Error updating project with Id: ${projectId}`, error);
+        return res.status(500).json({ error: 'Failed to update project. Please try again later.'});
+    }
+});
+
 module.exports = app;
