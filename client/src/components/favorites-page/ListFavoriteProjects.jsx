@@ -6,7 +6,7 @@ const ListFavoriteProjects = () => {
   return (
     <div>ListFavoriteProjects
 
-        <ProjectCard />
+        {/* <ProjectCard /> */}
         
     </div>
   )

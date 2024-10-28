@@ -13,7 +13,6 @@ const ProjectCard = ({ project, onDelete }) => {
             <Card.Text>Favorite Project: {String(project.is_favorite)}</Card.Text> 
             <Card.Text>Project Status: {project.project_status}</Card.Text> 
             <Card.Text>Project Type: {project.project_type}</Card.Text>
-
             {/* the user can click the button to view all of the project details */}
             {/* should be updated to /user/${userId}/project/${projectId} */}
             <Button>
