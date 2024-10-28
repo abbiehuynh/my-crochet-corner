@@ -17,7 +17,7 @@ const ProjectCard = ({ project, onDelete }) => {
             <Card.Text>Project Type: {project.project_type}</Card.Text>
             {/* the user can click the button to view all of the project details */}
             <Button>
-                <Link to={`/user/${userId}project/${project.id}`} style={{ color: "white", textDecoration: "none" }}>Open Project</Link>
+                <Link to={`/user/${userId}/project/${project.id}`} style={{ color: "white", textDecoration: "none" }}>Open Project</Link>
             </Button> 
             <Button variant="danger" onClick={onDelete}>Delete Project</Button>
         </Card.Body>
