@@ -194,9 +194,9 @@ app.put('/:user_id/project/:project_id', async (req, res) => {
     } = req.body;
 
     try {
-        // checks if project exists
+        // checks if project exists and limiting to 1 project
         const projectCheck = await db.query(
-            `SELECT id FROM projects WHERE id = $1 AND user_id = $2;`,
+            `SELECT id FROM projects WHERE id = $1 AND user_id = $2 LIMIT 1;`,
             [projectId, userId]
         );
 
