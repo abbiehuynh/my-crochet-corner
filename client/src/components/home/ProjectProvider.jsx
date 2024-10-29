@@ -40,6 +40,27 @@ export const ProjectProvider = ({ children }) => {
         }
     }, [axiosInstance, userId]);
 
+    // POST project - add project by project name form
+    const addProject = async (newProject) => {
+        setLoading(true);
+
+        try {
+            const response = await axiosInstance.post(`/user/${userId}/add-project`, newProject);
+            if (response.status !== 201) {
+                throw new Error('Failed to add project');
+            }
+            const createdProject = response.data;
+            setProjects(prev => [...prev, createdProject]);
+            // fetch updated list of projects
+            return createdProject;
+        } catch (error) {
+            console.error('Error adding project:', error);
+            alert(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // DELETE projects
     const deleteProject = async (projectId, projectName) => {
         // debugging - logging the project and user id
@@ -76,7 +97,7 @@ export const ProjectProvider = ({ children }) => {
     }, [userId, fetchProjects]);
 
   return (
-    <ProjectContext.Provider value={{ projects, loading, error, deleteProject, fetchProjects }}>
+    <ProjectContext.Provider value={{ projects, loading, error, addProject, deleteProject, fetchProjects }}>
         {children}
     </ProjectContext.Provider>
   )
