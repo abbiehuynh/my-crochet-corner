@@ -12,28 +12,23 @@ const AddProjectModal = () => {
   // creates initial state for project name
   const [projectName, setProjectName] = useState('');
   const [confirmedProjectName, setConfirmedProjectName] = useState('');
+  const [projectId, setProjectId] = useState(null);
 
   // access from auth context and project context
-  const { userId, axiosInstance } = useAuth();
-  const { updateProjects } = useProjects();
+  const { userId } = useAuth();
+  const { addProject } = useProjects();
+
+  const navigate = useNavigate();
 
   // creates function to handle adding new project
   const handleAddProject = async (e) => {
     e.preventDefault();
 
-     // adding new project
+     // adding new project via context
      try {
-      const response = await axiosInstance.post(`/user/${userId}/add-project`, {
-        project_name: projectName
-      });
-          
-      if (response.status !== 201) {
-        throw new Error('Failed to add project');
-      }
+      const newProject = await addProject({ project_name: projectName });
 
-      const newProject = response.data;
-      console.log('New project added:', newProject);
-
+      setProjectId(newProject.id); // stores the projectId
       setShowAddModal(false); // closes the add project modal
       setConfirmedProjectName(projectName);
       setProjectName(''); // resets the input field
@@ -44,14 +39,8 @@ const AddProjectModal = () => {
       }
   };
 
-  const navigate = useNavigate();
-
   const handleRedirect = (path) => {
-    // updates project list before redirecting to home page
-    if (path === '/home') {
-      updateProjects();
-    }
-    navigate(path);  // else redirects path 
+    navigate(path);
     setShowConfirmModal(false); // closes the confirmation modal
   };
 
@@ -98,8 +87,7 @@ const AddProjectModal = () => {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={() => handleRedirect('/home')}>Home</Button>
-          {/* update to be project id */}
-          <Button variant="primary" onClick={() => handleRedirect('/user/project')}>Edit Project</Button>
+          <Button variant="primary" onClick={() => handleRedirect(`/user/${userId}/project/${projectId}`)}>Edit Project</Button>
         </Modal.Footer>
       </Modal>
     </div>
