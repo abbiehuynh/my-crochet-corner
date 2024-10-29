@@ -272,8 +272,17 @@ app.put('/:user_id/project/:project_id', async (req, res) => {
             }));
         }
 
+        // fetches the updated project data
+        const updatedProject = await db.query(
+            `SELECT * FROM projects WHERE id = $1 AND user_id = $2;`,
+            [projectId, userId]
+        );
+
         if (rowCount > 0) {
-            res.status(200).json({ message: 'Project updated successfully.' });
+            res.status(200).json({ 
+                message: 'Project updated successfully.',
+                updatedProject: updatedProject.rows[0]
+            });
         } else {
             res.status(400).json({ error: 'No changes made to the project'});
         }
