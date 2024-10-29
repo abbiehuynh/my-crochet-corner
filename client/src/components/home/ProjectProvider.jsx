@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../auth/AuthProvider';
-import axios from 'axios';
 
 // creates project context
 const ProjectContext = createContext();
@@ -10,6 +9,7 @@ export const ProjectProvider = ({ children }) => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     // acesses axios instance and user Id from AuthContext
     const { axiosInstance, userId } = useAuth();
@@ -39,6 +39,11 @@ export const ProjectProvider = ({ children }) => {
             setLoading(false);
         }
     }, [axiosInstance, userId]);
+
+    // filters projects based on the search query - project name
+    const filteredProjects = projects.filter(project => 
+        project.project_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     // POST project - add project by project name form
     const addProject = async (newProject) => {
@@ -97,7 +102,7 @@ export const ProjectProvider = ({ children }) => {
     }, [userId, fetchProjects]);
 
   return (
-    <ProjectContext.Provider value={{ projects, loading, error, addProject, deleteProject, fetchProjects }}>
+    <ProjectContext.Provider value={{ projects: filteredProjects, searchQuery, setSearchQuery, loading, error, addProject, deleteProject, fetchProjects }}>
         {children}
     </ProjectContext.Provider>
   )
