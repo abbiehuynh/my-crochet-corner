@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import SearchBar from './SearchBar';
-import SortProjectStatus from './SortProjectStatus';
 import ListProjects from './ListProjects';
 import AIChatBot from '../ai/AIChatBot';
 import AddProjectModal from './AddProjectModal';
@@ -30,12 +28,6 @@ const Home = () => {
     <div>
         {/* this is the landing page where the user flow will start for most user stories */}
         Home
-
-        {/* will allow users to search through the list of projects by project name */}
-        <SearchBar />
-
-        {/* will allow users to sort through projects by project status */}
-        <SortProjectStatus />
 
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
