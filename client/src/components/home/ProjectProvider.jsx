@@ -10,6 +10,8 @@ export const ProjectProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [sortOrder, setSortOrder] = useState('status'); // sort by project status
+    const [selectedCategory, setSelectedCategory] = useState('All');
 
     // acesses axios instance and user Id from AuthContext
     const { axiosInstance, userId } = useAuth();
@@ -40,10 +42,28 @@ export const ProjectProvider = ({ children }) => {
         }
     }, [axiosInstance, userId]);
 
-    // filters projects based on the search query - project name
-    const filteredProjects = projects.filter(project => 
-        project.project_name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // filters projects based on the search query - project name - and selected category
+    const filteredProjects = projects.filter(project => {
+        const matchesSearch = project.project_name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
+        return matchesSearch && matchesCategory;
+    });
+
+    // sorts projects based on sortOrder
+    const sortedProjects = filteredProjects.sort((a, b) => {
+        if (sortOrder === 'name') {
+            const nameA = a.project_name || '';
+            const nameB = b.project_name || '';
+            return nameA.localeCompare(nameB);
+        } else if (sortOrder === 'status') {
+            const statusA = a.project_status || '';
+            const statusB = b.project_status || '';
+            return statusA.localeCompare(statusB);
+        } else {
+            // sort by updated date descending
+            return new Date(b.updated_at) - new Date(a.updated_at); 
+        }
+    })
 
     // POST project - add project by project name form
     const addProject = async (newProject) => {
@@ -102,7 +122,18 @@ export const ProjectProvider = ({ children }) => {
     }, [userId, fetchProjects]);
 
   return (
-    <ProjectContext.Provider value={{ projects: filteredProjects, searchQuery, setSearchQuery, loading, error, addProject, deleteProject, fetchProjects }}>
+    <ProjectContext.Provider value={{ 
+        projects: sortedProjects, 
+        searchQuery, 
+        setSearchQuery, 
+        setSortOrder, 
+        setSelectedCategory, 
+        loading, 
+        error, 
+        addProject, 
+        deleteProject, 
+        fetchProjects 
+    }}>
         {children}
     </ProjectContext.Provider>
   )
