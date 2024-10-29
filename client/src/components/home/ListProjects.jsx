@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useProjects } from './ProjectProvider';
+import SearchBar from './SearchBar';
 import ProjectCard from './ProjectCard';
 
 const ListProjects = () => {
     // access from Project Context
-    const { projects, loading, error, deleteProject } = useProjects();
+    const { projects, loading, error, deleteProject, setSearchQuery } = useProjects();
 
     if (loading) 
         return <div>Loading projects...</div>;
@@ -17,7 +18,7 @@ const ListProjects = () => {
         <div className="box list-projects">
             {/* TO DO: set to value in database so it can update with sorting button - All Projects */}
             <h2>List of Projects</h2>
-            {/* creates a list of projects by mapping projectCard */}
+            <SearchBar setSearchQuery={setSearchQuery} />
             <ul style={{ listStyleType: "none" }}>
                 {projects.map((project) => (
                     <li key={project.id}> 
