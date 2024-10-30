@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useProjects } from './ProjectProvider';
 import SearchBar from './SearchBar';
 import SortProjectStatus from './SortProjectStatus';
@@ -17,12 +17,11 @@ const ListProjects = () => {
   return (
     <div className="container">
         <div className="box list-projects">
-            {/* TO DO: set to value in database so it can update with sorting button - All Projects */}
-            <h2>List of Projects</h2>
 
             <SearchBar setSearchQuery={setSearchQuery} />
             <SortProjectStatus />
 
+            <h2>List of Projects</h2>
             {/* displays message if no projects found */}
             {projects.length === 0 ? (
                 <p>No projects found.</p>
