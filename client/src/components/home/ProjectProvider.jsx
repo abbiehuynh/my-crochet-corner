@@ -42,12 +42,29 @@ export const ProjectProvider = ({ children }) => {
         }
     }, [axiosInstance, userId]);
 
-    // filters projects based on the search query - project name - and selected category
-    const filteredProjects = projects.filter(project => {
-        const matchesSearch = project.project_name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
-        return matchesSearch && matchesCategory;
-    });
+    // creates a function to sanitize the search query
+    const sanitizeInput = (input) => {
+        return input 
+            .trim()                 // removes leading and trailing spaces
+            .replace(/'/g, "''")    // escape single quotes
+            .replace(/"/g, "''")    // escape double quotes
+            .replace(/;/g, '')      // remove semicolons
+            .replace(/--/g, '')     // remove comment sequences
+            .toLowerCase();             
+    };
+
+    // filters projects based on the sanitized search query - project name - and selected category
+    const filterProjects = (projects, searchQuery, selectedCategory) => {
+        const sanitizedQuery = sanitizeInput(searchQuery);
+        return projects.filter(project => {
+            const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
+            const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
+            return matchesSearch && matchesCategory;
+        });
+    };
+    
+    // creates const for all to become a reusable function
+    const filteredProjects = filterProjects(projects, searchQuery, selectedCategory);
 
     // sorts projects based on sortOrder
     const sortedProjects = filteredProjects.sort((a, b) => {
