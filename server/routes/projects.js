@@ -292,4 +292,35 @@ app.put('/:user_id/project/:project_id', async (req, res) => {
     }
 });
 
+// creates an endpoint for the route "/user/:userId/project/:projectId/favorite"
+// updates project with new favorite status by user Id and proejct Id
+app.put('/:user_id/project/:project_id/favorite', async (req, res) => {
+    const { user_id: userId, project_id: projectId } = req.params;
+    const { is_favorite } = req.body;
+
+    // validates that is_favorite is a boolean
+    if (typeof is_favorite !== 'boolean') {
+        return res.status(400).json({ message: 'Invalid value for favorite status. It must be a boolean.'});
+    }
+
+    try {
+        const result = await db.query(
+            `UPDATE projects 
+            SET is_favorite = $1 
+            WHERE id = $2 AND user_id = $3
+            RETURNING *;`,
+            [is_favorite, projectId, userId]
+        );
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        return res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error updating favorite status:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = app;
