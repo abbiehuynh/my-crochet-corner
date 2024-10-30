@@ -55,13 +55,15 @@ export const ProjectProvider = ({ children }) => {
             const nameA = a.project_name || '';
             const nameB = b.project_name || '';
             return nameA.localeCompare(nameB);
-        } else if (sortOrder === 'status') {
-            const statusA = a.project_status || '';
-            const statusB = b.project_status || '';
+        } else if (sortOrder === 'type') {
+            const statusA = a.project_type || '';
+            const statusB = b.project_type || '';
             return statusA.localeCompare(statusB);
-        } else {
+        } else if (sortOrder === 'date') { 
             // sort by updated date descending
             return new Date(b.updated_at) - new Date(a.updated_at); 
+        } else {
+            return 0;
         }
     })
 
