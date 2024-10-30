@@ -14,7 +14,7 @@ const SortProjectStatus = () => {
         filterCategories: {
             all: 'All Projects',
             todo: 'To Do',
-            inProgress: 'In Progress',
+            inprogress: 'In Progress',
             completed: 'Completed'
         },
         sortOptions: {
@@ -42,7 +42,7 @@ const SortProjectStatus = () => {
         <ButtonGroup>
             <Button variant="primary" onClick={() => handleFilter('All')}>{headers.filterCategories.all}</Button>
             <Button variant="primary" onClick={() => handleFilter('To Do')}>{headers.filterCategories.todo}</Button>
-            <Button variant="primary" onClick={() => handleFilter('In Progress')}>{headers.filterCategories.inProgress}</Button>
+            <Button variant="primary" onClick={() => handleFilter('In Progress')}>{headers.filterCategories.inprogress}</Button>
             <Button variant="primary" onClick={() => handleFilter('Completed')}>{headers.filterCategories.completed}</Button>
         </ButtonGroup>
 
