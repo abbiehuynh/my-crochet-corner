@@ -113,6 +113,40 @@ export const ProjectProvider = ({ children }) => {
         }
     };
 
+    // toggles favorite project
+    const toggleFavorite = async (projectId) => {
+        setLoading(true);
+        try {
+            // finds the project to update
+            const projectToUpdate = projects.find(project => project.id === projectId);
+            if (projectToUpdate) {
+                // creates the updated favorite status
+                const newFavoriteStatus = !projectToUpdate.is_favorite;
+
+                // PUT - updates project's favorite status in database
+                const response = await axiosInstance.put(`/user/${userId}/project/${projectId}/favorite`, {
+                    is_favorite: newFavoriteStatus,
+                });
+
+                if (response.status !== 200) {
+                    throw new Error('Failed to update favorite status');
+                }
+
+                // updates the projects state
+                setProjects(prevProjects => 
+                    prevProjects.map(project => 
+                        project.id === projectId ? { ...project, is_favorite: newFavoriteStatus } : project
+                    )
+                );
+            }
+        } catch (error) {
+            console.error('Error toggling favorite status:', error);
+            alert(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         // fetches projects only if userId is available - will not try to fetch before user has logged in
         if (userId) {
@@ -134,7 +168,8 @@ export const ProjectProvider = ({ children }) => {
         error, 
         addProject, 
         deleteProject, 
-        fetchProjects 
+        fetchProjects,
+        toggleFavorite 
     }}>
         {children}
     </ProjectContext.Provider>
