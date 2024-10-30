@@ -51,21 +51,23 @@ export const ProjectProvider = ({ children }) => {
 
     // sorts projects based on sortOrder
     const sortedProjects = filteredProjects.sort((a, b) => {
-        if (sortOrder === 'name') {
-            const nameA = a.project_name || '';
-            const nameB = b.project_name || '';
-            return nameA.localeCompare(nameB);
-        } else if (sortOrder === 'type') {
-            const statusA = a.project_type || '';
-            const statusB = b.project_type || '';
-            return statusA.localeCompare(statusB);
-        } else if (sortOrder === 'date') { 
+        switch (sortOrder) {
+            case 'name':
+                const nameA = a.project_name || '';
+                const nameB = b.project_name || '';
+                return nameA.localeCompare(nameB);
+            case 'type':
+                const typeA = a.project_type || '';
+                const typeB = b.project_type || '';
+                return typeA.localeCompare(typeB);
+            case 'date': 
             // sort by updated date descending
             return new Date(b.updated_at) - new Date(a.updated_at); 
-        } else {
-            return 0;
+            
+            default:
+                return 0;
         }
-    })
+    });
 
     // POST project - add project by project name form
     const addProject = async (newProject) => {
