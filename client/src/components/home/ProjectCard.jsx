@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { useProjects } from './ProjectProvider';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const ProjectCard = ({ project, onDelete }) => {
     // access via contexts
@@ -26,12 +27,14 @@ const ProjectCard = ({ project, onDelete }) => {
             
             {/* Favorite button */}
             <Button 
-                variant={project.is_favorite ? "warning" : "secondary"} 
+                variant="light" 
                 onClick={handleToggleFavorite}
+                style={{ display: 'flex', alignItems: 'center' }}
             >
-                {project.is_favorite ? "Unfavorite" : "Favorite"}
+                {project.is_favorite ? <FaHeart color="red" /> : <FaRegHeart />}
+                {/* DELETE LATER: displaying text for testing purpose */}
+                {project.is_favorite ? " Unfavorite" : " Favorite"}
             </Button>
-            <Card.Text>Favorite Project: {project.is_favorite ? "Yes" : "No"}</Card.Text> 
             <Card.Text>Project Status: {project.project_status}</Card.Text> 
             <Card.Text>Project Type: {project.project_type}</Card.Text>
 
