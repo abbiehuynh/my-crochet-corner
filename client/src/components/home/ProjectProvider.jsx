@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../auth/AuthProvider';
+import axios from 'axios';
 
 // creates project context
 const ProjectContext = createContext();
@@ -7,7 +8,6 @@ const ProjectContext = createContext();
 export const ProjectProvider = ({ children }) => {
     // creates initial states for projects
     const [projects, setProjects] = useState([]);
-    const [projectsUpdated, setProjectsUpdated] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -15,7 +15,8 @@ export const ProjectProvider = ({ children }) => {
     const { axiosInstance, userId } = useAuth();
 
     // GET - fetch projects
-    const fetchProjects = async () => {
+    // useCallback ensures function does not change on every render, preventing unnecessary calls
+    const fetchProjects = useCallback(async () => {
         if (!userId) {
             console.error('User ID is not available');
             return;
@@ -34,15 +35,30 @@ export const ProjectProvider = ({ children }) => {
         } catch (error) {
             setError(error);
             console.error('Error fetching projects:', error);
-
         } finally {
             setLoading(false);
         }
-    };
+    }, [axiosInstance, userId]);
 
-    // updates list of projects
-    const updateProjects = () => {
-        setProjectsUpdated((prev) => !prev);
+    // POST project - add project by project name form
+    const addProject = async (newProject) => {
+        setLoading(true);
+
+        try {
+            const response = await axiosInstance.post(`/user/${userId}/add-project`, newProject);
+            if (response.status !== 201) {
+                throw new Error('Failed to add project');
+            }
+            const createdProject = response.data;
+            setProjects(prev => [...prev, createdProject]);
+            // fetch updated list of projects
+            return createdProject;
+        } catch (error) {
+            console.error('Error adding project:', error);
+            alert(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     // DELETE projects
@@ -51,8 +67,9 @@ export const ProjectProvider = ({ children }) => {
         console.log('Deleting project:', projectId, 'for user:', userId);
 
         const confirmDelete = window.confirm(`Are you sure you want to delete the project "${projectName}"?`);
-        if (!confirmDelete) 
-            return;
+        if (!confirmDelete) return;
+
+        setLoading(true);
 
         try {
             const response = await axiosInstance.delete(`/user/${userId}/delete-project/${projectId}`);
@@ -61,13 +78,12 @@ export const ProjectProvider = ({ children }) => {
             }
             // remove deleted project from state
             setProjects((prev) => prev.filter((project) => project.id !== projectId));
-            
-            // calls updateProjects to toggle the update state
-            updateProjects();
         } catch (error) {
             console.error('Error deleting project:', error);
             alert(error.message);
-        } 
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -78,10 +94,10 @@ export const ProjectProvider = ({ children }) => {
             // clear projects if user is logged out
             setProjects([]);
         }
-    }, [userId, projectsUpdated]);
+    }, [userId, fetchProjects]);
 
   return (
-    <ProjectContext.Provider value={{ projects, loading, error, deleteProject, updateProjects }}>
+    <ProjectContext.Provider value={{ projects, loading, error, addProject, deleteProject, fetchProjects }}>
         {children}
     </ProjectContext.Provider>
   )

@@ -9,32 +9,32 @@ const Project = () => {
     const { userId, axiosInstance } = useAuth();
     const { projectId } = useParams();
 
-    // DELETE LATER - debugging checking userId, and project Id
-    console.log('User ID:', userId, 'Project ID:', projectId);
-
     // creates initial states
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {
-        const fetchProject = async () => {
-            try {
-                const response = await axiosInstance.get(`/user/${userId}/project/${projectId}`);
-                if (response.data) {
-                    setProject(response.data);
-                } else {
-                    setError('No project found');
-                }
-                console.log('Feteched project data:', response.data);
-            } catch (error) {
-                console.error('Error fetching project:', error);
-                setError('Failed to fetch project details');
-            } finally {
-                setLoading(false);
+    const fetchProject = async () => {
+        try {
+            const response = await axiosInstance.get(`/user/${userId}/project/${projectId}`);
+            
+            if (response.data) {
+                setProject(response.data);
+            } else {
+                setError('No project found');
             }
-        };
+            // DELETE LATER - debugging refetching project
+            console.log('Feteched project data:', response.data);
+        } catch (error) {
+            console.error('Error fetching project:', error);
+            setError('Failed to fetch project details');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
         fetchProject();
     }, [userId, projectId, axiosInstance]);
 
@@ -44,12 +44,9 @@ const Project = () => {
 
     const handleUpdate = async (updatedProject) => {
         try {
-            // DELETE LATER - debugging update
-            console.log(`Updating project at: /user/${userId}/project/${projectId}`, updatedProject);
-
             const response = await axiosInstance.put(`/user/${userId}/project/${projectId}`, updatedProject);
-
             setProject(response.data);
+            await fetchProject(); // refetch the project data after making put request
             setIsEditing(false);
         } catch (error) {
             console.error('Error updating project:', error);
@@ -61,8 +58,8 @@ const Project = () => {
         }
     };
 
-    if (loading) return <p>Loading project details...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <Spinner animation="border" />;
+    if (error) return <Alert variant= "danger">{error}</Alert>;
     if (!project) return <p>No project data available.</p>;
 
   return (

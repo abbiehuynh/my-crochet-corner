@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { useEffect, useState, useCallback } from 'react';
 import SearchBar from './SearchBar';
 import SortProjectStatus from './SortProjectStatus';
 import ListProjects from './ListProjects';
 import AIChatBot from '../ai/AIChatBot';
 import AddProjectModal from './AddProjectModal';
+import { useProjects } from './ProjectProvider';
 
 const Home = () => {
     // creates state for AI chatbox modal
@@ -15,6 +13,18 @@ const Home = () => {
     // sets modal state to open and close 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    // access to fetchProjects from project context
+    const { fetchProjects } = useProjects();
+
+    // useCallback to avoid unecessary rendering
+    const fetchProjectsCallback = useCallback(() => {
+        fetchProjects();
+    }, [fetchProjects]);
+
+    useEffect(() => {
+        fetchProjectsCallback();
+    }, [fetchProjectsCallback]);
 
   return (
     <div>
@@ -35,7 +45,7 @@ const Home = () => {
         <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
         {/* will allow users to add a new project and open a new form */}
-        <AddProjectModal />
+        <AddProjectModal onAddProject={fetchProjectsCallback} />
     </div>
   )
 }
