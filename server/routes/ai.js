@@ -11,6 +11,7 @@ const openai = new OpenAI({
 
 app.use(express.json());
 
+// creates request to OpenAI API for chatbox responses
 app.post('/chatbot', async (req, res) => {
     const userMessage = req.body.message;
 
@@ -28,9 +29,10 @@ app.post('/chatbot', async (req, res) => {
             body: JSON.stringify({
                 model: "gpt-4",
                 messages: [
-                    { role: "system", content: "You are to provide inspiration and ideas for crochet projects and provide crochet patterns" },
+                    { role: "system", content: "You are to provide inspiration and ideas for crochet related projects. If asked, you can provide crochet patterns." },
                     { role: "user", content: userMessage }
                 ],
+                max_tokens: 200
             })
         });  
 
@@ -45,7 +47,7 @@ app.post('/chatbot', async (req, res) => {
         res.json({ message: botMessage });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error communicating with OpenAI API' });
+        res.status(500).json({ error: 'Error communicating with OpenAI API. Please try again later.' });
     }
 });
 
