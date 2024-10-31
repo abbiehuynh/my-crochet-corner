@@ -33,6 +33,10 @@ app.use('/', authRoutes);
 const projectRoutes = require('./routes/projects.js');
 app.use('/user', projectRoutes);
 
+// imports routes for ai chat
+const aiRoutes = require('./routes/ai.js');
+app.use('/api', aiRoutes);
+
 // starts server and logs the port the server is listening to
 app.listen(PORT, () => {
     console.log(` My Crochet Corner Server listening on ${PORT}`);
