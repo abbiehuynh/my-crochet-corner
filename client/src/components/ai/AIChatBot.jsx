@@ -29,6 +29,9 @@ const AIChatBot = ({ isOpen, onClose }) => {
             const response = await axiosInstance.post('/api/chatbot', { message });
             const botMessage = response.data.message;
 
+            // DELETE LATER - testing, logs ai response
+            console.log("Bot Message:", botMessage);
+
             // add bot message to chat history
             setChatHistory(prev => [...prev, { role: 'bot', content: botMessage }]);
             setMessage('');
@@ -57,6 +60,7 @@ const AIChatBot = ({ isOpen, onClose }) => {
                     </ListGroup>
                 </div>
                 {error && <Alert variant="danger">{error}</Alert>}
+                
                 <Form onSubmit={handleSubmit}>
                     <Form.Control
                         type="text"
