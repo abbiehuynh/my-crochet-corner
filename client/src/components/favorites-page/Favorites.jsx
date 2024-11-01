@@ -1,24 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import SearchBar from '../home/SearchBar';
-import SortProjectType from './SortProjectType';
-import ListFavoriteProjects from './ListFavoriteProjects';
+import ListProjects from '../home/ListProjects';
 
 const Favorites = () => {
+
   return (
     <div>
         Favorites
 
-        {/* will allow users to search through the list of projects by project name */}
-        <SearchBar />
-
-        {/* will allow users to sort through projects by project status */}
-        <SortProjectType />
-
-        {/* will allow users to view all favorite projects as a list of cards */}
-        <ListFavoriteProjects />
+        {/* uses listProjects with showFavorites set to true */}
+        <ListProjects showFavorites={true} />
 
         {/* will allow users to add a new project and open a new form */}
         <Link to={`/add-project`}>
