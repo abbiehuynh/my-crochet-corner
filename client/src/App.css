@@ -17,7 +17,7 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-/* fonts */
+/* fonts / text */
 .font-link {
   font-family: "Poppins", sans-serif;
   font-family: "Space Mono", monospace;
@@ -27,6 +27,19 @@ body {
   font-family: "Space Mono", monospace;
   font-weight: 700;
   font-size: 1.6rem;
+}
+
+h2 {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: 2.5rem;
+  padding: 10px;
+}
+
+h3 {
+  font-family: "Space Mono", monospace;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 p {
@@ -77,11 +90,26 @@ p {
   border-radius: 30px;
   border: 1px black solid;
   background-color: #93c9ff;
+  color: black;
+  font-weight: 500;
 }
 
 .btn-primary:hover {
   border: none;
   background-color: #3c98f4;
+}
+
+.btn-secondary {
+  border-radius: 30px;
+  border: 1px black solid;
+  background-color: #FFE486;
+  color: black;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  border: none;
+  background-color: #efc325;
 }
 
 .btn-danger {
@@ -94,7 +122,3 @@ p {
 }
 
 /* project card text */
-
-.card-title {
-
-}
