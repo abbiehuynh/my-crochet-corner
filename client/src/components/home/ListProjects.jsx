@@ -3,6 +3,7 @@ import { useProjects } from './ProjectProvider';
 import SearchBar from './SearchBar';
 import SortProjectStatus from './SortProjectStatus';
 import ProjectCard from './ProjectCard';
+import { Col, Row } from 'react-bootstrap';
 
 const ListProjects = ({ showFavorites = false }) => {
     // access from Project Context
@@ -34,13 +35,13 @@ const ListProjects = ({ showFavorites = false }) => {
             {filteredProjects.length === 0 ? (
                 <p>No projects found.</p>
             ) : (
-                <ul style={{ listStyleType: "none" }}>
+                <Row>
                     {filteredProjects.map((project) => (
-                        <li key={project.id}> 
+                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4"> 
                             <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
-                        </li>
+                        </Col>
                     ))}
-                </ul>
+                </Row>
             )}
         </div>
     </div>
