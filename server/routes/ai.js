@@ -29,7 +29,13 @@ app.post('/chatbot', async (req, res) => {
             body: JSON.stringify({
                 model: "gpt-4",
                 messages: [
-                    { role: "system", content: "You are to provide inspiration and ideas for crochet related projects. If asked, you can provide crochet patterns." },
+                    // future improvement: create  a list of pre-configured prompts 
+                        // that the user can select to try different responses in a config file
+                    { 
+                        role: "system", 
+                        content: `You are to provide inspiration and ideas for crochet 
+                        related projects. If asked, you can provide crochet patterns.`
+                    },
                     { role: "user", content: userMessage }
                 ],
                 max_tokens: 200

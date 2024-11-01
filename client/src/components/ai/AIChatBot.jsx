@@ -32,8 +32,10 @@ const AIChatBot = ({ isOpen, onClose }) => {
             // DELETE LATER - testing, logs ai response
             console.log("Bot Message:", botMessage);
 
+            const formattedMessage = botMessage.replace(/<br\s*\/?>/gi, '<br />').replace(/\n/g, '<br />');
+
             // add bot message to chat history
-            setChatHistory(prev => [...prev, { role: 'bot', content: botMessage }]);
+            setChatHistory(prev => [...prev, { role: 'bot', content: formattedMessage }]);
             setMessage('');
             setError(null);
         } catch (error) {
@@ -54,7 +56,8 @@ const AIChatBot = ({ isOpen, onClose }) => {
                     <ListGroup>
                         {chatHistory.map((chat, index) => (
                             <ListGroup.Item key={index} className={chat.role === 'bot' ? 'text-start' : 'text-end'}>
-                                <strong>{chat.role === 'bot' ? 'Bot' : 'You'}:</strong> {chat.content}
+                                <strong>{chat.role === 'bot' ? 'Bot' : 'You'}: </strong>
+                                <span dangerouslySetInnerHTML={{ __html: chat.content }} />
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
