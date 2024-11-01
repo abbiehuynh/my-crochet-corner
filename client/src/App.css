@@ -48,7 +48,26 @@ p {
 
 /* styles apply to NavBar.jsx */
 
+.navbar-brand {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: 1.8rem;
 
+  padding-left: 10px;
+}
+
+.navbar-links {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.navbar-links:hover {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #FFE486;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
 
 /* --- overrides bootstrap styles --- */
 
