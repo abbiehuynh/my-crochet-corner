@@ -29,7 +29,7 @@ const ListProjects = ({ showFavorites = false }) => {
             <SortProjectStatus />
 
             {/* displays header depending on home or favorites page */}
-            <h2>{showFavorites ? 'Favorite Projects' : 'List of Projects'}</h2>
+            <h2>{showFavorites ? 'Favorite Projects' : 'Your Projects'}</h2>
             
             {/* displays message if no projects found */}
             {filteredProjects.length === 0 ? (

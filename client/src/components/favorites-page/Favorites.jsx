@@ -28,8 +28,6 @@ const Favorites = () => {
 
   return (
     <div>
-        Favorites
-
         {/* uses listProjects with showFavorites set to true */}
         <ListProjects showFavorites={true} />
 

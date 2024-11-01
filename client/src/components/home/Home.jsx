@@ -28,8 +28,6 @@ const Home = () => {
 
   return (
     <div>
-        Home
-
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 
