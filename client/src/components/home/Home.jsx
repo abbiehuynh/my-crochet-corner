@@ -4,6 +4,7 @@ import AIChatBot from '../ai/AIChatBot';
 import AddProjectModal from './AddProjectModal';
 import { useProjects } from './ProjectProvider';
 import { Button } from 'react-bootstrap';
+import './Home.css'
 
 const Home = () => {
     // creates state for AI chatbox modal
