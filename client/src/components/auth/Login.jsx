@@ -5,7 +5,7 @@ import { useAuth } from './AuthProvider';
 
 const Login = () => {
     // access the login function from useContext
-    const { login, token } = useAuth();
+    const { login, token, axiosInstance } = useAuth();
 
     // creates initials states
     const [username, setUsername] = useState('');
@@ -25,27 +25,26 @@ const Login = () => {
         }
 
         try {
-           const response = await fetch(`${import.meta.env.VITE_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-           });
+           const response = await axiosInstance.post('/login', { username, password });
+           // response.data is used to get parsed JSON
+           const data = response.data;
+           console.log('API Response:', data);
 
-           const data = await response.json();
-
-           if (response.ok) {
-                // call login from context
-                login(data.token);
+           if (response.status === 200) {
+                // passes both token and userId to login function
+                login({ newToken: data.token, id: data.userId });
                 // navigates to the home page after successful login
                 navigate('/home')
-                console.log({username}, 'Logged in');
+                console.log({ username }, 'User ID:', data.userId, 'Logged in');
            } else {
                 setError(data.message || 'Invalid username and/or password');
                 console.error('Invalid username and/or password', data.message);
            }
         } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message || 'An error occured. Please try again.');
+                console.error('Error response:', error.response.data)
+            }
             setError('An error occurred. Please try again.');
             console.error('Error:', error);
         }
@@ -78,7 +77,7 @@ const Login = () => {
             </Form.Group>
             <Button variant="primary" type="submit">Login</Button>
             <Button>
-                <Link to="/register">Create Account</Link>
+                <Link to="/register" style={{ textDecoration: "none", color: "white"}}>Create Account</Link>
             </Button>
         </Form>
         {error && <div className="text-danger mt-3">{error}</div>}

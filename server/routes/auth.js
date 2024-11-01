@@ -59,7 +59,7 @@ app.post('/login', async (req, res) => {
         const user = result.rows[0];
         const match = await bcrypt.compare(password.trim(), user.password);
         // debugging - passwords do not match with comparing
-        console.log(`Comparing passwords: Input: ${password.trim()}, Stored: ${user.password}, Match: ${match}`);
+        // console.log(`Comparing passwords: Input: ${password.trim()}, Stored: ${user.password}, Match: ${match}`);
  
         if (!match) {
             console.log('Password does not match');
@@ -67,7 +67,7 @@ app.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token, username: user.username });
+        res.json({ token, userId: user.id, username: user.username });
     } catch (error) {
         // logging errors for debugging
         console.error('Error logging in:', error);

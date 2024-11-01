@@ -1,23 +1,57 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { useProjects } from './ProjectProvider';
 
 const SortProjectStatus = () => {
+    const { setSortOrder, setSelectedCategory } = useProjects();
+    const [filterHeader, setFilterHeader] = useState('');
+    const [sortHeader, setSortHeader] = useState('');
+
+    // defines headers
+    const headers = {
+        filterDefault: 'Filter projects by status',
+        sortDefault: 'Sort projects by criteria',
+        filterCategories: {
+            all: 'All Projects',
+            todo: 'To Do',
+            inprogress: 'In Progress',
+            completed: 'Completed'
+        },
+        sortOptions: {
+            name: 'Name',
+            type: 'Type',
+            date: 'Date'
+        }
+    }
+
+    // for project status - to do, in progress, completed
+    const handleFilter = (category) => {
+        setSelectedCategory(category);
+        setFilterHeader(headers.filterCategories[category.toLowerCase().replace(' ', '')] || headers.filterDefault);
+    }
+
+    // for sorting - name, type, date
+    const handleSort = (order) => {
+        setSortOrder(order);
+        setSortHeader(headers.sortOptions[order] || headers.sortDefault);
+    }
+
   return (
-    <div>SortProjectStatus
-        {/* will allow users to sort through projects by project status */}
+    <div className="mb-3">
+        <h3>{filterHeader || headers.filterDefault}</h3>
+        <ButtonGroup>
+            <Button variant="primary" onClick={() => handleFilter('All')}>{headers.filterCategories.all}</Button>
+            <Button variant="primary" onClick={() => handleFilter('To Do')}>{headers.filterCategories.todo}</Button>
+            <Button variant="primary" onClick={() => handleFilter('In Progress')}>{headers.filterCategories.inprogress}</Button>
+            <Button variant="primary" onClick={() => handleFilter('Completed')}>{headers.filterCategories.completed}</Button>
+        </ButtonGroup>
 
-        <Button >All Projects</Button>
-
-        {/* update to be read from the database */}
-        <Button >In Progress</Button>
-        <Button >To Do</Button>
-        <Button >Completed</Button>
-
-        {/* will allow users to filter projects by alphabetical order and date (most recent - latest) */}
-        <Button >Sort By</Button>
-        
+        <h3>{sortHeader || headers.sortDefault}</h3>
+        <ButtonGroup>
+            <Button variant="secondary" onClick={() => handleSort('name', 'Name')}>Name</Button>
+            <Button variant="secondary" onClick={() => handleSort('type', 'Type')}>Type</Button>
+            <Button variant="secondary" onClick={() => handleSort('date', 'Date')}>Date</Button>
+        </ButtonGroup>
     </div>
   )
 }
