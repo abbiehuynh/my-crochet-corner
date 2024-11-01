@@ -31,12 +31,17 @@ const Home = () => {
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 
-        {/* will open an AI Chat Box/ Modal */}
-        <Button onClick={openModal}>Open AIChat</Button>
-        <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+            {/* will open an AI Chat Box/ Modal */}
+            <Button variant="primary" onClick={openModal} style={{ fontSize: '1.2rem' }}>
+                Open AIChat <i className="bi bi-chat-dots"></i>
+            </Button>
+            <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
-        {/* will allow users to add a new project and open a new form */}
-        <AddProjectModal onAddProject={fetchProjectsCallback} />
+            {/* will allow users to add a new project and open a new form */}
+            <AddProjectModal onAddProject={fetchProjectsCallback} />
+        </div>
     </div>
   )
 }
