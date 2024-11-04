@@ -27,7 +27,7 @@ const Home = () => {
     }, [fetchProjectsCallback]);
 
   return (
-    <div>
+    <div data-test="home-page">
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 

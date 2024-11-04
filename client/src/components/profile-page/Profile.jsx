@@ -7,7 +7,7 @@ import Logout from '../auth/Logout';
 
 const Profile = () => {
   return (
-    <div>
+    <div data-test="profile-page">
         {/* page is for displaying user information */}
         Profile
 

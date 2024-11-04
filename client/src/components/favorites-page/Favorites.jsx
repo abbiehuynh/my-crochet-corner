@@ -27,7 +27,7 @@ const Favorites = () => {
 
 
   return (
-    <div>
+    <div data-test="favorites-page">
         {/* uses listProjects with showFavorites set to true */}
         <ListProjects showFavorites={true} />
 
