@@ -45,18 +45,19 @@ const Login = () => {
                 setError(error.response.data.message || 'An error occured. Please try again.');
                 console.error('Error response:', error.response.data)
             }
-            setError('An error occurred. Please try again.');
+            setError('Invalid username or password');
             console.error('Error:', error);
         }
     };
 
   return (
     <Container>
-        <h2>Login</h2>
+        <h2 data-test="login-header">Login</h2>
         <Form onSubmit={handleLogin}>
             <Form.Group controlId="formUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
+                    data-test="login-username"
                     type="text"
                     placeholder="Enter username"
                     value={username}
@@ -68,6 +69,7 @@ const Login = () => {
             <Form.Group controlId="formPassword">
             <Form.Label>Password</Form.Label>
                 <Form.Control
+                    data-test="login-password"
                     type="password"
                     placeholder="Password"
                     value={password}
@@ -75,8 +77,8 @@ const Login = () => {
                     required
                 />
             </Form.Group>
-            <Button variant="primary" type="submit">Login</Button>
-            <Button>
+            <Button variant="primary" type="submit" data-test="login-btn">Login</Button>
+            <Button data-test="register-btn">
                 <Link to="/register" style={{ textDecoration: "none", color: "white"}}>Create Account</Link>
             </Button>
         </Form>
