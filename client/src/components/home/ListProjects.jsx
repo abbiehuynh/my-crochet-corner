@@ -33,11 +33,11 @@ const ListProjects = ({ showFavorites = false }) => {
             
             {/* displays message if no projects found */}
             {filteredProjects.length === 0 ? (
-                <p>No projects found.</p>
+                <p data-test="no-projects-msg">No projects found.</p>
             ) : (
-                <Row>
+                <Row data-test="project-list">
                     {filteredProjects.map((project) => (
-                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4"> 
+                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4" data-test={`project-card-${project.id}`}> 
                             <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
                         </Col>
                     ))}
