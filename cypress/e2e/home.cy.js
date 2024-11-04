@@ -32,17 +32,17 @@ describe('The Home Page - renders components', () => {
     cy.get('[data-test="sort-date"]').should('be.visible');
   });
 
-  it.only('renders project list header', () => {
+  it('renders project list header', () => {
     cy.get('[data-test="project-header"]').should('be.visible');
   })
 
-  it.only('renders the list of projects', () => {
+  it('renders the list of projects', () => {
     cy.get('[data-test="project-list"]').should('be.visible');
     // checks that the project cards render
     cy.get('[data-test^="project-card-"]').should('have.length.greaterThan', 0);
   });
 
-  it.only('renders the buttons for each project card', () => {
+  it('renders the buttons for each project card', () => {
     cy.get('[data-test^="project-card-"]').each(($card) => {
       // checks for buttons on project card
       cy.wrap($card).find('[data-test="favorite-btn"]').should('be.visible');
@@ -50,5 +50,15 @@ describe('The Home Page - renders components', () => {
       cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');
     })
   })
+
+  it.only('renders Open AIChat button', () => {
+    cy.get('[data-test="ai-btn"]').should('be.visible')
+      .and('contain', 'Open AIChat');
+  });
+
+  it.only('renders add project button', () => {
+    cy.get('[data-test="add-project-btn"]').should('be.visible')
+      .and('contain', 'Add Project');
+  });
 
 });
