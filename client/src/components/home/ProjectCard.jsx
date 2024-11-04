@@ -40,9 +40,10 @@ const ProjectCard = ({ project, onDelete }) => {
             
             {/* <Card.Img variant="top" src={project.images} alt={project.project_name} /> */}
             
-            <Card.Title>{project.project_name}</Card.Title>
-            <Card.Text><strong>Project Status:</strong> <br />{project.project_status}</Card.Text> 
-            <Card.Text><strong>Project Type:</strong> <br />{project.project_type}</Card.Text>
+            <Card.Title data-test="project-name">{project.project_name}</Card.Title>
+            <Card.Text data-test="project-status"><strong>Project Status:</strong> <br />{project.project_status}</Card.Text> 
+            <Card.Text data-test="project-type"><strong>Project Type:</strong> <br />{project.project_type}</Card.Text>
+            <Card.Text data-test="project-date"><strong>Created At:</strong> <br />{new Date(project.created_at).toLocaleDateString()}</Card.Text>
 
             <div className="mt-auto">
                 {/* Open Project Button */}

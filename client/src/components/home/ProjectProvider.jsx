@@ -78,9 +78,9 @@ export const ProjectProvider = ({ children }) => {
                 const typeB = b.project_type || '';
                 return typeA.localeCompare(typeB);
             case 'date': 
-            // sort by updated date descending
-            return new Date(b.updated_at) - new Date(a.updated_at); 
-            
+                const dateA = new Date(a.created_at);
+                const dateB = new Date(b.created_at);
+                return dateB - dateA; // sort by date descending
             default:
                 return 0;
         }
