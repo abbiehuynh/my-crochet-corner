@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import '/Users/tpl622_3/my-crochet-corner/client/src/App.css';
+import '../../App.css';
 
 const NavBar = () => {
   return (
