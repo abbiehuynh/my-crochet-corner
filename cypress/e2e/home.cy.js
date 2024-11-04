@@ -51,12 +51,12 @@ describe('The Home Page - renders components', () => {
     })
   })
 
-  it.only('renders Open AIChat button', () => {
+  it('renders Open AIChat button', () => {
     cy.get('[data-test="ai-btn"]').should('be.visible')
       .and('contain', 'Open AIChat');
   });
 
-  it.only('renders add project button', () => {
+  it('renders add project button', () => {
     cy.get('[data-test="add-project-btn"]').should('be.visible')
       .and('contain', 'Add Project');
   });
