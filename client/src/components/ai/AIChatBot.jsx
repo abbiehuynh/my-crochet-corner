@@ -46,7 +46,7 @@ const AIChatBot = ({ isOpen, onClose }) => {
     };
 
     return (
-        <Modal show={isOpen} onHide={onClose}>
+        <Modal show={isOpen} onHide={onClose} data-test="ai-chat-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Hi, chat with me!</Modal.Title>
             </Modal.Header>
@@ -55,7 +55,7 @@ const AIChatBot = ({ isOpen, onClose }) => {
                 <div>
                     <ListGroup>
                         {chatHistory.map((chat, index) => (
-                            <ListGroup.Item key={index} className={chat.role === 'bot' ? 'text-start' : 'text-end'}>
+                            <ListGroup.Item key={index} className={chat.role === 'bot' ? 'text-start' : 'text-end'} data-test="ai-chat-history">
                                 <strong>{chat.role === 'bot' ? 'Bot' : 'You'}: </strong>
                                 <span dangerouslySetInnerHTML={{ __html: chat.content }} />
                             </ListGroup.Item>
@@ -66,13 +66,14 @@ const AIChatBot = ({ isOpen, onClose }) => {
                 
                 <Form onSubmit={handleSubmit}>
                     <Form.Control
+                        data-test="ai-input"
                         type="text"
                         value={message}
                         onChange={handleInputChange}
                         placeholder="Type your message..."
                         className="mb-2"
                     />
-                    <Button type="submit" variant="primary" disabled={loading}>
+                    <Button type="submit" variant="primary" disabled={loading} data-test="ai-submit-btn">
                         {loading ? <Spinner animation="border" size="sm" /> : 'Send'}
                     </Button>
                 </Form>
