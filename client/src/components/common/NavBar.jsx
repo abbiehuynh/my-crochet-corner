@@ -5,7 +5,7 @@ import '../../App.css';
 
 const NavBar = () => {
   return (
-    <Navbar style={{ backgroundColor: '#FACDCC', padding: '10px', marginBottom: '20px' }} expand="lg">
+    <Navbar id="navbar-container" expand="lg">
       <Navbar.Brand className="navbar-brand" as={Link} to="/home">My Crochet Corner</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

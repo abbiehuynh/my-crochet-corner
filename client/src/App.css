@@ -61,6 +61,12 @@ p {
 
 /* styles apply to NavBar.jsx */
 
+#navbar-container {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #FACDCC;
+}
+
 .navbar-brand {
   font-family: "Space Mono", monospace;
   font-weight: 700;
