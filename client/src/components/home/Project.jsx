@@ -78,7 +78,7 @@ const Project = () => {
                 {/* Project Information Card */}
                 <Card className="mb-4">
                     <Card.Body>
-                        <Card.Title>{project.project_name}</Card.Title>
+                        <Card.Title data-test="project-name-project-page">{project.project_name}</Card.Title>
                         <ListGroup variant="flush">
                             <ListGroup.Item>Favorite Project: {String(project.is_favorite)}</ListGroup.Item>
                             <ListGroup.Item>Project Status: {project.project_status}</ListGroup.Item>

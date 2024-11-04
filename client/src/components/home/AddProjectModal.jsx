@@ -46,24 +46,29 @@ const AddProjectModal = () => {
 
 	return (
     <div>
-      <Button className="add-btn" onClick={() => setShowAddModal(true)}>
+      <Button className="add-btn" onClick={() => setShowAddModal(true)} data-test="add-project-btn">
         Add Project <i className="bi bi-plus-circle"></i>
       </Button>
 
 			{/* Add Project Modal */}
-      <Modal show={showAddModal} onHide={() => {
+      <Modal 
+        data-test="add-project-modal"
+        show={showAddModal} 
+        onHide={() => {
         setShowAddModal(false);
         setProjectName('');
-      }}>
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <Form onSubmit={handleAddProject}>
+          <Form onSubmit={handleAddProject} data-test="add-project-form">
             <Form.Group>
               <Form.Label>Project Name</Form.Label>
               <input
+                data-test="add-project-name-input"
                 type="text"
                 placeholder="Enter project name"
                 value={projectName}
@@ -77,7 +82,7 @@ const AddProjectModal = () => {
       </Modal>
 
       {/* Confirmation Modal */}
-      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} data-test="confirmation-modal">
         <Modal.Header closeButton>
           {/* TO DO: update title */}
           <Modal.Title>Confirmation</Modal.Title>
@@ -88,8 +93,8 @@ const AddProjectModal = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => handleRedirect('/home')}>Home</Button>
-          <Button variant="primary" onClick={() => handleRedirect(`/user/${userId}/project/${projectId}`)}>Edit Project</Button>
+          <Button variant="secondary" onClick={() => handleRedirect('/home')} data-test="home-btn-confirmation-modal">Home</Button>
+          <Button variant="primary" onClick={() => handleRedirect(`/user/${userId}/project/${projectId}`)} data-test="edit-project-btn-confirmation-modal">Edit Project</Button>
         </Modal.Footer>
       </Modal>
     </div>
