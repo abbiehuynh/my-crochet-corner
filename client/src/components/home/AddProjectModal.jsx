@@ -46,7 +46,7 @@ const AddProjectModal = () => {
 
 	return (
     <div>
-      <Button onClick={() => setShowAddModal(true)} style={{ fontSize: '1.3rem' }}>
+      <Button className="add-btn" onClick={() => setShowAddModal(true)}>
         Add Project <i className="bi bi-plus-circle"></i>
       </Button>
 
