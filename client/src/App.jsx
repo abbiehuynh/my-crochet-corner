@@ -12,8 +12,8 @@ import Logout from './components/auth/Logout';
 import Favorites from './components/favorites-page/Favorites';
 import Profile from './components/profile-page/Profile';
 import Project from './components/home/Project';
-import AIChatBot from './components/ai/AIChatBot';
 import AddProjectNameForm from './components/home/AddProjectModal';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css'
 
 const App = () => {

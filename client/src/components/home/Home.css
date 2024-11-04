@@ -1,0 +1,31 @@
+/* CSS for home page 
+
+Color palette
+cream -- #FDF8F1
+yellow -- #FFE486
+blue -- #C4DDF6
+light pink -- #FEEFE8
+pink -- #FACDCC
+black
+
+*/
+
+/* list of projects */
+#project-card {
+    padding: 50px 0px 30px 0px;
+    border-radius: 30px;
+    border: 1px solid black;
+    background-color: #FACDCC;
+    background-clip: padding-box;
+}
+
+#inner-project-card {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: #FDF8F1;
+}
+
+#favorite-btn {
+    border: none;
+    background-color: #FACDCC;
+}

@@ -46,7 +46,9 @@ const AddProjectModal = () => {
 
 	return (
     <div>
-      <Button onClick={() => setShowAddModal(true)}>Add Project</Button>
+      <Button className="add-btn" onClick={() => setShowAddModal(true)}>
+        Add Project <i className="bi bi-plus-circle"></i>
+      </Button>
 
 			{/* Add Project Modal */}
       <Modal show={showAddModal} onHide={() => {

@@ -3,7 +3,8 @@ import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { useProjects } from './ProjectProvider';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaTrashAlt } from 'react-icons/fa';
+import { BiFolderOpen } from 'react-icons/bi';
 
 const ProjectCard = ({ project, onDelete }) => {
     // access via contexts
@@ -20,29 +21,53 @@ const ProjectCard = ({ project, onDelete }) => {
     };
     
   return (
-    <Card>
-        <Card.Body>
-
-            <Card.Title>Project Name: {project.project_name}</Card.Title>
-            
-            {/* Favorite button */}
+    <Card className="h-100 d-flex flex-column" id="project-card"> 
+        
+        {/* Favorite button */}
+        <div className="fav-btn">
             <Button 
-                variant="light" 
-                onClick={handleToggleFavorite}
-                style={{ display: 'flex', alignItems: 'center' }}
-            >
-                {project.is_favorite ? <FaHeart color="red" /> : <FaRegHeart />}
-                {/* DELETE LATER: displaying text for testing purpose */}
-                {project.is_favorite ? " Unfavorite" : " Favorite"}
+                    id="favorite-btn"
+                    variant="light" 
+                    onClick={handleToggleFavorite}
+                    aria-label={`Favorite project: ${project.project_name}`}
+                >
+                    <span className="visually-hidden">Click to favorite project</span>
+                    {project.is_favorite ? <FaHeart color="red" /> : <FaRegHeart />}
             </Button>
-            <Card.Text>Project Status: {project.project_status}</Card.Text> 
-            <Card.Text>Project Type: {project.project_type}</Card.Text>
+        </div>
 
-            {/* the user can click the button to view all of the project details */}
-            <Button>
-                <Link to={`/user/${userId}/project/${project.id}`} style={{ color: "white", textDecoration: "none" }}>Open Project</Link>
-            </Button> 
-            <Button variant="danger" onClick={onDelete}>Delete Project</Button>
+        <Card.Body className="d-flex flex-column flex-grow-1 position-relative" id="inner-project-card">
+            
+            {/* <Card.Img variant="top" src={project.images} alt={project.project_name} /> */}
+            
+            <Card.Title>{project.project_name}</Card.Title>
+            <Card.Text><strong>Project Status:</strong> <br />{project.project_status}</Card.Text> 
+            <Card.Text><strong>Project Type:</strong> <br />{project.project_type}</Card.Text>
+
+            <div className="mt-auto">
+                {/* Open Project Button */}
+                <Link className="open-project-link" to={`/user/${userId}/project/${project.id}`}>
+                    <Button 
+                        variant="primary" 
+                        className="open-project-btn"
+                        aria-label={`View Project: ${project.project_name}`}
+                    >
+                        <span className="visually-hidden">Click to view project details</span>
+                        <BiFolderOpen className="folder-icon"/> Open Project
+                    </Button> 
+                </Link>
+
+                {/* Delete Button */}
+                <Button 
+                    variant="danger" 
+                    className="delete-btn"
+                    onClick={onDelete}
+                    aria-label={`Delete project: ${project.project_name}`}
+                >
+                    <span className="visually-hidden">Click to delete project</span>
+                    <FaTrashAlt className="trash-icon"/>
+                </Button>
+            </div>
         </Card.Body>
     </Card>    
   )

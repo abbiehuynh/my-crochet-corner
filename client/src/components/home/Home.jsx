@@ -4,6 +4,7 @@ import AIChatBot from '../ai/AIChatBot';
 import AddProjectModal from './AddProjectModal';
 import { useProjects } from './ProjectProvider';
 import { Button } from 'react-bootstrap';
+import './Home.css'
 
 const Home = () => {
     // creates state for AI chatbox modal
@@ -27,17 +28,19 @@ const Home = () => {
 
   return (
     <div>
-        Home
-
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 
-        {/* will open an AI Chat Box/ Modal */}
-        <Button onClick={openModal}>Open AIChat</Button>
-        <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
+        <div className="ai-add-btns">
+            {/* will open an AI Chat Box/ Modal */}
+            <Button className="ai-btn" variant="primary" onClick={openModal}>
+                Open AIChat <i className="bi bi-chat-dots"></i>
+            </Button>
+            <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
-        {/* will allow users to add a new project and open a new form */}
-        <AddProjectModal onAddProject={fetchProjectsCallback} />
+            {/* will allow users to add a new project and open a new form */}
+            <AddProjectModal onAddProject={fetchProjectsCallback} />
+        </div>
     </div>
   )
 }
