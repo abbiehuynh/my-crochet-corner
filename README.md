@@ -47,8 +47,22 @@ $ git clone https://github.com/abbiehuynh/my-crochet-corner.git <NameNewDirector
 Once the user logs into the app, they will see the homepage.
 ![Home Page](/assets/readme/homepage.png)
 
-Through the home page, the user is able to access all of the features of the app.
+Through the home page, the user is able to access all of the features of the app, such as but not limited to...
+filtering through project status,
 
+https://github.com/user-attachments/assets/5cf2ca77-8472-434a-a0b0-2500954d5fe8
+
+add a new project and search by project name,
+
+https://github.com/user-attachments/assets/ccd32ba6-d1fb-4556-9b1c-fddb3a5ad6ed
+
+viewing and editing project details,
+
+https://github.com/user-attachments/assets/74b4aa12-42b0-47e0-ba1c-26e0569b1ca9
+
+and brainstorming with AI!
+
+https://github.com/user-attachments/assets/4c245806-80cf-47db-ac37-1c3a88d41988
 
 ## Features:
 **mvp features:**
@@ -92,7 +106,6 @@ Through the home page, the user is able to access all of the features of the app
 ![RTL](https://img.shields.io/badge/-React%20Testing%20Library-EC5E30?style=flat-square&logo=react&logoColor=ffffff)
 ![Vitest](https://img.shields.io/badge/-Vitest-6E40C9?style=flat-square&logo=vitest&logoColor=ffffff)
 ![WAVE](https://img.shields.io/badge/-Wave-4D92D1?style=flat-square&logo=wave&logoColor=ffffff)
-
 
 ## Acknowledgments:
 Specials thanks to Techtonica Program & Staff, my mentor, and the H2 2024 Cohort. Thank you for your continuous love and support for growth through this tech journey. 
