@@ -40,21 +40,21 @@ const SortProjectStatus = () => {
     <div className="mb-3">
         <div className="d-flex justify-content-between align-items-center mb-2">
             <div>
-                <h3>{filterHeader || headers.filterDefault}</h3>
+                <h3 data-test="filter-header">{filterHeader || headers.filterDefault}</h3>
                 <ButtonGroup className="me-2">
-                    <Button variant="primary" onClick={() => handleFilter('All')}>{headers.filterCategories.all}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('To Do')}>{headers.filterCategories.todo}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('In Progress')}>{headers.filterCategories.inprogress}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('Completed')}>{headers.filterCategories.completed}</Button>
+                    <Button variant="primary" onClick={() => handleFilter('All')} data-test="filter-all">{headers.filterCategories.all}</Button>
+                    <Button variant="primary" onClick={() => handleFilter('To Do')} data-test="filter-todo">{headers.filterCategories.todo}</Button>
+                    <Button variant="primary" onClick={() => handleFilter('In Progress')} data-test="filter-inprogress">{headers.filterCategories.inprogress}</Button>
+                    <Button variant="primary" onClick={() => handleFilter('Completed')} data-test="filter-completed">{headers.filterCategories.completed}</Button>
                 </ButtonGroup>
             </div>
 
             <div>
-                <h3>{sortHeader || headers.sortDefault}</h3>
+                <h3 data-test="sort-header">{sortHeader || headers.sortDefault}</h3>
                 <ButtonGroup className="d-flex justify-content-end">
-                    <Button variant="secondary" onClick={() => handleSort('name', 'Name')}>Name</Button>
-                    <Button variant="secondary" onClick={() => handleSort('type', 'Type')}>Type</Button>
-                    <Button variant="secondary" onClick={() => handleSort('date', 'Date')}>Date</Button>
+                    <Button variant="secondary" onClick={() => handleSort('name', 'Name')} data-test="sort-name">Name</Button>
+                    <Button variant="secondary" onClick={() => handleSort('type', 'Type')} data-test="sort-type">Type</Button>
+                    <Button variant="secondary" onClick={() => handleSort('date', 'Date')} data-test="sort-date">Date</Button>
                 </ButtonGroup>
             </div>
         </div>
