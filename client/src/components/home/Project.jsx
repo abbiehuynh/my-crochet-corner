@@ -63,8 +63,8 @@ const Project = () => {
     if (!project) return <p>No project data available.</p>;
 
   return (
-    <Container style={{ padding: '15px' }}>
-        <Button variant="primary" onClick={handleEditToggle} style={{ marginBottom: '15px', marginLeft: '10px' }}>
+    <Container className="project-details-container">
+        <Button className="edit-btn" variant="primary" onClick={handleEditToggle}>
             {isEditing ? 'Cancel' : 'Edit Project'}
         </Button>
         {isEditing ? (

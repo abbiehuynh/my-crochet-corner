@@ -90,7 +90,7 @@ p {
 
 /* --- overrides bootstrap styles --- */
 
-/* project card buttons */
+/* --- project card buttons --- */
 
 .btn-primary {
   border-radius: 30px;
@@ -127,10 +127,53 @@ p {
   background-color: red;
 }
 
-/* project card text */
+/* --- project card text --- */
 
+.fav-btn {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 1.3rem;
+}
 
-/* add project and ai feature buttons */
+/* open project and delete button */
+
+.mt-auto {
+  display: flex;
+  justify-content: space-between;
+}
+
+.open-project-link {
+  text-decoration: none; 
+  flex: 1;
+}
+
+.open-project-btn {
+  width: 100%;
+  margin-right: 5px;
+  color: black;
+}
+
+.folder-icon {
+  font-size: 1.5rem;
+  color: black;
+}
+
+.delete-btn {
+  margin-left: 5px;
+}
+
+.trash-icon {
+  font-size: 1.3rem;
+  color: red;
+}
+
+.trash-icon:hover {
+  color: white;
+}
+                    
+
+/* --- add project and ai feature buttons --- */
 
 /* button container */
 .ai-add-btns {
@@ -149,4 +192,15 @@ p {
 
 .add-btn {
   font-size: 1.3rem;
+}
+
+/* --- project details page --- */
+
+.project-details-container {
+  padding: 15px;
+}
+
+.edit-btn {
+  margin-bottom: 15px;
+  margin-left: 10px;
 }
