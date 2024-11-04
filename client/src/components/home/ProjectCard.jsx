@@ -26,6 +26,7 @@ const ProjectCard = ({ project, onDelete }) => {
         {/* Favorite button */}
         <div className="fav-btn">
             <Button 
+                    data-test="favorite-btn"
                     id="favorite-btn"
                     variant="light" 
                     onClick={handleToggleFavorite}
@@ -49,6 +50,7 @@ const ProjectCard = ({ project, onDelete }) => {
                 {/* Open Project Button */}
                 <Link className="open-project-link" to={`/user/${userId}/project/${project.id}`}>
                     <Button 
+                        data-test="open-project-btn"
                         variant="primary" 
                         className="open-project-btn"
                         aria-label={`View Project: ${project.project_name}`}
@@ -60,6 +62,7 @@ const ProjectCard = ({ project, onDelete }) => {
 
                 {/* Delete Button */}
                 <Button 
+                    data-test="delete-btn"
                     variant="danger" 
                     className="delete-btn"
                     onClick={onDelete}

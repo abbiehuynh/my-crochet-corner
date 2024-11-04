@@ -32,4 +32,23 @@ describe('The Home Page - renders components', () => {
     cy.get('[data-test="sort-date"]').should('be.visible');
   });
 
+  it.only('renders project list header', () => {
+    cy.get('[data-test="project-header"]').should('be.visible');
+  })
+
+  it.only('renders the list of projects', () => {
+    cy.get('[data-test="project-list"]').should('be.visible');
+    // checks that the project cards render
+    cy.get('[data-test^="project-card-"]').should('have.length.greaterThan', 0);
+  });
+
+  it.only('renders the buttons for each project card', () => {
+    cy.get('[data-test^="project-card-"]').each(($card) => {
+      // checks for buttons on project card
+      cy.wrap($card).find('[data-test="favorite-btn"]').should('be.visible');
+      cy.wrap($card).find('[data-test="open-project-btn"]').should('be.visible');
+      cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');
+    })
+  })
+
 });
