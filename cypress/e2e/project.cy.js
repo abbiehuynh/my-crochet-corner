@@ -1,6 +1,5 @@
 // testing suite for project details page
-// testing rendering and functionality of edit and update project details
-// added it.only to line 
+// testing rendering and functionality of edit button
 
 describe('Project Details Page', () => {
     const project = {
@@ -87,4 +86,3 @@ describe('Project Details Page', () => {
         cy.get('[data-test="project-details-view"]').should('be.visible');
     });
 });
-

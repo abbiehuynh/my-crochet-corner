@@ -156,6 +156,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     <Form.Group controlId='formProjectName'>
                         <Form.Label>Project Name</Form.Label>
                         <Form.Control
+                            data-test="project-name-input"
                             type="text"
                             name="project_name"
                             value={formData.project_name || ''}
@@ -166,6 +167,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     <Form.Group controlId="formProjectStatus">
                         <Form.Label>Project Status</Form.Label>
                         <Form.Control
+                            data-test="project-status-input"
                             type="text"
                             name="project_status"
                             value={formData.project_status || ''}
@@ -176,6 +178,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     <Form.Group controlId="formProjectType">
                         <Form.Label>Project Type</Form.Label>
                         <Form.Control
+                            data-test="project-type-input"
                             type="text"
                             name="project_type"
                             value={formData.project_type || ''}
@@ -186,6 +189,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     <Form.Group controlId="formNotes">
                         <Form.Label>Notes</Form.Label>
                         <Form.Control
+                            data-test="notes-input"
                             as="textarea"
                             name="notes"
                             value={formData.notes || ''}
@@ -200,10 +204,11 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                 <Card.Body>
                     <Card.Title>Pattern Details</Card.Title>
                     {formData.patterns.map((pattern, index) => (
-                        <div key={index}>
+                        <div key={index} data-test="patterns-section">
                             <Form.Group controlId={`formPatternName${index}`}>
                                 <Form.Label>Pattern Name</Form.Label>
                                 <Form.Control
+                                    data-test="formPatternName0"
                                     type="text"
                                     name="pattern_name"
                                     value={pattern.pattern_name}
@@ -214,6 +219,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                             <Form.Group controlId={`formPatternBy${index}`}>
                                 <Form.Label>Pattern By</Form.Label>
                                 <Form.Control
+                                    data-test="formPatternBy0"
                                     type="text"
                                     name="pattern_by"
                                     value={pattern.pattern_by}
@@ -224,6 +230,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                             <Form.Group controlId={`formPatternUrl${index}`}>
                                 <Form.Label>Pattern Source</Form.Label>
                                 <Form.Control
+                                    data-test="formPatternUrl0"
                                     type="text"
                                     name="pattern_url"
                                     value={pattern.pattern_url}
@@ -231,12 +238,12 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                                     placeholder="Enter pattern Source/URL"
                                 />
                             </Form.Group>
-                            <Button variant="danger" onClick={() => removePattern(index)}>
+                            <Button variant="danger" onClick={() => removePattern(index)} data-test="remove-pattern-btn0">
                                 Remove Pattern
                             </Button>
                         </div>
                     ))}
-                    <Button variant="secondary" onClick={addPattern}>
+                    <Button variant="secondary" onClick={addPattern} data-test="add-pattern-btn">
                         Add Pattern
                     </Button>
                 </Card.Body>
@@ -246,10 +253,11 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                 <Card.Body>
                     <Card.Title>Other Materials</Card.Title>
                     {formData.otherMaterials && formData.otherMaterials.map((material, index) => (
-                        <div key={index}>
+                        <div key={index} data-test="other-materials-section">
                             <Form.Group controlId={`formOtherMaterialsHookSize${index}`}>
                                 <Form.Label>Hook Size</Form.Label>
                                 <Form.Control
+                                    data-test="formOtherMaterialsHookSize0"
                                     type="text"
                                     name="project_hook_size"
                                     value={material.project_hook_size}
@@ -260,6 +268,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                             <Form.Group controlId={`formOtherMaterialsSafetyEyes${index}`}>
                                 <Form.Label>Safety Eyes</Form.Label>
                                 <Form.Control
+                                    data-test="formOtherMaterialsSafetyEyes0"
                                     type="text"
                                     name="safety_eyes"
                                     value={material.safety_eyes}
@@ -270,6 +279,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                             <Form.Group controlId={`formOtherMaterialsStuffing${index}`}>
                                 <Form.Label>Stuffing</Form.Label>
                                 <Form.Control
+                                    data-test="formOtherMaterialsStuffing0"
                                     type="text"
                                     name="stuffing"
                                     value={material.stuffing}
@@ -282,7 +292,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                             </Button>
                         </div>
                     ))}
-                    <Button variant="secondary" onClick={addOtherMaterial}>
+                    <Button variant="secondary" onClick={addOtherMaterial} data-test="add-other-material-btn">
                         Add Other Material
                     </Button>
                 </Card.Body>
@@ -293,11 +303,12 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     <Card.Title>Yarn</Card.Title>
                     {formData.yarns && formData.yarns.length > 0 ? (
                         formData.yarns.map((yarn, index) => (
-                            <div key={index}>
+                            <div key={index} data-test="yarn-section">
                                 <h5>Yarn {index + 1}</h5>
                                 <Form.Group controlId={`formYarnBrand${index}`}>
                                     <Form.Label>Yarn Brand</Form.Label>
                                     <Form.Control
+                                        data-test="formYarnBrand0"
                                         type="text"
                                         name="yarn_brand"
                                         value={yarn.yarn_brand}
@@ -308,6 +319,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                                 <Form.Group controlId={`formYarnColor${index}`}>
                                     <Form.Label>Yarn Color</Form.Label>
                                     <Form.Control
+                                        data-test="formYarnColor0"
                                         type="text"
                                         name="yarn_color"
                                         value={yarn.yarn_color}
@@ -318,6 +330,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                                 <Form.Group controlId={`formYarnWeight${index}`}>
                                     <Form.Label>Yarn Weight</Form.Label>
                                     <Form.Control
+                                        data-test="formYarnWeight0"
                                         type="text"
                                         name="yarn_weight"
                                         value={yarn.yarn_weight}
@@ -328,6 +341,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                                 <Form.Group controlId={`formYarnType${index}`}>
                                     <Form.Label>Yarn Type</Form.Label>
                                     <Form.Control
+                                        data-test="formYarnType0"
                                         type="text"
                                         name="yarn_type"
                                         value={yarn.yarn_type}
@@ -343,13 +357,13 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
                     ) : (
                         <p>No yarns added yet.</p>
                     )}
-                    <Button variant="secondary" onClick={addYarn}>
+                    <Button variant="secondary" onClick={addYarn} data-test="add-yarn-btn">
                         Add Yarn
                     </Button>
                 </Card.Body>
             </Card>
             <div>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" data-test="update-project-btn">
                     Update Project
                 </Button>
             </div>
