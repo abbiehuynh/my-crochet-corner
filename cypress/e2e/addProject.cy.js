@@ -22,8 +22,9 @@ describe('Add Project Modal Functionality', () => {
     beforeEach(() => {
         // login using custom command found in /support/commands.js
         cy.login('kingliver', 'cats');
-        // creates variable for project name input
+        // creates variable for project name input and confirmation message
         const projectName = 'New Project';
+        const confirmationMessage = `Project "${projectName}" has been added successfully!`
         // opens add project modal
         cy.get('[data-test="add-project-btn"]').click();
         // checks the modal is visible
@@ -36,7 +37,7 @@ describe('Add Project Modal Functionality', () => {
         cy.get('[data-test="add-project-form"]').submit();
         // verifies that the confirmation model appears and is correct
         cy.get('[data-test="confirmation-modal"]').should('be.visible');
-        cy.get('[data-test="confirmation-modal"]').contains(`Project "${projectName}" has been added successfully!`);
+        cy.get('[data-test="confirmation-modal"]').contains(confirmationMessage);
     });
     
     it('clicking Home button navigates to home page with updated list of projects', () => {
