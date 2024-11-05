@@ -149,7 +149,7 @@ const ProjectForm = ({ project, projectId, onUpdate }) => {
 
   return (
     <Container>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} data-test="project-form">
             <Card className="mb-3">
                 <Card.Body>
                     <Card.Title>Project Details</Card.Title>
