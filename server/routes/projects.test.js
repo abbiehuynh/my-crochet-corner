@@ -142,3 +142,69 @@ describe('POST /:user_id/add-project', () => {
         expect(response.body).toHaveProperty('error');
     });
 });
+
+describe('DELETE /:user_id/delete-project/:project_id', () => {
+    beforeEach(() => {
+        db.query.mockReset();
+    });
+
+    it('delete the project by project Id and user Id', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        // mock the database response for checking if the project exists and belongs to the user
+        const mockProject = {
+            rows: [{
+                id: projectId,
+                user_id: userId,
+                project_name: 'Test Project',
+                created_at: '2024-01-01T00:00:00.000Z'
+            }]
+        };
+        // mocks project being found and deleted
+        db.query.mockResolvedValueOnce(mockProject); 
+        db.query.mockResolvedValueOnce({});
+
+        const response = await request(app)
+            .delete(`/${userId}/delete-project/${projectId}`);
+
+        // checks the status and that no content is returned
+        expect(response.status).toBe(204);
+        expect(response.body).toEqual({}); 
+    });
+
+    it('returns 404 if the project does not exist or does not belong to the user', async () => {
+        const userId = 20;
+        const projectId = 999;
+
+        // mock the database response to simulate project not found
+        db.query.mockResolvedValueOnce({ rowCount: 0 }); 
+
+        const response = await request(app)
+            .delete(`/${userId}/delete-project/${projectId}`);
+
+        // checks the status and the error message
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            error: 'Project not found or does not belong to user'
+        });
+    });
+
+    it('returns 400 if there is a server error', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        // mock the database to throw an error
+        db.query.mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+            .delete(`/${userId}/delete-project/${projectId}`);
+
+        // checks the response status and error message
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({
+            error: 'An error has occured while processing your delete request'
+        });
+    });
+});
+
