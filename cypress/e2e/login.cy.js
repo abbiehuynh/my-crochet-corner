@@ -45,7 +45,7 @@ describe('Login Page - user login', () => {
 
     // checks that the user is redirected to the home page
     cy.url().should('include', '/home');
-    // chcecks that 'Your Projects' header is shown on home page
+    // checks that 'Your Projects' header is shown on home page
     cy.contains('Your Projects').should('be.visible');
   });
 
