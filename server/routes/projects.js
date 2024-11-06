@@ -1,7 +1,8 @@
 const express = require('express');
-const app = express.Router();
+const app = express();
 const db = require('../db/db-connection.js');
 
+app.use(express.json());
 // for projects
 
 // creates an endpoint for the route "/user/:userId/projects"
@@ -20,10 +21,10 @@ app.get('/:user_id/projects', async (req, res) => {
             WHERE 
                 u.id = $1;`, [userId]
         );
-        res.send(projectsByUserId);
+        res.status(200).json(projectsByUserId);
     } catch (error) {
         console.error("Error fetching projects data", error );
-        return res.status(400).json({ error });
+        return res.status(400).json({ error: error.message });
     }
 });
 
