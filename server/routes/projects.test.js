@@ -440,3 +440,77 @@ describe('PUT /:user_id/project/:project_id', () => {
         expect(response.body).toEqual({ error: 'Failed to update project. Please try again later.' });
     });
 });
+
+describe('PUT /:user_id/project/:project_id/favorite', () => {
+    beforeEach(() => {
+        db.query.mockReset();
+    });
+
+    it('updates project favorite status', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        // mocks project data
+        const updatedProject = {
+            id: projectId,
+            user_id: userId,
+            is_favorite: true,
+            project_name: 'Cat Loaf in Calico',
+            project_status: 'Completed',
+            project_type: 'Amigurumi'
+        };
+
+        // mocks the db query for updating the project
+        db.query.mockResolvedValueOnce({ rows: [updatedProject] });
+
+        const response = await request(app)
+            .put(`/${userId}/project/${projectId}/favorite`)
+            .send({ is_favorite: true });
+
+        expect(response.status).toBe(200);
+        expect(response.body.is_favorite).toBe(true);
+        expect(response.body.id).toBe(projectId);
+    });
+
+    it('returns 400 if the is_favorite field is not a boolean', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        const response = await request(app)
+            .put(`/${userId}/project/${projectId}/favorite`)
+            .send({ is_favorite: 'not-a-boolean' });
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Invalid value for favorite status. It must be a boolean.');
+    });
+
+    it('returns 404 if the project does not exist', async () => {
+        const userId = 20;
+        const projectId = 999; 
+
+        // mocks the db query to simulate no matching project
+        db.query.mockResolvedValueOnce({ rows: [] });
+
+        const response = await request(app)
+            .put(`/${userId}/project/${projectId}/favorite`)
+            .send({ is_favorite: true });
+
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe('Project not found');
+    });
+
+    it('returns 500 if there is a server error', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        // simulates a database error by rejecting the query
+        db.query.mockRejectedValueOnce(new Error('Database error'));
+
+        const response = await request(app)
+            .put(`/${userId}/project/${projectId}/favorite`)
+            .send({ is_favorite: true });
+
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe('Server error');
+    });
+});
