@@ -29,15 +29,15 @@ const ListProjects = ({ showFavorites = false }) => {
             <SortProjectStatus />
 
             {/* displays header depending on home or favorites page */}
-            <h2>{showFavorites ? 'Favorite Projects' : 'Your Projects'}</h2>
+            <h2 data-test="project-header">{showFavorites ? 'Favorite Projects' : 'Your Projects'}</h2>
             
             {/* displays message if no projects found */}
             {filteredProjects.length === 0 ? (
-                <p>No projects found.</p>
+                <p data-test="no-projects-msg">No projects found.</p>
             ) : (
-                <Row>
+                <Row data-test="project-list">
                     {filteredProjects.map((project) => (
-                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4"> 
+                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4" data-test={`project-card-${project.id}`} data-project-id={project.id}> 
                             <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
                         </Col>
                     ))}

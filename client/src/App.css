@@ -127,6 +127,22 @@ p {
   background-color: red;
 }
 
+[data-icon="favorite-heart"] {
+  color: red;
+}
+
+[data-icon="heart"] {
+  color: black;
+}
+
+[data-icon="favorite-heart"]:hover {
+  color: black;
+}
+
+[data-icon="heart"]:hover {
+  color: red;
+}
+
 /* --- project card text --- */
 
 .fav-btn {

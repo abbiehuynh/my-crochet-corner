@@ -27,13 +27,13 @@ const Home = () => {
     }, [fetchProjectsCallback]);
 
   return (
-    <div>
+    <div data-test="home-page">
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 
         <div className="ai-add-btns">
             {/* will open an AI Chat Box/ Modal */}
-            <Button className="ai-btn" variant="primary" onClick={openModal}>
+            <Button className="ai-btn" variant="primary" onClick={openModal} data-test="ai-btn">
                 Open AIChat <i className="bi bi-chat-dots"></i>
             </Button>
             <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
