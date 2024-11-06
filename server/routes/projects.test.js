@@ -13,9 +13,9 @@ describe('GET /:user_id/projects', () => {
         db.query.mockReset();
     })
     
-    it('returns a list of projects for a user', async () => {
+    it('returns a list of projects by user', async () => {
         // mocking the database query response
-        const mockProjects = [
+        const projectList = [
             {
                 created_at: '2024-01-01T00:00:00.000Z',
                 id: 101,
@@ -41,7 +41,7 @@ describe('GET /:user_id/projects', () => {
         ];
 
         // mocks the query to return mock data
-        db.query.mockResolvedValue({ rows: mockProjects });
+        db.query.mockResolvedValue({ rows: projectList });
 
         const userId = 20;
         const response = await request(app).get(`/${userId}/projects`);
@@ -50,7 +50,7 @@ describe('GET /:user_id/projects', () => {
         // verifies the response status and content
         expect(response.status).toBe(200);
         // checks if the response body matches the mock data
-        expect(response.body).toEqual(mockProjects);
+        expect(response.body).toEqual(projectList);
         // checks two projects are returned
         expect(response.body.length).toBe(2); 
         // verifies the project names
@@ -64,18 +64,18 @@ describe('GET /:user_id/projects', () => {
     });
 
     it('returns an empty array if no projects are found', async () => {
-        const mockProjects = [];
-        db.query.mockResolvedValue({ rows: mockProjects });
+        const noProjects = [];
+        db.query.mockResolvedValue({ rows: noProjects });
 
         const userId = 20;
         const response = await request(app).get(`/${userId}/projects`);
 
         // checks the response is 200 but the body is empty
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(mockProjects);  // no projects or empty array
+        expect(response.body).toEqual(noProjects);  // no projects or empty array
     });
 
-    it('returns a 500 status if there is an error with the database query', async () => {
+    it('returns a 400 status if there is an error with the database query', async () => {
         db.query.mockRejectedValue(new Error('Database error'));
 
         const userId = 20;
@@ -87,3 +87,58 @@ describe('GET /:user_id/projects', () => {
     });
 });
 
+describe('POST /:user_id/add-project', () => {
+    beforeEach(() => {
+        db.query.mockReset(); 
+    });
+
+    it('adds new project', async () => {
+        const userId = 20;
+        const projectName = 'New Project';
+        const newProject = {
+            rows: [{
+                id: 1,
+                user_id: userId,
+                project_name: projectName,
+                created_at: '2024-01-01T00:00:00.000Z',
+            }]
+        };
+
+        db.query.mockResolvedValue(newProject);
+
+        const response = await request(app)
+            .post(`/${userId}/add-project`)
+            .send({ project_name: projectName });
+
+        // checks the response status and the returned project data
+        expect(response.status).toBe(201);
+        expect(response.body).toEqual(newProject.rows[0]);
+    });
+
+    it('returns 400 if project name is missing', async () => {
+        const userId = 20;
+        const response = await request(app)
+            .post(`/${userId}/add-project`)
+            .send({});
+
+        // checks the response status and message
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({ message: 'Project name is required' });
+    });
+
+    it('returns 500 if there is a server error', async () => {
+        const userId = 20;
+        const projectName = 'New Project';
+
+        db.query.mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+            .post(`/${userId}/add-project`)
+            .send({ project_name: projectName });
+
+        // checks the response status and error message
+        expect(response.status).toBe(500);
+        expect(response.body).toHaveProperty('message', 'Error adding project');
+        expect(response.body).toHaveProperty('error');
+    });
+});
