@@ -208,3 +208,121 @@ describe('DELETE /:user_id/delete-project/:project_id', () => {
     });
 });
 
+describe('GET /:user_id/project/:project_id', () => {
+    beforeEach(() => {
+        db.query.mockReset();
+    });
+
+    it('returns project details of individual project', async () => {
+        const userId = 20;
+        const projectId = 101;
+        
+        // mocks the main project data
+        const mockProject = {
+            rows: [{
+                user_id: userId,
+                user_name: 'oliver',
+                project_id: projectId,
+                project_name: 'Cat Loaf',
+                created_at: '2024-01-01T00:00:00.000Z',
+                updated_at: '2024-01-01T00:00:00.000Z',
+                end_at: '2024-12-31T00:00:00.000Z',
+                time_to_complete: '30 days',
+                project_status: 'In Progress',
+                project_type: 'Amigurimi',
+                is_favorite: false,
+                notes: null,
+                sentiment_score: null
+            }]
+        };
+
+        // mocks the related data queries
+        const mockPatterns = { rows: [{ pattern_id: 1, pattern_name: 'Cat Loaf', pattern_by: 'Alice', pattern_url: 'http://pattern.url' }] };
+        const mockOtherMaterials = { rows: [{ other_materials_id: 1, project_hook_size: '5mm', safety_eyes: '10mm', stuffing: '50 grams' }] };
+        const mockYarns = { rows: [{ yarn_brand: 'Loops and Threads Soft Classic', yarn_color: 'White', yarn_weight: '4', yarn_type: 'Acrylic' }] };
+        const mockImages = { rows: [{ image_id: 1, image_url: 'http://image.url', image_name: 'image1', image_description: 'A crochet project' }] };
+
+        // mocks the database queries
+        db.query.mockResolvedValueOnce(mockProject);  
+        db.query.mockResolvedValueOnce(mockPatterns);  
+        db.query.mockResolvedValueOnce(mockOtherMaterials); 
+        db.query.mockResolvedValueOnce(mockYarns);
+        db.query.mockResolvedValueOnce(mockImages); 
+
+        const response = await request(app)
+            .get(`/${userId}/project/${projectId}`);
+
+        // checks the status and response structure
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            user_id: userId,
+            user_name: 'oliver',
+            project_id: projectId,
+            project_name: 'Cat Loaf',
+            created_at: '2024-01-01T00:00:00.000Z',
+            updated_at: '2024-01-01T00:00:00.000Z',
+            end_at: '2024-12-31T00:00:00.000Z',
+            time_to_complete: '30 days',
+            project_status: 'In Progress',
+            project_type: 'Amigurimi',
+            is_favorite: false,
+            notes: null,
+            sentiment_score: null,
+            patterns: [{
+                pattern_id: 1,
+                pattern_name: 'Cat Loaf',
+                pattern_by: 'Alice',
+                pattern_url: 'http://pattern.url'
+            }],
+            otherMaterials: [{
+                other_materials_id: 1,
+                project_hook_size: '5mm',
+                safety_eyes: '10mm',
+                stuffing: '50 grams'
+            }],
+            yarns: [{
+                yarn_brand: 'Loops and Threads Soft Classic',
+                yarn_color: 'White',
+                yarn_weight: '4',
+                yarn_type: 'Acrylic'
+            }],
+            images: [{
+                image_id: 1,
+                image_url: 'http://image.url',
+                image_name: 'image1',
+                image_description: 'A crochet project'
+            }]
+        });
+    });
+
+    it('returns 404 if the project does not exist', async () => {
+        const userId = 20;
+        const projectId = 999; 
+
+        // mock the database response to simulate project not found
+        db.query.mockResolvedValueOnce({ rows: [] });
+
+        const response = await request(app)
+            .get(`/${userId}/project/${projectId}`);
+
+        // checks the status and error message
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({ error: 'Project not found' });
+    });
+
+    it('returns 500 if there is a server error', async () => {
+        const userId = 20;
+        const projectId = 101;
+
+        // mock the database to throw an error
+        db.query.mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+            .get(`/${userId}/project/${projectId}`);
+
+        // checks the response status and error message
+        expect(response.status).toBe(500);
+        expect(response.body).toEqual({ error: 'Internal server error' });
+    });
+});
+
