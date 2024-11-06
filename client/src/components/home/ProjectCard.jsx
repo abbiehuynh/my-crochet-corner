@@ -33,7 +33,7 @@ const ProjectCard = ({ project, onDelete }) => {
                     aria-label={`Favorite project: ${project.project_name}`}
                 >
                     <span className="visually-hidden">Click to favorite project</span>
-                    {project.is_favorite ? <FaHeart color="red" /> : <FaRegHeart />}
+                    {project.is_favorite ? <FaHeart data-icon="favorite-heart"/> : <FaRegHeart data-icon="heart"/>}
             </Button>
         </div>
 

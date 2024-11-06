@@ -14,15 +14,25 @@ describe('Favorite Button Functionality', () => {
         });
 
         cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"]')
-        .should('contain.text', 'Click to favorite project');
+            .should('contain.text', 'Click to favorite project');
     });
 
     it('handles favorite button toggle', () => {
+        // finds first project card and checks its in an unfavorited state inititally 
+        cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"] svg')
+            .should('have.attr', 'data-icon', 'heart');        
         // finds first project card and clicks favorite button
         cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"]').click();
         // checks if favorite icon is red
         cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"] svg')
-            .should('have.attr', 'style').and('include', 'color: red');
+            // .should('have.attr', 'style').and('include', 'color: red');
+            .should('have.attr', 'data-icon', 'favorite-heart');
+        
+        // finds first project card and clicks favorite button again - unfavorite
+        cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"]').click();
+        // checks if favorite icon is unfavorited
+        cy.get('[data-test^="project-card-"]').first().find('[data-test="favorite-btn"] svg')
+            .should('have.attr', 'data-icon','heart');
     });
 });
 
@@ -60,16 +70,20 @@ describe('Delete Button Functionality', () => {
 
     it('renders the delete button', () => {
         cy.get('[data-test^="project-card-"]').each(($card) => {
-            cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');        
+            cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');
         });
     });
 
     it('handles delete button functionality', () => {
-         // finds first project card and clicks delete button
-        cy.get('[data-test^="project-card-"]').first().find('[data-test="delete-btn"]').click();
-        // automatically confirm any confirmation dialog
-        cy.on('window:confirm', () => true);
-        // verifies that the project card is no longer present
-        cy.get('[data-test^="project-card-"]').should('have.length.lessThan', 10);
+        // find all project cards and store their initial length 
+        cy.get('[data-test^="project-card-"]').then((projectCards) => {
+            const initialLength = projectCards.length;
+            // finds first project card and clicks delete button
+            cy.get('[data-test^="project-card-"]').first().find('[data-test="delete-btn"]').click();
+            // automatically confirm any confirmation dialog
+            cy.on('window:confirm', () => true);
+            // verifies that the number of project cards decreased by 1
+            cy.get('[data-test^="project-card-"]').should('have.length', initialLength - 1);
+        })
     });
 });
