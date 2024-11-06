@@ -2,9 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db/db-connection.js');
-const app = express.Router();
+const app = express();
 
-// creates register endpoing
+app.use(express.json());
+
+// creates register endpoint
 app.post('/register', async (req, res) => {
     const { name, username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,7 +39,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// creates login endpoing
+// creates login endpoint
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     // logs user input
