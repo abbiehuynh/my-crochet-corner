@@ -10,9 +10,9 @@ describe('Project Details Page', () => {
     beforeEach(() => {
         // loads the fixture file - project - to mock the api response
         cy.fixture('project').then((data) => {
-            projectData = data;
+            projectData = data[0];
             cy.intercept('GET', `/user/${projectData.user_id}/project/*`, projectData).as('getProjectDetails');
-        })
+        });
         // log in usin custom command found in /support/commands.js
         cy.login('kingliver', 'cats');
 

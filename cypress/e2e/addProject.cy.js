@@ -44,8 +44,7 @@ describe('Add Project Modal Functionality', () => {
         // creates variable for project name input
         const projectName = 'New Project';
 
-        // if the user clicks home
-        // closes the confirmation modal to go to home
+        // clicking "home" closes the confirmation modal and redirects to home page
         cy.get('[data-test="home-btn-confirmation-modal"]').click();
         // checks that the user is redirected to the home page
         cy.url().should('include', '/home');
@@ -57,7 +56,7 @@ describe('Add Project Modal Functionality', () => {
         // creates variable for project name input
         const projectName = 'New Project';
 
-        // if the user clicks the edit button
+        // clicking the edit button
         cy.get('[data-test="edit-project-btn-confirmation-modal"]').click();
 
         // grabs user Id from url
@@ -65,35 +64,17 @@ describe('Add Project Modal Functionality', () => {
             const userId = url.split('/')[4];
             // proceeds if userId is found
             expect(userId).to.not.be.null;
-
             // checks that the user is redirected to the project details page
             cy.url().should('include', `/user/${userId}/project/`);
             // extract the project id dynamically
             cy.url().then(url => {
                 const projectId = url.split('/').pop();
                 cy.wrap(projectId).as('projectId');
-
                 // checks that the user is redirected to the correct url with project Id
                 cy.url().should('include', `/user/${userId}/project/${projectId}`)
             });
             // checks that the project name is visible on project details page
             cy.get('[data-test="project-name-project-page"]').should('contain', projectName);
-
         })
-
-
-
-        // if the user clicks edit project
-        // clicks Edit and closes the confirmation modal to go to project details page
-        // cy.get('[data-test="edit-project-btn-confirmation-modal"]').click();
-        // // checks that the user is redirected to the project details page
-        // cy.url().should('include', `/user/4/project/`);
-        // // extract the project id dynamically
-        // cy.url().then(url => {
-        //     const projectId = url.split('/').pop();
-        //     cy.wrap(projectId).as('projectId');
-        // });
-        // // checks that the project name is visible on project details page
-        // cy.get('[data-test="project-name-project-page"]').should('contain', projectName);
     });
 });
