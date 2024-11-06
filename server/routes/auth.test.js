@@ -109,3 +109,103 @@ describe('POST /register', () => {
         expect(response.body.message).toBe('Error creating user');
     });
 });
+
+describe('POST /login', () => {
+    beforeEach(() => {
+        // resets mock calls before each test
+        db.query.mockReset();
+        bcrypt.compare.mockReset();
+    });
+
+    it('returns a token and user info for valid credentials', async () => {
+        const user = {
+            id: 1,
+            username: 'testuser',
+            password: 'hashed-password123'
+        };
+
+        // mock the query to simulate a user being found in the databases
+        db.query.mockResolvedValueOnce({ rows: [user] });
+
+        // mock bcrypt.compare to return true (password matches)
+        bcrypt.compare.mockResolvedValueOnce(true);
+
+        const loginData = {
+            username: 'testuser',
+            password: 'hashed-password123'
+        };
+
+        // sends the login request
+        const response = await request(app)
+            .post('/login')
+            .send(loginData);
+
+        // checks that the response has the expected status and structure
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(expect.objectContaining({
+            token: expect.any(String),
+            userId: user.id,
+            username: user.username
+        }));
+    });
+
+    it('returns 401 if the username does not exist', async () => {
+        const loginData = {
+            username: 'nonexistentuser',
+            password: 'password123'
+        };
+
+        // mock the query to simulate no user being found in the database
+        db.query.mockResolvedValueOnce({ rows: [] });
+
+        const response = await request(app)
+            .post('/login')
+            .send(loginData);
+
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({ message: 'Invalid credentials' });
+    });
+
+    it('returns 401 if the password is incorrect', async () => {
+        const user = {
+            id: 1,
+            username: 'testuser',
+            password: 'hashedPassword123'
+        };
+
+        // mocks the query to simulate a user being found in the database
+        db.query.mockResolvedValueOnce({ rows: [user] });
+
+        // mocks bcrypt.compare to return false (password does not match)
+        bcrypt.compare.mockResolvedValueOnce(false);
+
+        const loginData = {
+            username: 'testuser',
+            password: 'wrongpassword'
+        };
+
+        const response = await request(app)
+            .post('/login')
+            .send(loginData);
+
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({ message: 'Invalid credentials' });
+    });
+
+    it('returns 500 if there is a server error', async () => {
+        const loginData = {
+            username: 'testuser',
+            password: 'correctpassword'
+        };
+
+        // mocks the database query to throw an error
+        db.query.mockRejectedValueOnce(new Error('Database error'));
+
+        const response = await request(app)
+            .post('/login')
+            .send(loginData);
+
+        expect(response.status).toBe(500);
+        expect(response.body).toEqual({ message: 'Error loggin in', error: expect.any(Object) });
+    });
+});
