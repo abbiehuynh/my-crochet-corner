@@ -68,28 +68,36 @@ describe('Open Project Link', () => {
     });
 });
 
-    describe('Delete Button Functionality', () => {
-        beforeEach(() => {
-            // login using custom command found in /support/commands.js
-            cy.login('kingliver', 'cats');
-        });
+describe('Delete Button Functionality', () => {
+    beforeEach(() => {
+        // login using custom command found in /support/commands.js
+        cy.login('kingliver', 'cats');
+    });
 
-        it('renders the delete button', () => {
-            cy.get('[data-test^="project-card-"]').each(($card) => {
-                cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');
-            });
+    it('renders the delete button', () => {
+        cy.get('[data-test^="project-card-"]').each(($card) => {
+            cy.wrap($card).find('[data-test="delete-btn"]').should('be.visible');
         });
+    });
 
-        it('handles delete button functionality', () => {
-            // find all project cards and store their initial length 
-            cy.get('[data-test^="project-card-"]').then((projectCards) => {
-                const initialLength = projectCards.length;
+    it('handles delete button functionality', () => {
+        // find all project cards and store their initial length 
+        cy.get('[data-test^="project-card-"]').then((projectCards) => {
+            const initialLength = projectCards.length;
+            // grab the project ID from the first project card
+            cy.get('[data-test^="project-card-"]').first().invoke('attr', 'data-test').then((projectId) => {
+                const projectID = projectId.split('-')[2];
                 // finds first project card and clicks delete button
                 cy.get('[data-test^="project-card-"]').first().find('[data-test="delete-btn"]').click();
                 // automatically confirm any confirmation dialog
                 cy.on('window:confirm', () => true);
                 // verifies that the number of project cards decreased by 1
                 cy.get('[data-test^="project-card-"]').should('have.length', initialLength - 1);
-            })
+                // check that the deleted project ID is no longer in the project list
+                cy.get('[data-test^="project-card-"]').each(($card) => {
+                    cy.wrap($card).invoke('attr', 'data-test').should('not.contain', `project-card-${projectID}`);
+                });
+            });
         });
     });
+});
