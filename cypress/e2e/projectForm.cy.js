@@ -5,9 +5,9 @@ describe('Project Details Form', () => {
     // declares variable to hold data within scope
     let projectData;
 
-    beforeEach(() => {
+    beforeEach(() => { 
         // loads the fixture file - project - to mock the api response
-        cy.fixture('project').then((data) => {
+        cy.fixture('/client/project.json').then((data) => {
             projectData = data[1];
             cy.intercept('GET', `/user/${projectData.user_id}/project/*`, projectData).as('getProjectDetails');
         });
@@ -16,7 +16,7 @@ describe('Project Details Form', () => {
         // navigates to the project details page directly
         cy.get('[data-test^="project-card-"]').first().then($card => {
             // retrieves project Id
-            const projectId = $card.data('project-id');
+            const projectId = $card.data('project-id'); 
             // project Id must have a number, not undefined
             expect(projectId).to.not.be.undefined;
             // simulates the clicking the open project button
@@ -97,5 +97,10 @@ describe('Project Details Form', () => {
 
         // Submit the form
         cy.get('[data-test="project-form"]').submit();
-    });
+
+        // verifies that the user is redirected to the project details page after submitting the form
+        cy.get('[data-test="project-name-project-page"]').should('be.visible');
+        // Verify the project details page shows the updated project name
+        cy.get('[data-test="project-name-project-page"]').should('have.text', projectData.project_name);
+    }); 
 });
