@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import SearchBar from './SearchBar';
-import SortProjectStatus from './SortProjectStatus';
+import React, { useEffect, useState, useCallback } from 'react';
 import ListProjects from './ListProjects';
 import AIChatBot from '../ai/AIChatBot';
 import AddProjectModal from './AddProjectModal';
+import { useProjects } from './ProjectProvider';
+import { Button } from 'react-bootstrap';
+import './Home.css'
 
 const Home = () => {
     // creates state for AI chatbox modal
@@ -16,26 +14,33 @@ const Home = () => {
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
+    // access to fetchProjects from project context
+    const { fetchProjects } = useProjects();
+
+    // useCallback to avoid unecessary rendering
+    const fetchProjectsCallback = useCallback(() => {
+        fetchProjects();
+    }, [fetchProjects]);
+
+    useEffect(() => {
+        fetchProjectsCallback();
+    }, [fetchProjectsCallback]);
+
   return (
-    <div>
-        {/* this is the landing page where the user flow will start for most user stories */}
-        Home
-
-        {/* will allow users to search through the list of projects by project name */}
-        <SearchBar />
-
-        {/* will allow users to sort through projects by project status */}
-        <SortProjectStatus />
-
+    <div data-test="home-page">
         {/* will allow users to view all projects as a list of cards */}
         <ListProjects />
 
-        {/* will open an AI Chat Box/ Modal */}
-        <button onClick={openModal}>Open AIChat</button>
-        <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
+        <div className="ai-add-btns">
+            {/* will open an AI Chat Box/ Modal */}
+            <Button className="ai-btn" variant="primary" onClick={openModal} data-test="ai-btn">
+                Open AIChat <i className="bi bi-chat-dots"></i>
+            </Button>
+            <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
-        {/* will allow users to add a new project and open a new form */}
-        <AddProjectModal />
+            {/* will allow users to add a new project and open a new form */}
+            <AddProjectModal onAddProject={fetchProjectsCallback} />
+        </div>
     </div>
   )
 }

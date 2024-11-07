@@ -1,29 +1,46 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
+import React, { useState, useCallback, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import SearchBar from '../home/SearchBar';
-import SortProjectType from './SortProjectType';
-import ListFavoriteProjects from './ListFavoriteProjects';
+import ListProjects from '../home/ListProjects';
+import AIChatBot from '../ai/AIChatBot';
+import AddProjectModal from '../home/AddProjectModal';
+import { useProjects } from '../home/ProjectProvider';
 
 const Favorites = () => {
+    // creates state for AI chatbox modal
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    // sets modal state to open and close 
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+    // access to fetchProjects from project context
+    const { fetchProjects } = useProjects();
+
+    // useCallback to avoid unecessary rendering
+    const fetchProjectsCallback = useCallback(() => {
+        fetchProjects();
+    }, [fetchProjects]);
+
+    useEffect(() => {
+        fetchProjectsCallback();
+    }, [fetchProjectsCallback]);
+
+
   return (
-    <div>
-        Favorites
+    <div data-test="favorites-page">
+        {/* uses listProjects with showFavorites set to true */}
+        <ListProjects showFavorites={true} />
 
-        {/* will allow users to search through the list of projects by project name */}
-        <SearchBar />
+        <div className="ai-add-btns">
+            {/* will open an AI Chat Box/ Modal */}
+            <Button className="ai-btn" variant="primary" onClick={openModal} data-test="ai-btn">
+                    Open AIChat <i className="bi bi-chat-dots"></i>
+                </Button>
+            <AIChatBot isOpen={isModalOpen} onClose={closeModal} />
 
-        {/* will allow users to sort through projects by project status */}
-        <SortProjectType />
-
-        {/* will allow users to view all favorite projects as a list of cards */}
-        <ListFavoriteProjects />
-
-        {/* will allow users to add a new project and open a new form */}
-        <Link to={`/add-project`}>
-            <Button>Add New Project</Button>
-        </Link>
+            {/* will allow users to add a new project and open a new form */}
+            <AddProjectModal onAddProject={fetchProjectsCallback} />
+        </div>
     </div>
   )
 }

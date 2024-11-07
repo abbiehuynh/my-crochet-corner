@@ -1,7 +1,222 @@
+/* 
+color palette
+
+cream -- #FDF8F1
+yellow -- #FFE486
+blue -- #C4DDF6
+light pink -- #FEEFE8
+pink -- #FACDCC
+black
+
+*/
+
 /* styles apply to App.jsx */
+body {
+  background-image: url(./assets/background-image.png);
+  background-repeat: auto;
+  font-family: "Poppins", sans-serif;
+}
 
+/* fonts / text */
+.font-link {
+  font-family: "Poppins", sans-serif;
+  font-family: "Space Mono", monospace;
+}
 
+.card-title {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: 1.6rem;
+}
 
+h2 {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: 2.5rem;
+  padding: 10px;
+}
 
+h3 {
+  font-family: "Space Mono", monospace;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+p {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+/* hidden spans */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 
 /* styles apply to NavBar.jsx */
+
+#navbar-container {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #FACDCC;
+}
+
+.navbar-brand {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: 1.8rem;
+
+  padding-left: 10px;
+}
+
+.navbar-links {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.navbar-links:hover {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #FFE486;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* --- overrides bootstrap styles --- */
+
+/* --- project card buttons --- */
+
+.btn-primary {
+  border-radius: 30px;
+  border: 1px black solid;
+  background-color: #93c9ff;
+  color: black;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  border: none;
+  background-color: #3c98f4;
+}
+
+.btn-secondary {
+  border-radius: 30px;
+  border: 1px black solid;
+  background-color: #FFE486;
+  color: black;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  border: none;
+  background-color: #efc325;
+}
+
+.btn-danger {
+  border: none;
+  background-color: #FDF8F1;
+}
+
+.btn-danger:hover {
+  background-color: red;
+}
+
+[data-icon="favorite-heart"] {
+  color: red;
+}
+
+[data-icon="heart"] {
+  color: black;
+}
+
+[data-icon="favorite-heart"]:hover {
+  color: black;
+}
+
+[data-icon="heart"]:hover {
+  color: red;
+}
+
+/* --- project card text --- */
+
+.fav-btn {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 1.3rem;
+}
+
+/* open project and delete button */
+
+.mt-auto {
+  display: flex;
+  justify-content: space-between;
+}
+
+.open-project-link {
+  text-decoration: none; 
+  flex: 1;
+}
+
+.open-project-btn {
+  width: 100%;
+  margin-right: 5px;
+  color: black;
+}
+
+.folder-icon {
+  font-size: 1.5rem;
+  color: black;
+}
+
+.delete-btn {
+  margin-left: 5px;
+}
+
+.trash-icon {
+  font-size: 1.3rem;
+  color: red;
+}
+
+.trash-icon:hover {
+  color: white;
+}
+                    
+
+/* --- add project and ai feature buttons --- */
+
+/* button container */
+.ai-add-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.ai-btn {
+  font-size: 1.2rem;
+}
+
+.add-btn {
+  font-size: 1.3rem;
+}
+
+/* --- project details page --- */
+
+.project-details-container {
+  padding: 15px;
+}
+
+.edit-btn {
+  margin-bottom: 15px;
+  margin-left: 10px;
+}

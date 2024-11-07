@@ -10,6 +10,12 @@ const db = require('./db/db-connection.js');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// creates proxy server to apply access header to every response from the server
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+})
+
 // middleware for parsing application/json
 app.use(cors());
 app.use(express.json());
@@ -40,6 +46,10 @@ app.use('/', authRoutes);
 // imports routes for projects
 const projectRoutes = require('./routes/projects.js');
 app.use('/user', projectRoutes);
+
+// imports routes for ai chat
+const aiRoutes = require('./routes/ai.js');
+app.use('/api', aiRoutes);
 
 // starts server and logs the port the server is listening to
 app.listen(PORT, () => {

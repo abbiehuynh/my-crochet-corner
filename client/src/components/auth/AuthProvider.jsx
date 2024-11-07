@@ -18,23 +18,23 @@ export const axiosInstance = axios.create({
 });
 
 // intercepts requests to add the authorization header
-axiosInstance.interceptors.request.use(config => {
-    // retrieves token from local storage
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+axiosInstance.interceptors.request.use(
+    config => {
+        // retrieves token from local storage
+        const token = localStorage.getItem(TOKEN_KEY);
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    }, error => {
+        console.error('Axios request error:', error);
+        return Promise.reject(error);
     }
-    return config;
-}, error => {
-    return Promise.reject(error);
-});
+);
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
     const [userId, setUserId] = useState(null);
-
-    // creates states for updating list of projects when new project is added
-    const [projectsUpdated, setProjectsUpdated] = useState(false);
 
     // login function
     const login = (data) => {
@@ -52,20 +52,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem(TOKEN_KEY);
     };
 
-    // updating project list function
-    const updateProjects = () => {
-        setProjectsUpdated((prev) => {
-            // checks if projects are being updated
-            console.log('Toggling projectsUpdated:', !prev);
-            return !prev;
-    });
-}
-
   return (
-    <AuthContext.Provider value={{ token, userId, login, logout, updateProjects, projectsUpdated, axiosInstance }}>
+    <AuthContext.Provider value={{ token, userId, login, logout, axiosInstance }}>
         {children}
     </AuthContext.Provider>
-    )
+    );
 };
 
 // hook for using auth context

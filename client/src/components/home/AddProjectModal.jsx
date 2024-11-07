@@ -2,82 +2,73 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuth } from '../auth/AuthProvider';
+import { useProjects } from './ProjectProvider';
 
 const AddProjectModal = () => {
   // creates initial states for modals
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [showConfirmModal, setShowConfirmModal] = useState(false);
+  
   // creates initial state for project name
   const [projectName, setProjectName] = useState('');
-  const [confirmedProjectName, setShowConfirmedProjectName] = useState('');
+  const [confirmedProjectName, setConfirmedProjectName] = useState('');
+  const [projectId, setProjectId] = useState(null);
 
-  // access from useContext
-  const { token, userId, updateProjects, axiosInstance } = useAuth();
+  // access from auth context and project context
+  const { userId } = useAuth();
+  const { addProject } = useProjects();
+
+  const navigate = useNavigate();
 
   // creates function to handle adding new project
   const handleAddProject = async (e) => {
-    // prevents user from submitting before checking conditions
     e.preventDefault();
 
-     // adding new project
+     // adding new project via context
      try {
-      const response = await axiosInstance.post(`/user/${userId}/add-project`, {
-        project_name: projectName
-      });
-          
-      if (response.status !== 201) {
-        throw new Error('Failed to add project');
-      }
+      const newProject = await addProject({ project_name: projectName });
 
-      const newProject = response.data;
-      console.log('New project added:', newProject);
-
-      // closes the add project modal
-      setShowAddModal(false);
-      setShowConfirmedProjectName(projectName);
-      // resets the input field
-      setProjectName('');
-
-      // opens the confirmation modal
-      setShowConfirmModal(true);
+      setProjectId(newProject.id); // stores the projectId
+      setShowAddModal(false); // closes the add project modal
+      setConfirmedProjectName(projectName);
+      setProjectName(''); // resets the input field
+      setShowConfirmModal(true); // opens the confirmation modal
     } catch (error) {
         console.error('Error adding project:', error);
         alert(error.message);
       }
   };
 
-  const navigate = useNavigate();
-
   const handleRedirect = (path) => {
-    // updates project list before redirecting to home page
-    if (path === '/home') {
-      updateProjects();
-    }
-    // else redirects path 
     navigate(path);
-    // closes the confirmation modal
-    setShowConfirmModal(false);
+    setShowConfirmModal(false); // closes the confirmation modal
   };
 
-  return (
+	return (
     <div>
-       <Button onClick={() => setShowAddModal(true)}>Add Project</Button>
-      
-      {/* Add Project Modal */}
-      <Modal show={showAddModal} onHide={() => {
-          setShowAddModal(false);
-          setProjectName('');
-      }}>
+      <Button className="add-btn" onClick={() => setShowAddModal(true)} data-test="add-project-btn">
+        Add Project <i className="bi bi-plus-circle"></i>
+      </Button>
+
+			{/* Add Project Modal */}
+      <Modal 
+        data-test="add-project-modal"
+        show={showAddModal} 
+        onHide={() => {
+        setShowAddModal(false);
+        setProjectName('');
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <Form onSubmit={handleAddProject}>
+          <Form onSubmit={handleAddProject} data-test="add-project-form">
             <Form.Group>
               <Form.Label>Project Name</Form.Label>
               <input
+                data-test="add-project-name-input"
                 type="text"
                 placeholder="Enter project name"
                 value={projectName}
@@ -91,7 +82,7 @@ const AddProjectModal = () => {
       </Modal>
 
       {/* Confirmation Modal */}
-      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} data-test="confirmation-modal">
         <Modal.Header closeButton>
           {/* TO DO: update title */}
           <Modal.Title>Confirmation</Modal.Title>
@@ -102,9 +93,8 @@ const AddProjectModal = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => handleRedirect('/home')}>Home</Button>
-          {/* update to be project id */}
-          <Button variant="primary" onClick={() => handleRedirect('/user/project')}>Edit Project</Button>
+          <Button variant="secondary" onClick={() => handleRedirect('/home')} data-test="home-btn-confirmation-modal">Home</Button>
+          <Button variant="primary" onClick={() => handleRedirect(`/user/${userId}/project/${projectId}`)} data-test="edit-project-btn-confirmation-modal">Edit Project</Button>
         </Modal.Footer>
       </Modal>
     </div>
