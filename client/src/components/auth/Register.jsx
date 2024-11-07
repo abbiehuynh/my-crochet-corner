@@ -74,58 +74,62 @@ const Register = () => {
 
   return (
     <Container>
-        <h2>Register</h2>
+        <h2 data-test="register-header">Register</h2>
         {message && <Alert variant="success">{message}</Alert>}
         <Form onSubmit={handleRegister}>
-            <Form.Group controlId="formName"> {/* New name input */}
+            <Form.Group controlId="formName"> 
                 <Form.Label>Name</Form.Label>
                 <Form.Control
+                    data-test="register-name-input"
                     type="text"
                     placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                {nameError && <div className="text-danger">{nameError}</div>}
+                {nameError && <div className="text-danger" data-test="register-name-error">{nameError}</div>}
             </Form.Group>
 
             <Form.Group controlId="formUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
+                    data-test="register-username-input"
                     type="text"
                     placeholder="Enter username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
                 />
-                {usernameError && <div className="text-danger">{usernameError}</div>}
+                {usernameError && <div className="text-danger" data-test="register-username-error">{usernameError}</div>}
             </Form.Group>
 
             <Form.Group controlId="formEmail">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
+                    data-test="register-email-input"
                     type="email"
                     placeholder="Enter email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                {emailError && <div className="text-danger">{emailError}</div>}
+                {emailError && <div className="text-danger" data-test="register-email-error">{emailError}</div>}
             </Form.Group>
 
             <Form.Group controlId="formPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                    data-test="register-password-input"
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                {passwordError && <div className="text-danger">{passwordError}</div>}
+                {passwordError && <div className="text-danger" data-test="register-password-error">{passwordError}</div>}
             </Form.Group>
 
-            <Button variant="primary" type="submit">Register</Button>
+            <Button variant="primary" type="submit" data-test="register-submit-btn">Register</Button>
         </Form>
     </Container>
     )

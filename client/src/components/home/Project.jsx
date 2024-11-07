@@ -64,7 +64,7 @@ const Project = () => {
 
   return (
     <Container className="project-details-container">
-        <Button className="edit-btn" variant="primary" onClick={handleEditToggle}>
+        <Button className="edit-btn" variant="primary" onClick={handleEditToggle} data-test="edit-btn">
             {isEditing ? 'Cancel' : 'Edit Project'}
         </Button>
         {isEditing ? (
@@ -76,17 +76,17 @@ const Project = () => {
         ) : (
             <>
                 {/* Project Information Card */}
-                <Card className="mb-4">
+                <Card className="mb-4" data-test="project-details-view">
                     <Card.Body>
                         <Card.Title data-test="project-name-project-page">{project.project_name}</Card.Title>
                         <ListGroup variant="flush">
-                            <ListGroup.Item>Favorite Project: {String(project.is_favorite)}</ListGroup.Item>
-                            <ListGroup.Item>Project Status: {project.project_status}</ListGroup.Item>
-                            <ListGroup.Item>Project Type: {project.project_type}</ListGroup.Item>
-                            <ListGroup.Item>Date Created: {new Date(project.created_at).toLocaleDateString()}</ListGroup.Item>
-                            <ListGroup.Item>Date Completed: {project.end_at ? new Date(project.end_at).toLocaleDateString() : 'Not completed'}</ListGroup.Item>
-                            <ListGroup.Item>Time to Complete: {project.time_to_complete?.hours || 'N/A'} hours</ListGroup.Item>
-                            <ListGroup.Item>Notes: {project.notes || 'N/A'}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-favorite-detail">Favorite Project: {String(project.is_favorite)}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-status">Project Status: {project.project_status}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-type-detail">Project Type: {project.project_type}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-created-at">Date Created: {new Date(project.created_at).toLocaleDateString()}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-completion-date">Date Completed: {project.end_at ? new Date(project.end_at).toLocaleDateString() : 'Not completed'}</ListGroup.Item>
+                            <ListGroup.Item data-test="project-time-to-complete">Time to Complete: {project.time_to_complete?.hours || 'N/A'} hours</ListGroup.Item>
+                            <ListGroup.Item data-test="project-notes">Notes: {project.notes || 'N/A'}</ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
                 </Card>
@@ -98,7 +98,7 @@ const Project = () => {
                         {project.patterns && project.patterns.length > 0 ? (
                                 <ListGroup variant="flush">
                                     {project.patterns.map((pattern, index) => (
-                                        <ListGroup.Item key={index}>
+                                        <ListGroup.Item key={index} data-test="patterns-section">
                                             <strong>Pattern Name:</strong> {pattern.pattern_name} <br />
                                             <strong>Pattern By:</strong> {pattern.pattern_by} <br />
                                             <strong>Pattern Source:</strong> {pattern.pattern_url}
@@ -118,7 +118,7 @@ const Project = () => {
                         {project.otherMaterials && project.otherMaterials.length > 0 ? (
                             <ListGroup variant="flush">
                                 {project.otherMaterials.map((material, index) => (
-                                    <ListGroup.Item key={index}>
+                                    <ListGroup.Item key={index} data-test="other-materials-section">
                                         <strong>Hook Size:</strong> {material.project_hook_size} <br />
                                         <strong>Safety Eyes:</strong> {material.safety_eyes} <br />
                                         <strong>Stuffing:</strong> {material.stuffing}
@@ -138,7 +138,7 @@ const Project = () => {
                         {project.yarns && project.yarns.length > 0 ? (
                             <ListGroup variant="flush">
                                 {project.yarns.map((yarn, index) => (
-                                    <ListGroup.Item key={index}>
+                                    <ListGroup.Item key={index} data-test="yarn-section">
                                         <strong>Brand:</strong> {yarn.yarn_brand} <br />
                                         <strong>Color:</strong> {yarn.yarn_color} <br />
                                         <strong>Weight:</strong> {yarn.yarn_weight} <br />
@@ -154,8 +154,8 @@ const Project = () => {
 
                 <Card>
                     <Card.Body>
-                        <p>User: {project.user_name}</p>
-                        <p>Updated At: {new Date(project.updated_at).toLocaleString()}</p>
+                        <p data-test="project-user">User: {project.user_name}</p>
+                        <p data-test="project-updated-at">Updated At: {new Date(project.updated_at).toLocaleString()}</p>
                     </Card.Body>
                 </Card>
             </>
