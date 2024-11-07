@@ -47,7 +47,8 @@ describe('Register Page', () => {
     cy.get('[data-test="register-submit-btn"]').click();
 
     // checks for password error
-    cy.get('[data-test="register-password-error"]').should('contain', 'Password must be at least 8 characters long.');
+    const passwordError = 'Password must be at least 8 characters long.'
+    cy.get('[data-test="register-password-error"]').should('contain', passwordError);
   });
 
   it('shows an error if the username aleady exists', () => {

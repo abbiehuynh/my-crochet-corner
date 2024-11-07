@@ -19,6 +19,9 @@ describe('Logout Functionality', () => {
         cy.get('[data-test="logout-btn-profile"]').click();
 
         cy.url().should('include', '/login');
+
+        // checks that the logout button is no longer visible on the profile page after logout
+        cy.get('[data-test="logout-btn-profile"]').should('not.exist');
     })
 
 });
