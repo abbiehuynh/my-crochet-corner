@@ -45,7 +45,6 @@ describe('GET /:user_id/projects', () => {
 
         const userId = 20;
         const response = await request(app).get(`/${userId}/projects`);
-        console.log(response.body)
 
         // verifies the response status and content
         expect(response.status).toBe(200);
