@@ -4,3 +4,4 @@
 package-lock.json
 ./cypress/fixtures/
 cypress/fixtures/
+.env.test

@@ -1,10 +1,10 @@
 const express = require('express');
-const app = express.Router();
-const db = require('../db/db-connection.js');
+const app = express();
+const fetch = require('node-fetch');
 
 require('dotenv').config();
 
-const OpenAI = require('openai');
+const { OpenAI } = require('openai');
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
