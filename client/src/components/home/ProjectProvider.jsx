@@ -32,7 +32,13 @@ export const ProjectProvider = ({ children }) => {
             if (response.status !== 200) {
                 throw new Error('Failed to fetch projects');
             }
-            setProjects(response.data);
+
+            if (response.data && Array.isArray(response.data)) {
+                setProjects(response.data);
+            } else {
+                // if no projects are returned, set an empty array
+                setProjects([]);
+            }
 
         } catch (error) {
             setError(error);
@@ -57,17 +63,19 @@ export const ProjectProvider = ({ children }) => {
     const filterProjects = (projects, searchQuery, selectedCategory) => {
         const sanitizedQuery = sanitizeInput(searchQuery);
         return projects.filter(project => {
-            const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
+            const projectName = (project.project_name || '').trim().toLowerCase();
+            const matchesSearch = projectName.toLowerCase().includes(sanitizedQuery);
             const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
             return matchesSearch && matchesCategory;
         });
     };
     
     // creates const for all to become a reusable function
-    const filteredProjects = filterProjects(projects, searchQuery, selectedCategory);
+    const filteredProjects = projects && Array.isArray(projects)
+        ? filterProjects(projects, searchQuery, selectedCategory) : [];
 
-    // sorts projects based on sortOrder
-    const sortedProjects = filteredProjects.sort((a, b) => {
+    // sorts projects based on sortOrder, returns empty array if no projects avaialble
+    const sortedProjects = (filteredProjects || []).sort((a, b) => {
         switch (sortOrder) {
             case 'name':
                 const nameA = a.project_name || '';
