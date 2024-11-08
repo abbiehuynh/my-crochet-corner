@@ -2,28 +2,36 @@ import React from 'react'
 import { Card, Button } from 'react-bootstrap';
 
 const ProfileCard = ({ user, loading, error }) => {
-  
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <Card className="profile-card" data-test="profile-page">
-    {/* TODO: add profile image */}
-    <Card.Body>
-      <Card.Title>{user ? `${user.name}'s Profile` : 'Profile'}</Card.Title>
-        <Card.Text>Pronouns:</Card.Text>
-        <Card.Text>About me:</Card.Text>
-      { user && (
-        <div>
-          <h3>Account Information</h3>
-          <p>Email: {user.email}</p>
-          <p>Username: {user.username}</p>
-          <p>Joined: {new Date(user.created_at).toLocaleDateString()}</p>
-          <Button variant="primary">Edit Details</Button>
-        </div>
-      )}
-    </Card.Body>
-  </Card>
+    <div className="profile-container">
+      <Card className="profile-card" data-test="profile-page">
+        {/* TODO: add profile image */}
+        <Card.Body>
+          <Card.Title>{user ? `${user.name}'s Profile` : 'Profile'}</Card.Title>
+            <div className="profile-bio">
+              <Card.Text>Pronouns:</Card.Text>
+              <Card.Text>About me:</Card.Text>
+              <Button variant="primary" className="edit-bio-btn">Edit Details</Button>
+            </div>
+          </Card.Body>
+      </Card>
+      <Card className="account-card">
+        <Card.Body>
+          <Card.Title>Account Information</Card.Title>
+          { user && (
+            <div className="account-info">
+                <Card.Text>Email: {user.email}</Card.Text>
+                <Card.Text>Username: {user.username}</Card.Text>
+                <Card.Text>Joined: {new Date(user.created_at).toLocaleDateString()}</Card.Text>
+            </div>
+          )}
+        </Card.Body>
+      </Card>
+    </div>
   )
 }
 

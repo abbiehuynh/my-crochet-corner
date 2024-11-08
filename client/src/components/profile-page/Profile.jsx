@@ -38,7 +38,7 @@ const Profile = () => {
   }, [token, userId, axiosInstance]);
   
   return (
-    <div data-test="profile-page">
+    <div className="profile-page" data-test="profile-page">
       <ProfileCard user={user} loading={loading} error={error} />
       <Logout />
     </div>

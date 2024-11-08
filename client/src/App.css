@@ -220,3 +220,51 @@ p {
   margin-bottom: 15px;
   margin-left: 10px;
 }
+
+/* --- profile page --- */
+
+/* profile container */
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* profile card */
+.profile-card, .account-card {
+  flex: 1 1 45%;
+  max-width: 600px;
+  min-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.profile-card:hover, .account-card:hover {
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.edit-bio-btn {
+  margin: 10px;
+}
+
+/* --- logout button --- */
+.logout-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
