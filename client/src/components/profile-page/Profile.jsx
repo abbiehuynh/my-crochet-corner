@@ -21,14 +21,18 @@ const Profile = () => {
 
       try {
         // send GET request to fetch user data using userId
-        const response = await axiosInstance.get(`/user/${userId}`, {
-        });
+        const response = await axiosInstance.get(`/user/${userId}`);
 
-        setUser(response.data[0]); 
-        console.log(user)
-      } catch (err) {
+        const foundUser = response.data.find(user => user.id === userId);
+
+        if (foundUser) {
+          setUser(foundUser);
+        } else {
+          setError('User not found');
+        }
+      } catch (error) {
         setError('Failed to fetch user data');
-        console.error(err);
+        console.error(error);
       } finally {
         setLoading(false); 
       }

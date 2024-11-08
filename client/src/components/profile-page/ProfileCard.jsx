@@ -5,6 +5,7 @@ const ProfileCard = ({ user, loading, error }) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
+  if (!user) return <p>No user data available.</p>
 
   return (
     <div className="profile-container">
@@ -13,12 +14,13 @@ const ProfileCard = ({ user, loading, error }) => {
         <Card.Body>
           <Card.Title>{user ? `${user.name}'s Profile` : 'Profile'}</Card.Title>
             <div className="profile-bio">
-              <Card.Text>Pronouns:</Card.Text>
-              <Card.Text>About me:</Card.Text>
+              {user.pronouns && <Card.Text>Pronouns: {user.pronouns}</Card.Text>}
+              {user.bio && <Card.Text>About me: {user.bio}</Card.Text>}
               <Button variant="primary" className="edit-bio-btn">Edit Details</Button>
             </div>
           </Card.Body>
       </Card>
+
       <Card className="account-card">
         <Card.Body>
           <Card.Title>Account Information</Card.Title>
