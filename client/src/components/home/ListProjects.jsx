@@ -37,9 +37,11 @@ const ListProjects = ({ showFavorites = false }) => {
             ) : (
                 <Row data-test="project-list">
                     {filteredProjects.map((project) => (
-                        <Col sm={6} md={4} lg={3} key={project.id} className="mb-4" data-test={`project-card-${project.id}`} data-project-id={project.id}> 
-                            <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
-                        </Col>
+                        project && project.id && (
+                            <Col sm={6} md={4} lg={3} key={project.id} className="mb-4" data-test={`project-card-${project.id}`} data-project-id={project.id}> 
+                                <ProjectCard project={project} onDelete={() => deleteProject(project.id, project.project_name)} />
+                            </Col>
+                        )
                     ))}
                 </Row>
             )}

@@ -33,7 +33,7 @@ export const ProjectProvider = ({ children }) => {
                 throw new Error('Failed to fetch projects');
             }
 
-            if (response.data && Array.isArray(response.data)) {
+            if (Array.isArray(response.data)) {
                 setProjects(response.data);
             } else {
                 // if no projects are returned, set an empty array
@@ -71,8 +71,7 @@ export const ProjectProvider = ({ children }) => {
     };
     
     // creates const for all to become a reusable function
-    const filteredProjects = projects && Array.isArray(projects)
-        ? filterProjects(projects, searchQuery, selectedCategory) : [];
+    const filteredProjects = (projects || []).filter(project => project && project.id);
 
     // sorts projects based on sortOrder, returns empty array if no projects avaialble
     const sortedProjects = (filteredProjects || []).sort((a, b) => {
