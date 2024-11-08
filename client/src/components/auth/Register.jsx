@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { useAuth } from '../auth/AuthProvider';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Login from './Login';
 
 const Register = () => {
     // creates initial states
@@ -130,6 +131,9 @@ const Register = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit" data-test="register-submit-btn">Register</Button>
+            <Button variant="secondary" className="login-btn"data-test="login-btn">
+                <Link to="/login" className="login-link">Login to existing account</Link>
+            </Button>
         </Form>
     </Container>
     )

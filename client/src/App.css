@@ -268,3 +268,19 @@ p {
   bottom: 20px;
   right: 20px;
 }
+
+/* --- login page --- */
+/* login button */
+
+.login-btn, .register-btn {
+  margin: 10px;
+}
+
+.register-link, .login-link {
+  text-decoration: none;
+  color: black;
+}
+
+.register-link:hover, .register-btn:hover, .login-link:hover{
+  color: white;
+}

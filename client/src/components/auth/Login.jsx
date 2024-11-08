@@ -77,9 +77,9 @@ const Login = () => {
                     required
                 />
             </Form.Group>
-            <Button variant="primary" type="submit" data-test="login-btn">Login</Button>
-            <Button data-test="register-btn">
-                <Link to="/register" style={{ textDecoration: "none", color: "white"}}>Create Account</Link>
+            <Button variant="primary" className="login-btn" type="submit" data-test="login-btn">Login</Button>
+            <Button variant="secondary" className="register-btn"data-test="register-btn">
+                <Link to="/register" className="register-link">Create Account</Link>
             </Button>
         </Form>
         {error && <div className="text-danger mt-3">{error}</div>}
