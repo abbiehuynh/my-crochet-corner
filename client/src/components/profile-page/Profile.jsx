@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import ProfileCard from './ProfileCard';
 import UserForm from './UserForm';
 import Logout from '../auth/Logout';
 import { useAuth } from '../auth/AuthProvider';
@@ -38,30 +36,12 @@ const Profile = () => {
 
     fetchUserData();  
   }, [token, userId, axiosInstance]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
   
   return (
-    <Card className="profile-card" data-test="profile-page">
-      {/* TODO: add profile image */}
-      <Card.Body>
-        <Card.Title>{user ? `${user.name}'s Profile` : 'Profile'}</Card.Title>
-          <Card.Text>Pronouns:</Card.Text>
-          <Card.Text>About me:</Card.Text>
-        { user && (
-          <div>
-            <h3>Account Information</h3>
-            <p>Email: {user.email}</p>
-            <p>Username: {user.username}</p>
-            <p>Joined: {new Date(user.created_at).toLocaleDateString()}</p>
-            <Button variant="primary">Edit Details</Button>
-          </div>
-        )}
-      </Card.Body>
-      
+    <div data-test="profile-page">
+      <ProfileCard user={user} loading={loading} error={error} />
       <Logout />
-    </Card>
+    </div>
   )
 }
 
