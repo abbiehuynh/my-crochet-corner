@@ -35,6 +35,10 @@ app.use('/testTable', testTableRoutes);
 const authRoutes = require('./routes/auth.js');
 app.use('/', authRoutes);
 
+// imports routes for user informtaion
+const userRoutes = require('./routes/users.js');
+app.use('/user/:userId', userRoutes);
+
 // imports routes for projects
 const projectRoutes = require('./routes/projects.js');
 app.use('/user', projectRoutes);
