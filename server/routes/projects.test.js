@@ -236,10 +236,42 @@ describe('GET /:user_id/project/:project_id', () => {
         };
 
         // mocks the related data queries
-        const mockPatterns = { rows: [{ pattern_id: 1, pattern_name: 'Cat Loaf', pattern_by: 'Alice', pattern_url: 'http://pattern.url' }] };
-        const mockOtherMaterials = { rows: [{ other_materials_id: 1, project_hook_size: '5mm', safety_eyes: '10mm', stuffing: '50 grams' }] };
-        const mockYarns = { rows: [{ yarn_brand: 'Loops and Threads Soft Classic', yarn_color: 'White', yarn_weight: '4', yarn_type: 'Acrylic' }] };
-        const mockImages = { rows: [{ image_id: 1, image_url: 'http://image.url', image_name: 'image1', image_description: 'A crochet project' }] };
+        const mockPatterns = {
+            rows:
+                [{
+                    pattern_id: 1,
+                    pattern_name: 'Cat Loaf',
+                    pattern_by: 'Alice',
+                    pattern_url: 'http://pattern.url'
+                }]
+        };
+        const mockOtherMaterials = {
+            rows:
+                [{
+                    other_materials_id: 1,
+                    project_hook_size: '5mm',
+                    safety_eyes: '10mm',
+                    stuffing: '50 grams'
+                }]
+        };
+        const mockYarns = {
+            rows:
+                [{
+                    yarn_brand: 'Loops and Threads Soft Classic',
+                    yarn_color: 'White',
+                    yarn_weight: '4',
+                    yarn_type: 'Acrylic'
+                }]
+        };
+        const mockImages = {
+            rows:
+                [{
+                    image_id: 1,
+                    image_url: 'http://image.url',
+                    image_name: 'image1',
+                    image_description: 'A crochet project'
+                }]
+        };
 
         // mocks the database queries
         db.query.mockResolvedValueOnce(mockProject);
@@ -253,7 +285,8 @@ describe('GET /:user_id/project/:project_id', () => {
 
         // checks the status and response structure
         expect(response.status).toBe(200);
-        expect(response.body).toEqual({
+        // TO DO: update to compose with mock conts above
+        expect(response.body).toEqual({ 
             user_id: userId,
             user_name: 'oliver',
             project_id: projectId,
@@ -485,7 +518,7 @@ describe('PUT /:user_id/project/:project_id/favorite', () => {
 
     it('returns 404 if the project does not exist', async () => {
         const userId = 20;
-        const projectId = 999; 
+        const projectId = 999;
 
         // mocks the db query to simulate no matching project
         db.query.mockResolvedValueOnce({ rows: [] });

@@ -187,7 +187,7 @@ describe('POST /login', () => {
         const response = await request(app)
             .post('/login')
             .send(loginData);
-
+        // TO DO: check message against API
         expect(response.status).toBe(401);
         expect(response.body).toEqual({ message: 'Invalid credentials' });
     });
