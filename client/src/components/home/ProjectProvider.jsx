@@ -74,8 +74,11 @@ export const ProjectProvider = ({ children }) => {
         // sanitize the search query
         const sanitizedQuery = sanitizeInput(searchQuery);
         return projects.filter(project => {
-            const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
-            const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
+            // checks if the project has valid fields 
+            const projectName = project.project_name ? project.project_name.toLowerCase() : '';
+            const projectStatus = project.project_status ? project.project_status.toLowerCase() : '';
+            const matchesSearch = projectName.includes(sanitizedQuery);
+            const matchesCategory = selectedCategory === 'All' || projectStatus === selectedCategory.toLowerCase() || !project.project_status;
             return matchesSearch && matchesCategory;
         });
     };
