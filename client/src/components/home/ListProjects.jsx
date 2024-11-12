@@ -15,10 +15,15 @@ const ListProjects = ({ showFavorites = false }) => {
     if (error)
         return <div>Error loading projects: {error.message}</div>;
 
+    // logs to check if projects is an array 
+    console.log(Array.isArray(projects), projects);
+
     // filters projects based on showing favorites or all projects
-    const filteredProjects = showFavorites
-        ? projects.filter(project => project.is_favorite)
-        : projects;
+    const filteredProjects = Array.isArray(projects)
+        ? showFavorites
+            ? projects.filter(project => project.is_favorite)
+            : projects
+        : [];
 
 
   return (
