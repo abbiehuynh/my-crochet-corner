@@ -32,11 +32,21 @@ export const ProjectProvider = ({ children }) => {
             if (response.status !== 200) {
                 throw new Error('Failed to fetch projects');
             }
-            setProjects(response.data);
+            
+            // checks response is an array of projects
+            if (!Array.isArray(response.data)) {
+                console.warn('Expected an array of projects, but got:', response.data);
+                setProjects([]);
+            } else {
+                // if valid, set the projects state
+                setProjects(response.data);
+            }
 
         } catch (error) {
             setError(error);
             console.error('Error fetching projects:', error);
+            // resets to an empty array if error occurs
+            setProjects([]);
         } finally {
             setLoading(false);
         }
@@ -58,7 +68,7 @@ export const ProjectProvider = ({ children }) => {
 
         // checks that projects is always an array
         if (!Array.isArray(projects)) {
-            console.warn('expected projects to be an array, but got:', projects);
+            console.warn('Expected projects to be an array, but got:', projects);
             return [];
         }
         // sanitize the search query
