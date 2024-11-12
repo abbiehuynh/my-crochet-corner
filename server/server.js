@@ -16,14 +16,6 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// serve static files from react app
-app.use(express.static(path.join(__dirname, '../client/dist' )));
-
-// catch all handler for any request that does not match above
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-});
-
 // TODO: remove test later
 // test - creates an endpoint for the route  "/"
 app.get('/', (req, res) => {
@@ -45,6 +37,14 @@ app.use('/user', projectRoutes);
 // imports routes for ai chat
 const aiRoutes = require('./routes/ai.js');
 app.use('/api', aiRoutes);
+
+// serve static files from react app
+app.use(express.static(path.join(__dirname, '../client/dist' )));
+
+// catch all handler for any request that does not match above
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
 
 // starts server and logs the port the server is listening to
 app.listen(PORT, () => {
