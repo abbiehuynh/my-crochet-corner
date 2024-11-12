@@ -26,10 +26,14 @@ const SortProjectStatus = () => {
 
     // for project status - to do, in progress, completed
     const handleFilter = (category) => {
-        // normalize category to lowercase to ensure case-insensitivity
-        const normalizedCategory = category.toLowerCase().replace(' ', '');
-        setSelectedCategory(normalizedCategory);
-        setFilterHeader(headers.filterCategories[normalizedCategory] || headers.filterDefault);
+        if (category === 'All') {
+            setSelectedCategory('All');
+            setFilterHeader(headers.filterCategories.all);
+        } else {
+            const normalizedCategory = category.toLowerCase().replace(' ', '');
+            setSelectedCategory(normalizedCategory);
+            setFilterHeader(headers.filterCategories[normalizedCategory] || headers.filterDefault);
+        }
     }
 
     // for sorting - name, type, date
@@ -38,30 +42,30 @@ const SortProjectStatus = () => {
         setSortHeader(headers.sortOptions[order] || headers.sortDefault);
     }
 
-  return (
-    <div className="mb-3">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-            <div>
-                <h3 data-test="filter-header">{filterHeader || headers.filterDefault}</h3>
-                <ButtonGroup className="me-2">
-                    <Button variant="primary" onClick={() => handleFilter('All')} data-test="filter-all">{headers.filterCategories.all}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('To Do')} data-test="filter-todo">{headers.filterCategories.todo}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('In Progress')} data-test="filter-inprogress">{headers.filterCategories.inprogress}</Button>
-                    <Button variant="primary" onClick={() => handleFilter('Completed')} data-test="filter-completed">{headers.filterCategories.completed}</Button>
-                </ButtonGroup>
-            </div>
+    return (
+        <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <h3 data-test="filter-header">{filterHeader || headers.filterDefault}</h3>
+                    <ButtonGroup className="me-2">
+                        <Button variant="primary" onClick={() => handleFilter('All')} data-test="filter-all">{headers.filterCategories.all}</Button>
+                        <Button variant="primary" onClick={() => handleFilter('To Do')} data-test="filter-todo">{headers.filterCategories.todo}</Button>
+                        <Button variant="primary" onClick={() => handleFilter('In Progress')} data-test="filter-inprogress">{headers.filterCategories.inprogress}</Button>
+                        <Button variant="primary" onClick={() => handleFilter('Completed')} data-test="filter-completed">{headers.filterCategories.completed}</Button>
+                    </ButtonGroup>
+                </div>
 
-            <div>
-                <h3 data-test="sort-header">{sortHeader || headers.sortDefault}</h3>
-                <ButtonGroup className="d-flex justify-content-end">
-                    <Button variant="secondary" onClick={() => handleSort('name', 'Name')} data-test="sort-name">Name</Button>
-                    <Button variant="secondary" onClick={() => handleSort('type', 'Type')} data-test="sort-type">Type</Button>
-                    <Button variant="secondary" onClick={() => handleSort('date', 'Date')} data-test="sort-date">Date</Button>
-                </ButtonGroup>
+                <div>
+                    <h3 data-test="sort-header">{sortHeader || headers.sortDefault}</h3>
+                    <ButtonGroup className="d-flex justify-content-end">
+                        <Button variant="secondary" onClick={() => handleSort('name', 'Name')} data-test="sort-name">Name</Button>
+                        <Button variant="secondary" onClick={() => handleSort('type', 'Type')} data-test="sort-type">Type</Button>
+                        <Button variant="secondary" onClick={() => handleSort('date', 'Date')} data-test="sort-date">Date</Button>
+                    </ButtonGroup>
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default SortProjectStatus;
