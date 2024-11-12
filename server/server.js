@@ -1,11 +1,7 @@
 const express = require('express')
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
-
-// imports the database connection
-const db = require('./db/db-connection.js');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,7 +15,6 @@ app.use((req, res, next) => {
 // middleware for parsing application/json
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.json());
 
 // serve static files from react app
 app.use(express.static(path.join(__dirname, '../client/dist' )));
@@ -36,8 +31,8 @@ app.get('/', (req, res) => {
 });
 
 // test get request to tables in database
-const testTableRoutes = require('./routes/testTableRoutes.js');
-app.use('/testTable', testTableRoutes);
+// const testTableRoutes = require('./routes/testTableRoutes.js');
+// app.use('/testTable', testTableRoutes);
 
 // imports routes for auth/login and register
 const authRoutes = require('./routes/auth.js');
