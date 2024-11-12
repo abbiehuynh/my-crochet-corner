@@ -74,11 +74,6 @@ export const ProjectProvider = ({ children }) => {
         // sanitize the search query
         const sanitizedQuery = sanitizeInput(searchQuery);
         return projects.filter(project => {
-            // checks if the project object has the required properties before filtering
-            if (!project || typeof project.project_name !== 'string' || typeof project.project_status !== 'string') {
-                return false; 
-            }
-
             const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
             const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
             return matchesSearch && matchesCategory;
