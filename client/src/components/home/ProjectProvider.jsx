@@ -72,17 +72,15 @@ export const ProjectProvider = ({ children }) => {
             return [];
         }
         // sanitize the search query
-        const sanitizedQuery = sanitizeInput(searchQuery);
-        return projects.filter(project => {
-            // checks project has a valid project name and status but allows it to show if missing
-            const hasValidFields = project && typeof project.project_name === 'string' && typeof project.project_status === 'string';
-            // if project has valid fields, apply the search and status filter
-            const matchesSearch = hasValidFields ? project.project_name.toLowerCase().includes(sanitizedQuery) : true;
-            const matchesCategory = selectedCategory === 'All' || (hasValidFields && selectedCategory === project.project_status.toLowerCase());
-            return hasValidFields ? matchesSearch && matchesCategory : true;
-        });
-    };
-
+        const filterProjects = (projects, searchQuery, selectedCategory) => {
+            const sanitizedQuery = sanitizeInput(searchQuery);
+            return projects.filter(project => {
+                const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
+                const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+        };
+    }
     // creates const for all to become a reusable function
     const filteredProjects = filterProjects(projects, searchQuery, selectedCategory);
 

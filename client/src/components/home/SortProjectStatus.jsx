@@ -26,14 +26,8 @@ const SortProjectStatus = () => {
 
     // for project status - to do, in progress, completed
     const handleFilter = (category) => {
-        if (category === 'All') {
-            setSelectedCategory('All');
-            setFilterHeader(headers.filterCategories.all);
-        } else {
-            const normalizedCategory = category.toLowerCase().replace(' ', '');
-            setSelectedCategory(normalizedCategory);
-            setFilterHeader(headers.filterCategories[normalizedCategory] || headers.filterDefault);
-        }
+        setSelectedCategory(category);
+        setFilterHeader(headers.filterCategories[category.toLowerCase().replace(' ', '')] || headers.filterDefault);
     }
 
     // for sorting - name, type, date
