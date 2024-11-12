@@ -114,7 +114,8 @@ const addProject = async (newProject) => {
         const createdProject = response.data;
         setProjects(prev => {
             const updatedProjects = [...prev, createdProject];
-            console.log('Updated Projects:', updatedProjects);
+            // TO REMOVE for prod
+            // console.log('Updated Projects:', updatedProjects);
             return updatedProjects;
         });
         // fetch updated list of projects
@@ -129,6 +130,7 @@ const addProject = async (newProject) => {
 
 // DELETE projects
 const deleteProject = async (projectId, projectName) => {
+    // TO REMOVE for prod
     // debugging - logging the project and user id
     console.log('Deleting project:', projectId, 'for user:', userId);
 
