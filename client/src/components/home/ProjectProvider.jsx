@@ -118,7 +118,11 @@ export const ProjectProvider = ({ children }) => {
                 throw new Error('Failed to add project');
             }
             const createdProject = response.data;
-            setProjects(prev => [...prev, createdProject]);
+            setProjects(prev => {
+                const updatedProjects = [...prev, createdProject];
+                console.log('Updated Projects:', updatedProjects);
+                return updatedProjects;
+            });
             // fetch updated list of projects
             return createdProject;
         } catch (error) {
