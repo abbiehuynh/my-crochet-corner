@@ -26,8 +26,10 @@ const SortProjectStatus = () => {
 
     // for project status - to do, in progress, completed
     const handleFilter = (category) => {
-        setSelectedCategory(category);
-        setFilterHeader(headers.filterCategories[category.toLowerCase().replace(' ', '')] || headers.filterDefault);
+        // normalize category to lowercase to ensure case-insensitivity
+        const normalizedCategory = category.toLowerCase().replace(' ', '');
+        setSelectedCategory(normalizedCategory);
+        setFilterHeader(headers.filterCategories[normalizedCategory] || headers.filterDefault);
     }
 
     // for sorting - name, type, date
