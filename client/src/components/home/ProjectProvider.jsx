@@ -44,25 +44,37 @@ export const ProjectProvider = ({ children }) => {
 
     // creates a function to sanitize the search query
     const sanitizeInput = (input) => {
-        return input 
+        return input
             .trim()                 // removes leading and trailing spaces
             .replace(/'/g, "''")    // escape single quotes
             .replace(/"/g, "''")    // escape double quotes
             .replace(/;/g, '')      // remove semicolons
             .replace(/--/g, '')     // remove comment sequences
-            .toLowerCase();             
+            .toLowerCase();
     };
 
     // filters projects based on the sanitized search query - project name - and selected category
     const filterProjects = (projects, searchQuery, selectedCategory) => {
+
+        // checks that projects is always an array
+        if (!Array.isArray(projects)) {
+            console.warn('expected projects to be an array, but got:', projects);
+            return [];
+        }
+        // sanitize the search query
         const sanitizedQuery = sanitizeInput(searchQuery);
         return projects.filter(project => {
+            // checks if the project object has the required properties before filtering
+            if (!project || typeof project.project_name !== 'string' || typeof project.project_status !== 'string') {
+                return false; 
+            }
+
             const matchesSearch = project.project_name.toLowerCase().includes(sanitizedQuery);
             const matchesCategory = selectedCategory === 'All' || project.project_status === selectedCategory;
             return matchesSearch && matchesCategory;
         });
     };
-    
+
     // creates const for all to become a reusable function
     const filteredProjects = filterProjects(projects, searchQuery, selectedCategory);
 
@@ -77,7 +89,7 @@ export const ProjectProvider = ({ children }) => {
                 const typeA = a.project_type || '';
                 const typeB = b.project_type || '';
                 return typeA.localeCompare(typeB);
-            case 'date': 
+            case 'date':
                 const dateA = new Date(a.created_at);
                 const dateB = new Date(b.created_at);
                 return dateB - dateA; // sort by date descending
@@ -152,8 +164,8 @@ export const ProjectProvider = ({ children }) => {
                 }
 
                 // updates the projects state
-                setProjects(prevProjects => 
-                    prevProjects.map(project => 
+                setProjects(prevProjects =>
+                    prevProjects.map(project =>
                         project.id === projectId ? { ...project, is_favorite: newFavoriteStatus } : project
                     )
                 );
@@ -176,23 +188,23 @@ export const ProjectProvider = ({ children }) => {
         }
     }, [userId, fetchProjects]);
 
-  return (
-    <ProjectContext.Provider value={{ 
-        projects: sortedProjects, 
-        searchQuery, 
-        setSearchQuery, 
-        setSortOrder, 
-        setSelectedCategory, 
-        loading, 
-        error, 
-        addProject, 
-        deleteProject, 
-        fetchProjects,
-        toggleFavorite 
-    }}>
-        {children}
-    </ProjectContext.Provider>
-  )
+    return (
+        <ProjectContext.Provider value={{
+            projects: sortedProjects,
+            searchQuery,
+            setSearchQuery,
+            setSortOrder,
+            setSelectedCategory,
+            loading,
+            error,
+            addProject,
+            deleteProject,
+            fetchProjects,
+            toggleFavorite
+        }}>
+            {children}
+        </ProjectContext.Provider>
+    )
 }
 
 export const useProjects = () => useContext(ProjectContext);
